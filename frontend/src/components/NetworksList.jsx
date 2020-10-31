@@ -15,9 +15,12 @@ export class NetworkList extends React.Component {
 
   async componentWillMount(){
     try{
-     
+      let myHeaders = new Headers();
+      myHeaders.append('Access-Control-Allow-Origin',"*")
       let response = await fetch("http://localhost:52288/api/networks", {
+        mode: 'cors',
         method: "GET",
+        headers: myHeaders,
       });
       let json = await response.json();
 

@@ -7,6 +7,6 @@ namespace NSCController.Resources
 {
     public static class NSCResources
     {
-        public const string ClientURL = "localhost:3000";
+        public const string ClientURL = "http://localhost:3000";
     }
 }
