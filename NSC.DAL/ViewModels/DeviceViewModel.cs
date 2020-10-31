@@ -1,5 +1,6 @@
 ﻿using NSC.DAL.Database;
 using System;
+using System.Collections.Generic;
 
 namespace NSC.DAL.ViewModels
 {
@@ -15,6 +16,15 @@ namespace NSC.DAL.ViewModels
                 DeviceName = device.DeviceName;
                 NetworkId = device.NetworkId;
                 UserId = device.UserId;
+                DeviceUser = new UserViewModel(device.User);
+                foreach (NetworkInterface networkInterface in device.NetworkInterfaces)
+                {
+                    NetworkInterfaces.Add(new NetworkInterfaceViewModel(networkInterface));
+                }
+                foreach (NetworkStatTest networkStatTest in device.NetworkStatTests)
+                {
+                    NetworkStatTests.Add(new NetworkStatTestViewModel(networkStatTest));
+                }
             }
             else
             {
@@ -31,5 +41,9 @@ namespace NSC.DAL.ViewModels
         //public UserViewModel User { get; set; }
         //public List<NetworkInterface> NetworkInterfaces { get; set; }
         //public List<NetworkStatTest> NetworkStatTests { get; set; }
+        public UserViewModel DeviceUser { get; set; }
+        public ICollection<NetworkInterfaceViewModel> NetworkInterfaces { get; set; }
+        public ICollection<NetworkStatTestViewModel> NetworkStatTests { get; set; }
+
     }
 }
