@@ -10,6 +10,7 @@ namespace NSC.DAL.ViewModels
         {
             Id = network.Id;
             NetworkName = network.NetworkName;
+            Devices = new List<DeviceViewModel>();
 
             foreach (Device device in network.Devices)
             {

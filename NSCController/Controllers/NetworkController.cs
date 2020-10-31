@@ -33,6 +33,45 @@ namespace NSCController
             }
         }
 
+        [Route("api/networks")]
+        public IHttpActionResult Post(NetworkViewModel network)
+        {
+            try
+            {
+                return Ok(_networkService.Add(network));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Creation failed - " + ex.Message);
+            }
+        }
+
+        [Route("api/networks")]
+        public IHttpActionResult Put(NetworkViewModel network)
+        {
+            try
+            {
+                return Ok(_networkService.Update(network));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Update failed - " + ex.Message);
+            }
+        }
+
+        [Route("api/networks/{id}")]
+        public IHttpActionResult Delete(int id)
+        {
+            try
+            {
+                return Ok(_networkService.Delete(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Delete failed - " + ex.Message);
+            }
+        }
+
 
     }
 }
