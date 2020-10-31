@@ -1,4 +1,5 @@
 ﻿using NSC.DAL.Database;
+using System.Collections.Generic;
 
 namespace NSC.DAL.ViewModels
 {

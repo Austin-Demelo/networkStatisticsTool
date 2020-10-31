@@ -47,6 +47,6 @@ namespace NSC.DAL.ViewModels
         public string ResultURL { get; set; }
         public DeviceViewModel Device { get; set; }
         public NetworkInterfaceViewModel NetworkInterface { get; set; }
-        public SpeedTestServer SpeedTestServer { get; set; }
+        public SpeedTestServerViewModel SpeedTestServer { get; set; }
     }
 }
