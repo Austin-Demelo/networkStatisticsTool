@@ -2,6 +2,7 @@
 using NSC.DAL.Models;
 using NSC.DAL.ViewModels;
 using NSC.Service;
+using NSCController.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ using System.Web.Http.Cors;
 
 namespace NSCController
 {
+    [EnableCors(origins: NSCResources.ClientURL, headers: "*", methods: "*")]
     public class NetworkController : ApiController
     {
         private NetworkService _networkService;
