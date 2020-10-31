@@ -1,31 +1,27 @@
-﻿using NSC.DAL.Database;
-using NSC.DAL.Models;
-using NSC.DAL.Repository;
-using NSC.DAL.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace NSC.Service
+namespace NSC.Service.Services
 {
-    public class DeviceService
+    public class UserService
     {
-        private DeviceModel _deviceModel;
+        private UserModel _networkModel;
 
-        public DeviceService()
+        public UserService()
         {
-            _deviceModel = new DeviceModel();
+            _networkModel = new UserModel();
         }
-        public int Update(DeviceViewModel vm)
+        public int Update(UserViewModel vm)
         {
             UpdateStatus opStatus = UpdateStatus.Failed;
             try
             {
-                Device dev = new Device();
-                dev.DeviceName = vm.DeviceName;
-                dev.NetworkId = vm.NetworkId;
-                dev.UserId = vm.UserId;
-                opStatus = _deviceModel.Update(dev);
+                User net = new User();
+                net.UserName = vm.UserName;
+                opStatus = _networkModel.Update(net);
             }
             catch (Exception ex)
             {
@@ -35,16 +31,14 @@ namespace NSC.Service
             }
             return Convert.ToInt16(opStatus);
         }
-        public int Add(DeviceViewModel vm)
+        public int Add(UserViewModel vm)
         {
 
             try
             {
-                Device dev = new Device();
-                dev.DeviceName = vm.DeviceName;
-                dev.NetworkId = vm.NetworkId;
-                dev.UserId = vm.UserId;
-                return _deviceModel.Add(dev);
+                User net = new User();
+                net.UserName = vm.UserName;
+                return _networkModel.Add(net);
             }
             catch (Exception ex)
             {
@@ -57,7 +51,7 @@ namespace NSC.Service
         {
             try
             {
-                return _deviceModel.Delete(Id);
+                return _networkModel.Delete(Id);
             }
             catch (Exception ex)
             {
@@ -65,14 +59,20 @@ namespace NSC.Service
                 throw ex;
             }
         }
-        public List<DeviceViewModel> GetAll()
+        public List<UserViewModel> GetAll()
         {
-            List<DeviceViewModel> deviceViewModels = new List<DeviceViewModel>();
+            List<UserViewModel> networkViewModels = new List<UserViewModel>();
             try
             {
-                foreach (Device device in _deviceModel.GetAll())
+                foreach (User network in _networkModel.GetAll())
                 {
-                    deviceViewModels.Add(new DeviceViewModel(device));
+
+                    List<DeviceViewModel> deviceViewModels = new List<DeviceViewModel>();
+                    foreach (Device device in network.Devices)
+                    {
+                        deviceViewModels.Add(new DeviceViewModel(device));
+                    }
+                    networkViewModels.Add(new UserViewModel(network));
                 }
             }
             catch (Exception ex)
@@ -81,7 +81,7 @@ namespace NSC.Service
                 throw ex;
             }
 
-            return deviceViewModels;
+            return networkViewModels;
         }
     }
 }
