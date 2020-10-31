@@ -1,28 +1,38 @@
-﻿using System;
+﻿using NSC.DAL.Database;
+using NSC.DAL.Models;
+using NSC.DAL.ViewModels;
+using NSC.Service;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using NSCViewModels;
 
 namespace NSCController
 {
     public class NetworkController : ApiController
     {
+        private NetworkService _networkService;
+
+        public NetworkController()
+        {
+            _networkService = new NetworkService();
+        }
+
         [Route("api/networks")]
         public IHttpActionResult GetAll()
         {
             try
             {
-                NetworkViewModel network = new NetworkViewModel();
-                List<NetworkViewModel> allNetworks = network.GetAll();
-                return Ok(allNetworks);
+                return Ok(_networkService.GetAll());
             }
             catch (Exception ex)
             {
                 return BadRequest("Retrieve failed - " + ex.Message);
             }
         }
+
+
     }
 }

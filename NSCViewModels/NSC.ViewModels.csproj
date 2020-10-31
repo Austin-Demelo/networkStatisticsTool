@@ -122,12 +122,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NSCDAL\NSC - DAL.csproj">
-      <Project>{4FD1A345-FBFD-472F-9A15-B146C8C25759}</Project>
-      <Name>NSC - DAL</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
