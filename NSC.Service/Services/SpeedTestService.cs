@@ -119,7 +119,7 @@ namespace NSC.Service
             NetworkStatTest networkStatTest = new NetworkStatTest();
             try
             {
-                // SPECIFY UNIT SIZES
+                // SPECIFY UNIT SIZES          
                 networkStatTest = new NetworkStatTest()
                 {
                     DeviceId = _clientDevice.Id,
@@ -164,6 +164,20 @@ namespace NSC.Service
                 Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
             }
             return networkStatTest;
+        }
+
+        private double CovertBytesToMegabits(int bytes)
+        {
+            double bytesPerMegabit = 1048576;
+            double megabits = Math.Round(bytes / bytesPerMegabit, 2);
+            return megabits;
+        }
+
+        private double ConvertBytesToMegabytes(int bytes)
+        {
+            double bytesPerMegabyte = 131072;
+            double megabytes = Math.Round(bytes / bytesPerMegabyte, 2);
+            return megabytes;
         }
     }
 }
