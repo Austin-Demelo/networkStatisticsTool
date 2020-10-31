@@ -4,11 +4,11 @@ const NetworkActions = {
   GET_ALL_NETWORKS: "networks/GET_ALL_NETWORKS",
 };
 
-export function getAllNetworks(network) {
+export function getAllNetworks() {
   return async (dispatch, getState) => {
     //let bodyStr = JSON.stringify({query: "{query goes here}"});
     let myHeaders = new Headers();
-    let networks = [];
+    let networks = [""];
     myHeaders.append("Content-Type", "application/json");
    try{
      
@@ -41,7 +41,7 @@ export function networkReducer(state = initialState, action) {
     case NetworkActions.GET_ALL_NETWORKS:
       return {
         ...state,
-        workouts: action.payload,
+        networks: action.payload,
         hasError: false,
         message: "",
       };
