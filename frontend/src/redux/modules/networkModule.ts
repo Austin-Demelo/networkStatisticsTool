@@ -12,7 +12,7 @@ export function getAllNetworks() {
     myHeaders.append("Content-Type", "application/json");
    try{
      
-      let response = await fetch(URL + "/network", {
+      let response = await fetch(URL + "/networks", {
         method: "GET",
         headers: myHeaders
       });
