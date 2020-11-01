@@ -13,7 +13,7 @@ using System.Web.Http.Cors;
 
 namespace NSCController
 {
-    [EnableCors(origins: NSCResources.ClientURL, headers: "*", methods: "*")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class NetworkController : ApiController
     {
         private NetworkService _networkService;

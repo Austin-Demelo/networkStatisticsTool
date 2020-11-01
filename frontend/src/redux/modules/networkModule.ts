@@ -1,36 +1,27 @@
-import {URL} from "../config";
+import { AppThunkAction } from "../../types/thunk";
+import { INetwork } from "../../interfaces/network";
+import { INetworkState } from "../states/networkState";
+import { http } from "../../utilities/http";
 
 const NetworkActions = {
   GET_ALL_NETWORKS: "networks/GET_ALL_NETWORKS",
 };
 
-export function getAllNetworks() {
+export function getAllNetworks(): AppThunkAction<Promise<INetwork[] | undefined>>  {
   return async (dispatch, getState) => {
-    //let bodyStr = JSON.stringify({query: "{query goes here}"});
-    let myHeaders = new Headers();
-    let networks = [""];
-    myHeaders.append("Content-Type", "application/json");
-   try{
-     
-      let response = await fetch(URL + "/networks", {
-        method: "GET",
-        headers: myHeaders
-      });
-      let json = await response.json();
+   try {
 
-       networks = [json];
-   }catch(error){
+      let networks: INetwork[] = await http<INetwork[]>("http://localhost:52288/api/networks");
+      dispatch({ type: NetworkActions.GET_ALL_NETWORKS, payload: [networks] });
+      return networks;
+   } catch(error){
+     //TO-DO, Add Error to Network State
      console.log(error);
-
    }
-
-    
-
-    dispatch({ payload: networks });
   };
 }
 
-const initialState = {
+const initialState: INetworkState = {
   networks: [],
   hasError: false,
   message: "",

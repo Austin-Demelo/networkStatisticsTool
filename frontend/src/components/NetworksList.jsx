@@ -1,9 +1,6 @@
-import { render } from "@testing-library/react";
 import React from "react";
-
-import {connect, Provider} from "react-redux";
+import { connect } from "react-redux";
 import {getAllNetworks} from "../redux/modules/networkModule";
-
 
 export class NetworkList extends React.Component {
   constructor(props){
@@ -14,22 +11,7 @@ export class NetworkList extends React.Component {
   }
 
   async componentWillMount(){
-    try{
-      let myHeaders = new Headers();
-      myHeaders.append('Access-Control-Allow-Origin',"*")
-      let response = await fetch("http://localhost:52288/api/networks", {
-        mode: 'cors',
-        method: "GET",
-        headers: myHeaders,
-      });
-      let json = await response.json();
-
-       this.setState({ networks: [json] });
-
-   }catch(error){
-     console.log(error);
-
-   }
+    this.props.getAllNetworks();
   }
  
 
@@ -38,10 +20,8 @@ export class NetworkList extends React.Component {
       
       <div>
         hello
-        {this.state.networks.map(n => n)}
-        
+        {this.props.networkList.map(n => JSON.stringify(n))}
       </div>
-      
     );
   }
 }
@@ -50,13 +30,13 @@ export class NetworkList extends React.Component {
 
   function mapStateToProps(state) {
     return {
-      networkList: state.network.network,
+      networkList: state.networks.networks,
     };
   }
   
   function mapDispatchToProps(dispatch) {
     return {
-      getAllNetworks: (networkList) => dispatch(getAllNetworks()),
+      getAllNetworks: () => dispatch(getAllNetworks()),
      };
   }
 
