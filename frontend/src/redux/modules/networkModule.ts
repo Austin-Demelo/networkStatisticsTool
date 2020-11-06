@@ -12,7 +12,7 @@ export function getAllNetworks(): AppThunkAction<Promise<INetwork[] | undefined>
    try {
 
       let networks: INetwork[] = await http<INetwork[]>("http://localhost:52288/api/networks");
-      dispatch({ type: NetworkActions.GET_ALL_NETWORKS, payload: [networks] });
+      dispatch({ type: NetworkActions.GET_ALL_NETWORKS, payload: networks });
       return networks;
    } catch(error){
      //TO-DO, Add Error to Network State
