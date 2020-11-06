@@ -1,16 +1,11 @@
+import {IconButton, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@material-ui/core'
+
+import EditIcon from '@material-ui/icons/Edit';
+import NetworkForm from './NetworkForm'
 import React from 'react'
 import { connect } from 'react-redux'
 import { getAllNetworks } from '../redux/modules/networkModule'
 import { makeStyles } from '@material-ui/core/styles'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableContainer from '@material-ui/core/TableContainer'
-import TableHead from '@material-ui/core/TableHead'
-import TableRow from '@material-ui/core/TableRow'
-import Paper from '@material-ui/core/Paper'
-import NetworkForm from './NetworkForm'
-import Modal from '@material-ui/core/Modal'
 
 const useStyles = makeStyles({
     table: {
@@ -24,19 +19,32 @@ export class NetworkList extends React.Component {
         this.state = {
             networks: [],
             open: false,
+            editNetwork: undefined
         }
+
+        this.selectNetwork = this.selectNetwork.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+
     }
 
     async componentWillMount() {
         this.props.getAllNetworks()
     }
 
-    handleOpen() {
-      this.setState({open:true})
-    };
+
     handleClose() {
-      this.setState({open:false})
+      this.setState({
+          open:false,
+          editNetwork: undefined
+        })
     };
+
+    selectNetwork(network) {
+        this.setState({
+            open:true,
+            editNetwork: network
+          })
+    }
 
 
     render() {
@@ -52,14 +60,27 @@ export class NetworkList extends React.Component {
                                 <TableRow>
                                     <TableCell>NetworkName</TableCell>
                                     <TableCell>Devices</TableCell>
+                                    <TableCell>Actions</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {this.props.networkList.map((row) => (
-                                    <TableRow key={row.id}>
-                                        <TableCell>{row.NetworkName}</TableCell>
+                                {this.props.networkList.map((network) => (
+                                    <TableRow key={`${network.Id}tableRow`}>
                                         <TableCell>
-                                            {row.Devices.map((d) => `${d} `)}
+                                            {network.NetworkName}
+                                        </TableCell>
+                                        <TableCell>
+                                            {network.Devices.map((d) => `${d} `)}
+                                        </TableCell>
+                                        <TableCell>
+                                        <IconButton
+                                            edge="start"
+                                            color="inherit"
+                                            aria-label="open drawer"
+                                            onClick={() => this.selectNetwork(network)}
+                                        >
+                                            <EditIcon />
+                                        </IconButton>
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -68,16 +89,15 @@ export class NetworkList extends React.Component {
                     </TableContainer>
                 </div>
                 <div>
-                    <button type="button" onClick={this.handleOpen}>
-                        Open Modal
-                    </button>
                     <Modal
                         open={this.state.open}
                         onClose={this.handleClose}
                         aria-labelledby="simple-modal-title"
                         aria-describedby="simple-modal-description"
                     >
-                        <NetworkForm />
+                        <NetworkForm 
+                            editNetwork={this.state.editNetwork}
+                        />
                     </Modal>
                 </div>
             </div>

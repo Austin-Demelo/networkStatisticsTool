@@ -1,6 +1,5 @@
 import { AppThunkAction } from "../../types/thunk";
 import { ILoginPayload } from "../../interfaces/payloads/ILoginPayload";
-import { IUser } from "../../interfaces/user";
 import { http } from "../../utilities/http";
 
 const UserActions = {
