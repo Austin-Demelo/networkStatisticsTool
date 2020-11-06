@@ -12,3 +12,4 @@ export async function http<T>(path: string, method: HttpMethod = HttpMethod.GET,
     const data = await response.json();
     return data;
   }
+
