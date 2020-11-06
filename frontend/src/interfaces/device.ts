@@ -1,5 +1,5 @@
 export interface IDevice {
     Id: number;
-    UserName: string;
-    UserRole
+    DeviceName: string;
+    DeviceUser: string;
 }

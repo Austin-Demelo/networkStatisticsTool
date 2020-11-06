@@ -7,9 +7,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace NSCController
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class DeviceController : ApiController
     {
         private DeviceModel _deviceModel;

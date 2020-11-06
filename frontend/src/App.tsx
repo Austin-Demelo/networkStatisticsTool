@@ -8,6 +8,8 @@ import { Provider } from "react-redux";
 import React from "react";
 import Store from "./redux/store";
 import Users from "./components/Users";
+import Header from "./components/Header"
+import DeviceList  from "./components/DeviceList";
 
 function App() {
   return (
@@ -15,10 +17,12 @@ function App() {
     <Provider store={Store}>
       <div>
         {/* {loggedIn ? <Redirect to="/login" /> : <PublicHomePage />} */}
+        <Header/>
         <Switch>
             <Route path="/" component={Home} exact />
-            <Route path="/network" component={NetworksList} />
-            <Route path="/user" component={Users} />
+            <Route path="/networks" component={NetworksList} />
+            <Route path="/devices" component={DeviceList} />
+            <Route path="/users" component={Users} />
         </Switch>
       </div>
     </Provider>

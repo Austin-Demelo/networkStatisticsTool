@@ -1,36 +1,50 @@
-import React from "react";
 import { AppBar, Badge, IconButton, Toolbar, Typography } from "@material-ui/core";
-import {connect} from "react-redux";
-import {getAllNetworks} from "../redux/modules/networkModule";
+import React, { useState } from "react";
+import AppDrawer from "../styles/AppDrawer";
+import MenuIcon from '@material-ui/icons/Menu';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import clsx from 'clsx';
+import headerStyles from '../styles/HeaderStyles';
 
-export class Header extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      
-    }
-  }
-
-  async componentWillMount(){
+const Header = () => {
+    const [open, setOpen] = useState(false);
+    const handleDrawerOpen = () => {
+        setOpen(true);
+    };
     
-  }
- 
+    const handleDrawerClose = () => {
+        setOpen(false);
+    };
 
-  render(){
-    return( <div></div> );
-  }
+    return (
+        <div>
+            <AppBar position="absolute" className={clsx(headerStyles.appBar, open && headerStyles.appBarShift)}>
+                <Toolbar className={headerStyles.toolbar}>
+                <IconButton
+                    edge="start"
+                    color="inherit"
+                    aria-label="open drawer"
+                    onClick={handleDrawerOpen}
+                    className={clsx(headerStyles.menuButton, open && headerStyles.menuButtonHidden)}
+                >
+                    <MenuIcon />
+                </IconButton>
+                <Typography component="h1" variant="h6" color="inherit" noWrap className={headerStyles.title}>
+                    Dashboard
+                </Typography>
+                <IconButton color="inherit">
+                    <Badge color="secondary">
+                    <NotificationsIcon />
+                    </Badge>
+                </IconButton>
+                </Toolbar>
+            </AppBar>
+            <AppDrawer 
+                closeDrawer = {handleDrawerClose}
+                isOpen = {open}
+            />
+        </div>
+  );
 }
 
-
-
-  function mapStateToProps(state) {
-    return {
-    };
-  }
-  
-  function mapDispatchToProps(dispatch) {
-    return {
-     };
-  }
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default Header;

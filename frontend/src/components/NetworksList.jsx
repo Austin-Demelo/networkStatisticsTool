@@ -13,7 +13,20 @@ const useStyles = makeStyles({
     },
 })
 
-export class NetworkList extends React.Component {
+const ModalStyle = makeStyles((theme) =>
+  createStyles({
+    paper: {
+      position: 'absolute',
+      width: 400,
+      backgroundColor: theme.palette.background.paper,
+      border: '2px solid #000',
+      boxShadow: theme.shadows[5],
+      padding: theme.spacing(2, 4, 3),
+    },
+  }),
+);
+
+class NetworkList extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -90,10 +103,9 @@ export class NetworkList extends React.Component {
                 </div>
                 <div>
                     <Modal
+                    className={ModalStyle.paper}
                         open={this.state.open}
                         onClose={this.handleClose}
-                        aria-labelledby="simple-modal-title"
-                        aria-describedby="simple-modal-description"
                     >
                         <NetworkForm 
                             editNetwork={this.state.editNetwork}
