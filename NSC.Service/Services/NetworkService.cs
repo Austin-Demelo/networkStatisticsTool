@@ -46,6 +46,7 @@ namespace NSC.Service
                 //Prepare the VM to be sent back to client
                 vm.Id = net.Id;
                 vm.Timer = Convert.ToBase64String(net.Timer);
+                vm.Devices = new List<int>();
                 return vm;
             }
             catch (Exception ex)

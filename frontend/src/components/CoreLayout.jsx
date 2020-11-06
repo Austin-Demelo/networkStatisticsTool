@@ -8,6 +8,7 @@ export default class CoreLayout extends React.Component {
 		return (
 			<div>
 				<BrowserRouter> 
+				
 					<Header />
 
 					<Routes />	

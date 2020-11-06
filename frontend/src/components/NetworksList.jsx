@@ -1,10 +1,11 @@
 import {Button, IconButton, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@material-ui/core'
+import { deleteNetwork, getAllNetworks } from '../redux/modules/networkModule'
 
+import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import NetworkForm from './NetworkForm'
 import React from 'react'
 import { connect } from 'react-redux'
-import { getAllNetworks } from '../redux/modules/networkModule'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles({
@@ -47,6 +48,10 @@ class NetworkList extends React.Component {
         });
     }
 
+    deleteNetwork(networkId) {
+        this.props.deleteNetwork(networkId);
+    }
+
     onCreateNetwork() {
         this.setState({
             open:true,
@@ -85,14 +90,18 @@ class NetworkList extends React.Component {
                                             {network.Devices?.map((d) => `${d} `)}
                                         </TableCell>
                                         <TableCell>
-                                        <IconButton
-                                            edge="start"
-                                            color="inherit"
-                                            aria-label="open drawer"
-                                            onClick={() => this.selectNetwork(network)}
-                                        >
-                                            <EditIcon />
-                                        </IconButton>
+                                            <IconButton
+                                                onClick={() => this.selectNetwork(network)}
+                                            >
+                                                <EditIcon />
+                                            </IconButton>
+                                            <IconButton
+                                                onClick={() => this.deleteNetwork(network.Id)}
+                                                //Foreign Key restraint. Devices point to Network parent.
+                                                disabled={!!!network.Devices || network.Devices.length !== 0}
+                                            >
+                                                <DeleteIcon />
+                                            </IconButton>
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -123,6 +132,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         getAllNetworks: () => dispatch(getAllNetworks()),
+        deleteNetwork: (networkId) => dispatch(deleteNetwork(networkId)),
+        
     }
 }
 
