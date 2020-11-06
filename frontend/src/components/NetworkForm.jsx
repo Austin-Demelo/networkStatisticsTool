@@ -1,8 +1,10 @@
 import { Button, Card, CardContent, TextField } from "@material-ui/core/";
+import { createNetwork, getAllNetworks, updateNetwork } from '../redux/modules/networkModule'
 
 import React from 'react'
+import { connect } from 'react-redux'
 
-export default class NetworkForm extends React.Component {
+class NetworkForm extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -15,8 +17,7 @@ export default class NetworkForm extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.props.editNetwork);
-        if(!!this.props.editNetwork) {
+        if(this.props.editNetwork) {
             this.setState({
                 formData: {
                     NetworkName: this.props.editNetwork.NetworkName
@@ -26,7 +27,23 @@ export default class NetworkForm extends React.Component {
     }
 
     onFormSubmit(e) {
-        console.log(this);
+        let network = {...this.state.formData};
+        if(this.props.editNetwork) {
+            //Update the Network
+            network.Id = this.props.editNetwork.Id;
+            network.Timer = this.props.editNetwork.Timer;
+            this.props.updateNetwork(network)
+            .then((network) => {
+                this.props.getAllNetworks()
+                .then(() => {
+                    this.props.handleClose(); //Passed as argument from NetworkList
+                })
+            });
+        }
+        else {
+            //Add the Network
+            this.props.createNetwork(network);
+        }
     }
 
 
@@ -45,11 +62,33 @@ export default class NetworkForm extends React.Component {
                         style = {{display: 'block', width: 300}}
                     />
                     <Button color="primary" onClick={this.onFormSubmit}>
-                    {(this.props.editNetwork === undefined ? 'Add' : 'Update')} Network
+                        {(this.props.editNetwork === undefined ? 'Add' : 'Update')} Network
                     </Button>
                 </CardContent>
             </Card>
         )
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        networkList: state.networks.networks,
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getAllNetworks: () => dispatch(getAllNetworks()),
+        createNetwork: (network) => dispatch(createNetwork(network)),
+        updateNetwork: (network) => dispatch(updateNetwork(network)),
+    }
+}
+// Must have {forwardRef: true} if passing args from parent
+export default connect(
+        mapStateToProps, 
+        mapDispatchToProps, 
+        null, 
+        {forwardRef: true}
+    )(NetworkForm)
+
 

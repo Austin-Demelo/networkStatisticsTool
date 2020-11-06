@@ -1,5 +1,6 @@
 import { AppBar, Badge, IconButton, Toolbar, Typography } from "@material-ui/core";
 import React, { useState } from "react";
+
 import AppDrawer from "../styles/AppDrawer";
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -18,7 +19,7 @@ const Header = () => {
 
     return (
         <div>
-            <AppBar position="absolute" className={clsx(headerStyles.appBar, open && headerStyles.appBarShift)}>
+            <AppBar className={clsx(headerStyles.appBar, open && headerStyles.appBarShift)}>
                 <Toolbar className={headerStyles.toolbar}>
                 <IconButton
                     edge="start"

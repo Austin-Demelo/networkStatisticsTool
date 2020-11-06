@@ -22,7 +22,9 @@ namespace NSC.Service
             try
             {
                 Network net = new Network();
+                net.Id = vm.Id;
                 net.NetworkName = vm.NetworkName;
+                net.Timer = Convert.FromBase64String(vm.Timer);
                 opStatus = _networkModel.Update(net);
             }
             catch (Exception ex)
@@ -33,14 +35,18 @@ namespace NSC.Service
             }
             return Convert.ToInt16(opStatus);
         }
-        public int Add(NetworkViewModel vm)
+        public NetworkViewModel Add(NetworkViewModel vm)
         {
 
             try
             {
                 Network net = new Network();
                 net.NetworkName = vm.NetworkName;
-                return _networkModel.Add(net);
+                net = _networkModel.Add(net);
+                //Prepare the VM to be sent back to client
+                vm.Id = net.Id;
+                vm.Timer = Convert.ToBase64String(net.Timer);
+                return vm;
             }
             catch (Exception ex)
             {

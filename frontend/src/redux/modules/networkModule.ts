@@ -1,8 +1,8 @@
 import { AppThunkAction } from "../../types/thunk";
+import { HttpMethod } from "../../types/httpMethods";
 import { INetwork } from "../../interfaces/network";
 import { INetworkState } from "../states/networkState";
 import { http } from "../../utilities/http";
-import { HttpMethod } from "../../types/httpMethods";
 
 const NetworkActions = {
   GET_ALL_NETWORKS: "networks/GET_ALL_NETWORKS",
@@ -24,10 +24,10 @@ export function getAllNetworks(): AppThunkAction<Promise<INetwork[] | undefined>
   };
 }
 
-export function postNetwork(addNetwork:INetwork): AppThunkAction<Promise<INetwork | undefined>>{
+export function createNetwork(addNetwork:INetwork): AppThunkAction<Promise<INetwork | undefined>>{
   return async (dispatch, getState) => {
     try {
-       let network:  INetwork  = await http<INetwork>("http://localhost:52288/api/networks", HttpMethod.POST, addNetwork);
+       let network:  INetwork  = await http<INetwork>("http://localhost:52288/api/networks", HttpMethod.POST, JSON.stringify(addNetwork));
        dispatch({ type: NetworkActions.POST_NETWORK, payload: network });
        return network;
     } catch(error){
@@ -37,10 +37,12 @@ export function postNetwork(addNetwork:INetwork): AppThunkAction<Promise<INetwor
    };
 } 
 
-export function putNetwork(updateNetwork:INetwork, id: Number): AppThunkAction<Promise<INetwork | undefined>>{
+export function updateNetwork(updateNetwork:INetwork): AppThunkAction<Promise<INetwork | undefined>>{
+  console.log(updateNetwork);
   return async (dispatch, getState) => {
     try {
-       let network: INetwork = await http<INetwork>(`http://localhost:52288/api/networks/${id}`, HttpMethod.PUT, updateNetwork);
+      // Must send "stringified" JSON to server
+       let network: INetwork = await http<INetwork>(`http://localhost:52288/api/networks`, HttpMethod.PUT, JSON.stringify(updateNetwork));
        dispatch({ type: NetworkActions.PUT_NETWORK, payload: network });
        return network;
     } catch(error){
@@ -65,24 +67,24 @@ export function networkReducer(state = initialState, action) {
         hasError: false,
         message: "",
       };
-      case NetworkActions.POST_NETWORK:
-        let newNetworks = [...state.networks];
-        newNetworks.push(action.payload);
-        return {
-          ...state,
-          networks: newNetworks,
-          hasError: false,
-          message: "",
-        };
-        case NetworkActions.PUT_NETWORK:
-          let updatedNetworks = [...state.networks];
-          updatedNetworks = updatedNetworks.map(network =>  network.Id === action.payload.Id ? action.payload : network);
-          return {
-            ...state,
-            networks: updatedNetworks,
-            hasError: false,
-            message: "",
-          };
+    case NetworkActions.POST_NETWORK:
+      let newNetworks = [...state.networks];
+      newNetworks.push(action.payload);
+      return {
+        ...state,
+        networks: newNetworks,
+        hasError: false,
+        message: "",
+      };
+    case NetworkActions.PUT_NETWORK:
+      let updatedNetworks = [...state.networks];
+      updatedNetworks = updatedNetworks.map(network =>  network.Id === action.payload.Id ? action.payload : network);
+      return {
+        ...state,
+        networks: updatedNetworks,
+        hasError: false,
+        message: "",
+      };
     default:
       return state;
   }

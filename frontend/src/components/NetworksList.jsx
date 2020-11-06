@@ -1,4 +1,4 @@
-import {IconButton, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@material-ui/core'
+import {Button, IconButton, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@material-ui/core'
 
 import EditIcon from '@material-ui/icons/Edit';
 import NetworkForm from './NetworkForm'
@@ -13,19 +13,6 @@ const useStyles = makeStyles({
     },
 })
 
-const ModalStyle = makeStyles((theme) =>
-  createStyles({
-    paper: {
-      position: 'absolute',
-      width: 400,
-      backgroundColor: theme.palette.background.paper,
-      border: '2px solid #000',
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-    },
-  }),
-);
-
 class NetworkList extends React.Component {
     constructor(props) {
         super(props)
@@ -37,6 +24,7 @@ class NetworkList extends React.Component {
 
         this.selectNetwork = this.selectNetwork.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.onCreateNetwork = this.onCreateNetwork.bind(this);
 
     }
 
@@ -49,14 +37,21 @@ class NetworkList extends React.Component {
       this.setState({
           open:false,
           editNetwork: undefined
-        })
+        });
     };
 
     selectNetwork(network) {
         this.setState({
             open:true,
             editNetwork: network
-          })
+        });
+    }
+
+    onCreateNetwork() {
+        this.setState({
+            open:true,
+            editNetwork: undefined
+        });
     }
 
 
@@ -64,7 +59,11 @@ class NetworkList extends React.Component {
         return (
             <div>
                 <div style={{ maxWidth: '500px' }}>
+                    <Button style = {{float: 'right'}} color="primary" onClick={this.onCreateNetwork}>
+                            Add Network
+                    </Button>
                     <TableContainer component={Paper}>
+                        
                         <Table
                             className={useStyles.table}
                             aria-label="simple table"
@@ -83,7 +82,7 @@ class NetworkList extends React.Component {
                                             {network.NetworkName}
                                         </TableCell>
                                         <TableCell>
-                                            {network.Devices.map((d) => `${d} `)}
+                                            {network.Devices?.map((d) => `${d} `)}
                                         </TableCell>
                                         <TableCell>
                                         <IconButton
@@ -101,17 +100,15 @@ class NetworkList extends React.Component {
                         </Table>
                     </TableContainer>
                 </div>
-                <div>
-                    <Modal
-                    className={ModalStyle.paper}
-                        open={this.state.open}
-                        onClose={this.handleClose}
-                    >
-                        <NetworkForm 
-                            editNetwork={this.state.editNetwork}
-                        />
-                    </Modal>
-                </div>
+                <Modal
+                    open={this.state.open}
+                    onClose={this.handleClose}
+                >
+                    <NetworkForm 
+                        editNetwork={this.state.editNetwork}
+                        handleClose={this.handleClose}
+                    />
+                </Modal>
             </div>
         )
     }

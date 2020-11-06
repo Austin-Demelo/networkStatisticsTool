@@ -37,7 +37,7 @@ namespace NSCController
         }
 
         [Route("api/networks")]
-        public IHttpActionResult Post(NetworkViewModel network)
+        public IHttpActionResult Post([FromBody] NetworkViewModel network)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace NSCController
         }
 
         [Route("api/networks")]
-        public IHttpActionResult Put(NetworkViewModel network)
+        public IHttpActionResult Put([FromBody] NetworkViewModel network)
         {
             try
             {
