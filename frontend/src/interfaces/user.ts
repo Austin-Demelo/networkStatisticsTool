@@ -1,5 +1,5 @@
 export interface IUser {
-    Id: number;
+    Id?: number;
     UserName: string;
     RoleId: number;
     DevicesIds: Array<number>; //Device

@@ -1,9 +1,9 @@
 import { AppThunkAction } from "../../types/thunk";
 import {HttpMethod} from "../../types/httpMethods";
+import { ILoginPayload } from "../../interfaces/payloads/ILoginPayload";
 import {IUser} from "../../interfaces/user";
 import {IUserState} from "../states/userState";
 import { UpdateStatus } from "../../types/updateStatus";
-import { ILoginPayload } from "../../interfaces/payloads/ILoginPayload";
 import { http } from "../../utilities/http";
 
 const UserActions = {
@@ -145,7 +145,9 @@ export function userReducer(state = initialState, action) {
         };
       case UserActions.DELETE_USER:
         updatedUsers = [...state.users];
+        console.log(updatedUsers);
         updatedUsers = updatedUsers.filter(user =>  user.Id !== action.payload); //Find the deleted network by ID, and filter it out
+        console.log(updatedUsers);
         return {
           ...state,
           users: updatedUsers,

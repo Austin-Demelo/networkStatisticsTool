@@ -1,7 +1,9 @@
-import { Button, Card, CardContent, TextField } from "@material-ui/core/";
+import { Button, Card, CardContent, IconButton, Input, InputAdornment, TextField } from "@material-ui/core/";
 import { createUser, getAllUsers, updateUser } from '../redux/modules/userModule'
 
 import React from 'react'
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { connect } from 'react-redux'
 
 class UserForm extends React.Component {
@@ -10,6 +12,8 @@ class UserForm extends React.Component {
         this.state = {
             formData: {
                 UserName: '',
+                UserPass: '',
+                showPassword: 'password',
             },
             //Through validateFields(), will populate field value (Ex UserName) from formData, with error message string
             //EX fromValidation: { UserName: 'This field is required' }
@@ -45,7 +49,7 @@ class UserForm extends React.Component {
                   break;
                 default:
                   // code block
-              }
+            }
             
         });
         this.setState({
@@ -93,8 +97,18 @@ class UserForm extends React.Component {
                         label="User Name"
                         style = {{display: 'block', width: 300}}
                     />
+                    <TextField
+                        onChange={(e) => this.setState({formData: {...this.state.formData, UserPass: e.target.value}})}
+                        placeholder="Password"
+                        type={this.state.showPassword ? 'text' : 'password'}
+                        value={this.state.formData.UserPass  || ''}
+                        error={!!this.state.formValidation.UserPass}
+                        helperText={this.state.formValidation.UserPass || ''}
+                        label="Password"
+                        style = {{display: 'block', width: 300}}
+                    />
                     <Button color="primary" onClick={this.onFormSubmit}>
-                        {(this.props.editUser === undefined ? 'Add' : 'Update')} User
+                        {(this.props.editUser === undefined ? 'Register' : 'Save')}
                     </Button>
                 </CardContent>
             </Card>

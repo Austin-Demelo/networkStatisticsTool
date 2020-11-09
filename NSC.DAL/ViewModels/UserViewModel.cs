@@ -14,6 +14,8 @@ namespace NSC.DAL.ViewModels
 
         public int Id { get; set; }
         public string UserName { get; set; }
+
+        public string UserPass { get; set; }
         public UserRoleViewModel UserRole { get; set; }
     }
 }
