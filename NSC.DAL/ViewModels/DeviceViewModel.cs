@@ -16,7 +16,10 @@ namespace NSC.DAL.ViewModels
                 DeviceName = device.DeviceName;
                 NetworkId = device.NetworkId;
                 UserId = device.UserId;
-                DeviceUser = new UserViewModel(device.User);
+                if(device.User != null)
+                {
+                    DeviceUser =   new UserViewModel(device.User);
+                }
                 foreach (NetworkInterface networkInterface in device.NetworkInterfaces)
                 {
                     NetworkInterfaces.Add(new NetworkInterfaceViewModel(networkInterface));
@@ -37,7 +40,7 @@ namespace NSC.DAL.ViewModels
 
         public int NetworkId { get; set; }
 
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         //public UserViewModel User { get; set; }
         //public List<NetworkInterface> NetworkInterfaces { get; set; }
         //public List<NetworkStatTest> NetworkStatTests { get; set; }

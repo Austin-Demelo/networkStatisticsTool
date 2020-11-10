@@ -1,5 +1,5 @@
 import { Button, Card, CardContent, TextField } from "@material-ui/core/";
-import { createNetwork, getAllNetworks, updateNetwork } from '../redux/modules/networkModule'
+import { createNetwork, getAllNetworks, updateNetwork } from '../../redux/modules/networkModule'
 
 import React from 'react'
 import { connect } from 'react-redux'
