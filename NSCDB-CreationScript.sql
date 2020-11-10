@@ -72,7 +72,7 @@ CREATE TABLE Devices (
 	Timer				ROWVERSION NOT NULL,	
 	DeviceName			VARCHAR(255) NOT NULL,
 	NetworkId			INT NOT NULL,
-	UserId				INT NOT NULL,
+	UserId				INT,
 	CONSTRAINT PK_Device PRIMARY KEY(Id),
 	CONSTRAINT FK_DeviceHasNetwork FOREIGN KEY(NetworkId) REFERENCES Networks(Id),
 	CONSTRAINT FK_DevcieHasUser FOREIGN KEY(UserId) REFERENCES Users(Id)
