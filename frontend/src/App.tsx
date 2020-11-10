@@ -10,6 +10,7 @@ import { Provider } from "react-redux";
 import React from "react";
 import Store from "./redux/store";
 import Users from "./components/Users";
+import TeamMembers from "./components/TeamMembers";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
               <Route path="/networks" component={NetworksList} />
               <Route path="/devices" component={DeviceList} />
               <Route path="/users" component={Users} />
+              <Route path="/team" component={TeamMembers}/>
           </Switch>
         </div>
         

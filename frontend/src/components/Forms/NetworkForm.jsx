@@ -16,7 +16,7 @@ class NetworkForm extends React.Component {
             //Used in Field Component's properties *error* and *helperText*
             //EX error={!!this.state.formValidation.NetworkName} - BOOLEAN
             //EX helperText={this.state.formValidation.NetworkName || ''} - STRING
-            formValidation: { } 
+            formValidation: { }    
         }
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
