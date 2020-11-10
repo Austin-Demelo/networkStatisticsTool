@@ -1,5 +1,6 @@
 import {Button, IconButton, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@material-ui/core'
 import { getAllDevices, deleteDevice } from '../redux/modules/deviceModule'
+import { getAllNetworks } from '../redux/modules/networkModule'
 
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
@@ -29,6 +30,7 @@ class DeviceList extends React.Component {
     }
 
     async componentWillMount() {
+        this.props.getAllNetworks()
         this.props.getAllDevices()
     }
 
@@ -72,8 +74,7 @@ class DeviceList extends React.Component {
                         <TableHead>
                             <TableRow>
                                 <TableCell>Device Name</TableCell>
-                                {/* <TableCell>Device User</TableCell>
-                                <TableCell>User Role</TableCell> */}
+                                <TableCell>Network Id</TableCell>
                                 <TableCell>Actions</TableCell>
                             </TableRow>
                         </TableHead>
@@ -83,12 +84,9 @@ class DeviceList extends React.Component {
                                     <TableCell>
                                         {device.DeviceName}
                                     </TableCell>
-                                    {/* <TableCell>
-                                        {device.DeviceUser.UserName}
+                                     <TableCell>
+                                         {device.NetworkId}
                                     </TableCell>
-                                    <TableCell>
-                                        {device.DeviceUser.UserRole.RoleName}
-                                    </TableCell> */}
                                     <TableCell>
                                         <IconButton
                                             onClick={() => this.selectDevice(device)}
@@ -130,11 +128,13 @@ class DeviceList extends React.Component {
 function mapStateToProps(state) {
     return {
         deviceList: state.devices.devices,
+        networkList: state.networks.networks
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
+        getAllNetworks: () => dispatch(getAllNetworks()),
         getAllDevices: () => dispatch(getAllDevices()),
         deleteDevice: (deviceId) => dispatch(deleteDevice(deviceId)),
     }

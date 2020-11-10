@@ -104,6 +104,7 @@ export function deviceReducer(state = initialState, action) {
         message: "",
       };
     case DeviceActions.PUT_DEVICE:
+      console.log(action.payload)
       updateDevices = [...state.devices];
       updateDevices = updateDevices.map(device =>  device.Id === action.payload.Id ? action.payload : device);
       return {
@@ -113,6 +114,7 @@ export function deviceReducer(state = initialState, action) {
         message: "",
       };
     case DeviceActions.DELETE_DEVICE:
+      console.log(action.payload)
       updateDevices = [...state.devices];
       updateDevices = updateDevices.filter(device =>  device.Id !== action.payload); //Find the deleted network by ID, and filter it out
       return {

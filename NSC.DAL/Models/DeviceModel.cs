@@ -93,7 +93,7 @@ namespace NSC.DAL.Models
                 Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
                 throw ex;
             }
-            return deletedDevices;
+            return id;
         }
     }
 }

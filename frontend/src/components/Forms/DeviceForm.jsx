@@ -28,7 +28,6 @@ class DeviceForm extends React.Component {
             formData: {
                 DeviceName: '',
                 NetworkId: undefined,
-                UserId: '',
             },
             //Through validateFields(), will populate field value (Ex NetworkName) from formData, with error message string
             //EX fromValidation: { NetworkName: 'This field is required' }
@@ -47,6 +46,7 @@ class DeviceForm extends React.Component {
                 //Load form data, from parent property *editNetwork* from NetworkList
                 formData: {
                     DeviceName: this.props.editDevice.DeviceName,
+                    NetworkId: this.props.editDevice.NetworkId
                 },
             })
         }
@@ -58,6 +58,10 @@ class DeviceForm extends React.Component {
             const value = this.state.formData[field]
             switch (field) {
                 case 'DeviceName':
+                    if (!value) {
+                        updatedValidation[field] = 'This field is required'
+                    }
+                case 'NetworkId':
                     if (!value) {
                         updatedValidation[field] = 'This field is required'
                     }
@@ -77,6 +81,8 @@ class DeviceForm extends React.Component {
         if (!Object.keys(this.state.formValidation).length) {
             if (this.props.editDevice) {
                 //Update the Network
+                device.Id = this.props.editDevice.Id;
+                device.Timer = this.props.editDevice.Timer;
                 this.props
                     .updateDevice(device)
                     .then((device) => {
@@ -87,7 +93,6 @@ class DeviceForm extends React.Component {
                     })
             } else {
                 //Add the Network
-                console.log(device)
                 this.props.createDevice(device).then((device) => {
                     this.props.handleClose() //Passed as argument from NetworkList
                 })
@@ -109,53 +114,51 @@ class DeviceForm extends React.Component {
             >
                 <Card>
                     <CardContent>
-                        <TextField
-                            onChange={(e) =>
-                                this.setState({
-                                    formData: {
-                                        ...this.state.formData,
-                                        DeviceName: e.target.value,
-                                    },
-                                })
-                            }
-                            placeholder="Device Name"
-                            autoFocus={true} //Needed on the first field of each form
-                            value={this.state.formData.DeviceName || ''}
-                            error={!!this.state.formValidation.DeviceName}
-                            helperText={
-                                this.state.formValidation.DeviceName || ''
-                            }
-                            label="Device Name"
-                            style={{ display: 'block', width: 300 }}
-                        />
-                        <FormControl className={useStyles().formControl}>
-                            <InputLabel id="demo-simple-select-helper-label">
-                                Age
-                            </InputLabel>
-                            <Select
-                                labelId="demo-simple-select-helper-label"
-                                id="demo-simple-select-helper"
-                            >
-                                <MenuItem value="">
-                                    <em>None</em>
-                                </MenuItem>
-                                {this.props.networkList.map((network) => (
-                                    <MenuItem value={network.Id}>
-                                        {network.NetworkName}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                            <FormHelperText>
-                                Some important helper text
-                            </FormHelperText>
-                        </FormControl>
-
-                        <Button color="primary" onClick={this.onFormSubmit}>
-                            {this.props.editDevice === undefined
-                                ? 'Add'
-                                : 'Update'}{' '}
-                            Device
-                        </Button>
+                        <div>
+                            <TextField
+                                onChange={(e) =>
+                                    this.setState({
+                                        formData: {
+                                            ...this.state.formData,
+                                            DeviceName: e.target.value,
+                                        },
+                                    })
+                                }
+                                placeholder="Device Name"
+                                autoFocus={true} //Needed on the first field of each form
+                                value={this.state.formData.DeviceName || ''}
+                                error={!!this.state.formValidation.DeviceName}
+                                helperText={
+                                    this.state.formValidation.DeviceName || ''
+                                }
+                                label="Device Name"
+                                style={{ display: 'block', width: 300 }}
+                            />
+                            <FormControl>
+                                <InputLabel>Network</InputLabel>
+                                <Select onChange={(e) =>
+                                    this.setState({
+                                        formData: {
+                                            ...this.state.formData,
+                                            NetworkId: e.target.value
+                                        },
+                                    })}>
+                                    {this.props.networkList.map((network) => (
+                                        <MenuItem value={network.Id}>
+                                            {network.NetworkName}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </div>
+                        <div>
+                            <Button color="primary" onClick={this.onFormSubmit}>
+                                {this.props.editDevice === undefined
+                                    ? 'Add'
+                                    : 'Update'}{' '}
+                                Device
+                            </Button>
+                        </div>
                     </CardContent>
                 </Card>
             </div>

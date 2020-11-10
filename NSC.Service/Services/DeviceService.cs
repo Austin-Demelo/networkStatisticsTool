@@ -25,6 +25,9 @@ namespace NSC.Service
                 Device dev = new Device();
                 dev.Id = vm.Id;
                 dev.DeviceName = vm.DeviceName;
+                dev.NetworkId = vm.NetworkId;
+                dev.Timer = Convert.FromBase64String(vm.Timer);
+                dev.UserId = vm.UserId;
                 opStatus = _deviceModel.Update(dev);
             }
             catch (Exception ex)

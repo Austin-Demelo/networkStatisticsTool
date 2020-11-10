@@ -3,4 +3,5 @@ export interface IDevice {
     DeviceName: string;
     NetworkId: number;
     UserId: number;
+    Timer: string;
 }

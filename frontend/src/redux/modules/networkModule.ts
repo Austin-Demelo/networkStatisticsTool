@@ -64,6 +64,7 @@ export function deleteNetwork(networkId: number): AppThunkAction<Promise<number 
       // Must send "stringified" JSON to server
        const deleteId: number = await http<UpdateStatus>(`http://localhost:52288/api/networks/${networkId}`, HttpMethod.DELETE);
        console.log(deleteId);
+       console.log(networkId);
        if(deleteId === networkId) {
           // If the update status is good, then push to store
           dispatch({ type: NetworkActions.DELETE_NETWORK, payload: deleteId });

@@ -15,6 +15,7 @@ namespace NSC.DAL.ViewModels
                 Id = device.Id;
                 DeviceName = device.DeviceName;
                 NetworkId = device.NetworkId;
+                Timer = Convert.ToBase64String(device.Timer);
                 UserId = device.UserId;
                 if(device.User != null)
                 {
@@ -47,6 +48,8 @@ namespace NSC.DAL.ViewModels
         public UserViewModel DeviceUser { get; set; }
         public ICollection<NetworkInterfaceViewModel> NetworkInterfaces { get; set; }
         public ICollection<NetworkStatTestViewModel> NetworkStatTests { get; set; }
+
+        public string Timer { get; set; }
 
     }
 }
