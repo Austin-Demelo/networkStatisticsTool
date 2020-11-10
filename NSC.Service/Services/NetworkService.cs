@@ -79,7 +79,10 @@ namespace NSC.Service
                     List<DeviceViewModel> deviceViewModels = new List<DeviceViewModel>();
                     foreach (Device device in network.Devices)
                     {
-                        deviceViewModels.Add(new DeviceViewModel(device));
+                        if(device != null)
+                        {
+                            deviceViewModels.Add(new DeviceViewModel(device));
+                        }
                     }
                     networkViewModels.Add(new NetworkViewModel(network));
                 }
