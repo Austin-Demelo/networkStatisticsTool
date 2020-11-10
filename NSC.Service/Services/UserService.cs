@@ -13,11 +13,13 @@ namespace NSC.Service.Services
 {
     public class UserService
     {
-        private UserModel _networkModel;
+        private UserModel _userModel;
+        private UserRoleModel _userRoleModel;
 
         public UserService()
         {
-            _networkModel = new UserModel();
+            _userModel = new UserModel();
+            _userRoleModel = new UserRoleModel();
         }
         public int Update(UserViewModel vm)
         {
@@ -26,7 +28,7 @@ namespace NSC.Service.Services
             {
                 User net = new User();
                 net.UserName = vm.UserName;
-                opStatus = _networkModel.Update(net);
+                opStatus = _userModel.Update(net);
             }
             catch (Exception ex)
             {
@@ -36,14 +38,18 @@ namespace NSC.Service.Services
             }
             return Convert.ToInt16(opStatus);
         }
-        public int Add(UserViewModel vm)
+        public UserViewModel Add(UserViewModel vm)
         {
 
             try
             {
-                User net = new User();
-                net.UserName = vm.UserName;
-                return _networkModel.Add(net);
+                User user = new User();
+                user.UserName = vm.UserName;
+                user.UserPass = vm.UserPass;
+                user.RoleId = _userRoleModel.getDefault().Id;
+                user = _userModel.Add(user);
+                vm.Id = user.Id;
+                return vm;
             }
             catch (Exception ex)
             {
@@ -56,7 +62,7 @@ namespace NSC.Service.Services
         {
             try
             {
-                return _networkModel.Delete(Id);
+                return _userModel.Delete(Id);
             }
             catch (Exception ex)
             {
@@ -69,7 +75,7 @@ namespace NSC.Service.Services
             List<UserViewModel> networkViewModels = new List<UserViewModel>();
             try
             {
-                foreach (User network in _networkModel.GetAll())
+                foreach (User network in _userModel.GetAll())
                 {
 
                     List<DeviceViewModel> deviceViewModels = new List<DeviceViewModel>();

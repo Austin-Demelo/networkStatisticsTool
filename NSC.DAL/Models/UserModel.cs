@@ -47,7 +47,7 @@ namespace NSC.DAL.Models
             return selectedUsers.FirstOrDefault();
         }
 
-        public int Add(User newUser)
+        public User Add(User newUser)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace NSC.DAL.Models
                 Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
                 throw ex;
             }
-            return newUser.Id;
+            return newUser;
         }
 
         public UpdateStatus Update(User updatedUser)

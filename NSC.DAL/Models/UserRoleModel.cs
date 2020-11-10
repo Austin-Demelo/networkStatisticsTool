@@ -47,7 +47,7 @@ namespace NSC.DAL.Models
             return selectedUserRoles.FirstOrDefault();
         }
 
-        public int Add(UserRole newUserRole)
+        public UserRole Add(UserRole newUserRole)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace NSC.DAL.Models
                 Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
                 throw ex;
             }
-            return newUserRole.Id;
+            return newUserRole;
         }
 
         public UpdateStatus Update(UserRole updatedUserRole)
@@ -94,6 +94,25 @@ namespace NSC.DAL.Models
                 throw ex;
             }
             return deletedUserRoles;
+        }
+
+        public UserRole getDefault()
+        {
+            List<UserRole> userRoles = this.GetAll().Where((userRole) => userRole.IsDefault).ToList();
+            if(userRoles.Count == 0)
+            {
+                //Set up default user
+                UserRole defaultUR = new UserRole();
+                defaultUR.RoleName = "Default Role";
+                defaultUR.RoleDescription = "Default Role automatically generated.";
+                defaultUR.IsDefault = true;
+                defaultUR = this.Add(defaultUR);
+                return defaultUR;
+            }
+            else
+            {
+                return userRoles.First();
+            }
         }
     }
 }
