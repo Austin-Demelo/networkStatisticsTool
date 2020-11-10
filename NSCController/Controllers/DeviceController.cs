@@ -1,6 +1,7 @@
 ﻿using NSC.DAL.Database;
 using NSC.DAL.Models;
 using NSC.DAL.ViewModels;
+using NSC.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +15,11 @@ namespace NSCController
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class DeviceController : ApiController
     {
-        private DeviceModel _deviceModel;
+        private DeviceService _deviceService;
 
         public DeviceController()
         {
-            _deviceModel = new DeviceModel();
+            _deviceService = new DeviceService();
         }
 
         [Route("api/devices")]
@@ -26,25 +27,54 @@ namespace NSCController
         {
             try
             {
-                List<DeviceViewModel> deviceViewModels = new List<DeviceViewModel>();
-                foreach (Device device in _deviceModel.GetAll())
-                {
-                    deviceViewModels.Add(new DeviceViewModel()
-                    {
-                        Id = device.Id,
-                        DeviceName = device.DeviceName,
-                        //User = device.User//,
-                        //NetworkInterfaces = device.NetworkInterfaces,
-                        //NetworkStatTests = device.NetworkStatTests
-                    });
-                }
-                return Ok(deviceViewModels);
+                return Ok(_deviceService.GetAll());
             }
             catch (Exception ex)
             {
                 return BadRequest("Retrieve failed - " + ex.Message);
             }
         }
+
+
+        [Route("api/devices")]
+        public IHttpActionResult Post([FromBody] DeviceViewModel device)
+        {
+            try
+            {
+                return Ok(_deviceService.Add(device));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Creation failed - " + ex.Message);
+            }
+        }
+
+        [Route("api/devices")]
+        public IHttpActionResult Put([FromBody] DeviceViewModel device)
+        {
+            try
+            {
+                return Ok(_deviceService.Update(device));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Update failed - " + ex.Message);
+            }
+        }
+
+        [Route("api/devices/{id}")]
+        public IHttpActionResult Delete(int id)
+        {
+            try
+            {
+                return Ok(_deviceService.Delete(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Delete failed - " + ex.Message);
+            }
+        }
+
 
     }
 }

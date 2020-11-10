@@ -27,10 +27,7 @@ namespace NSC.DAL.Database
         /// </summary>
         public int NetworkId { get; set; }
 
-        /// <summary>
-        /// Id of the User the Device is attached to, populated from the current User.
-        /// </summary>
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
 
         /// <summary>
         /// User object of the User the device is atached to, populated from the current User.

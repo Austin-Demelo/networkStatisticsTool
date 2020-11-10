@@ -47,7 +47,7 @@ namespace NSC.DAL.Models
             return selectedDevices.FirstOrDefault();
         }
 
-        public int Add(Device newDevice)
+        public Device Add(Device newDevice)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace NSC.DAL.Models
                 Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
                 throw ex;
             }
-            return newDevice.Id;
+            return newDevice;
         }
 
         public UpdateStatus Update(Device updatedDevice)

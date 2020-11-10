@@ -21,10 +21,10 @@ namespace NSC.Service
             UpdateStatus opStatus = UpdateStatus.Failed;
             try
             {
+
                 Device dev = new Device();
+                dev.Id = vm.Id;
                 dev.DeviceName = vm.DeviceName;
-                dev.NetworkId = vm.NetworkId;
-                dev.UserId = vm.UserId;
                 opStatus = _deviceModel.Update(dev);
             }
             catch (Exception ex)
@@ -35,7 +35,7 @@ namespace NSC.Service
             }
             return Convert.ToInt16(opStatus);
         }
-        public int Add(DeviceViewModel vm)
+        public DeviceViewModel Add(DeviceViewModel vm)
         {
 
             try
@@ -44,7 +44,10 @@ namespace NSC.Service
                 dev.DeviceName = vm.DeviceName;
                 dev.NetworkId = vm.NetworkId;
                 dev.UserId = vm.UserId;
-                return _deviceModel.Add(dev);
+                dev = _deviceModel.Add(dev);
+                //Prepare the VM to be sent back to client
+                vm.Id = dev.Id;
+                return vm;
             }
             catch (Exception ex)
             {

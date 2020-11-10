@@ -1,5 +1,6 @@
 export interface IDevice {
     Id: number;
     DeviceName: string;
-    DeviceUser: string;
+    NetworkId: number;
+    UserId: number;
 }

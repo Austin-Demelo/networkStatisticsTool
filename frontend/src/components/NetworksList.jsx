@@ -3,7 +3,7 @@ import { deleteNetwork, getAllNetworks } from '../redux/modules/networkModule'
 
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import NetworkForm from './NetworkForm'
+import NetworkForm from './Forms/NetworkForm'
 import React from 'react'
 import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
@@ -75,7 +75,7 @@ class NetworkList extends React.Component {
                         >
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>NetworkName</TableCell>
+                                    <TableCell>Network Name</TableCell>
                                     <TableCell>Devices</TableCell>
                                     <TableCell>Actions</TableCell>
                                 </TableRow>
