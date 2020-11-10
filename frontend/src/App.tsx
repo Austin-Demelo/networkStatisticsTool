@@ -11,6 +11,7 @@ import React from "react";
 import Store from "./redux/store";
 import Users from "./components/Users";
 import TeamMembers from "./components/TeamMembers";
+import NetworkProblems from "./components/NetworkProblems";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
               <Route path="/devices" component={DeviceList} />
               <Route path="/users" component={Users} />
               <Route path="/team" component={TeamMembers}/>
+              <Route path="/problems" component={NetworkProblems}/>
           </Switch>
         </div>
         

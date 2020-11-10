@@ -53,6 +53,14 @@ const AppDrawer = props => {
                             <ListItemText primary="Devices" />
                         </ListItem>
                     </MenuItem>
+                    <MenuItem component={Link} to="/problems" onClick={props.closeDrawer}>
+                        <ListItem button>
+                            <ListItemIcon>
+                            <AssignmentIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Network Issues" />
+                        </ListItem>
+                    </MenuItem>
                 </div>
             </List>
             <Divider />
