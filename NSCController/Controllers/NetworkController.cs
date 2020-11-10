@@ -2,15 +2,18 @@
 using NSC.DAL.Models;
 using NSC.DAL.ViewModels;
 using NSC.Service;
+using NSCController.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace NSCController
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class NetworkController : ApiController
     {
         private NetworkService _networkService;
@@ -34,7 +37,7 @@ namespace NSCController
         }
 
         [Route("api/networks")]
-        public IHttpActionResult Post(NetworkViewModel network)
+        public IHttpActionResult Post([FromBody] NetworkViewModel network)
         {
             try
             {
@@ -47,7 +50,7 @@ namespace NSCController
         }
 
         [Route("api/networks")]
-        public IHttpActionResult Put(NetworkViewModel network)
+        public IHttpActionResult Put([FromBody] NetworkViewModel network)
         {
             try
             {

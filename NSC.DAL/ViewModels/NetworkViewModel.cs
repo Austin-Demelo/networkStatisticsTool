@@ -1,4 +1,5 @@
 ﻿using NSC.DAL.Database;
+using System;
 using System.Collections.Generic;
 
 namespace NSC.DAL.ViewModels
@@ -10,16 +11,18 @@ namespace NSC.DAL.ViewModels
         {
             Id = network.Id;
             NetworkName = network.NetworkName;
-            Devices = new List<DeviceViewModel>();
+            Timer = Convert.ToBase64String(network.Timer);
+            Devices = new List<int>();
 
             foreach (Device device in network.Devices)
             {
-                Devices.Add(new DeviceViewModel(device));
+                Devices.Add(device.Id);
             }
         }
 
         public int Id { get; set; }
         public string NetworkName { get; set; }
-        public ICollection<DeviceViewModel> Devices { get; set; }
+        public ICollection<int> Devices { get; set; }
+        public string Timer { get; set; }
     }
 }

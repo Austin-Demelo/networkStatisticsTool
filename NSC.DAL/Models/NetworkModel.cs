@@ -47,7 +47,7 @@ namespace NSC.DAL.Models
             return selectedNetworks.FirstOrDefault();
         }
 
-        public int Add(Network newNetwork)
+        public Network Add(Network newNetwork)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace NSC.DAL.Models
                 Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
                 throw ex;
             }
-            return newNetwork.Id;
+            return newNetwork;
         }
 
         public UpdateStatus Update(Network updatedNetwork)
@@ -93,7 +93,7 @@ namespace NSC.DAL.Models
                 Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
                 throw ex;
             }
-            return deletedNetworks;
+            return id;
         }
     }
 }
