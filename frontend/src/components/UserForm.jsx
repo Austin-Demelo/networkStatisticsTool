@@ -61,7 +61,8 @@ class UserForm extends React.Component {
                 //Update the User
                 user.Id = this.props.editUser.Id;
                 user.UserName = this.props.editUser.UserName;
-                user.RoleId = this.props.editUser.RoleId;
+                user.RoleId = 103;
+                user.Password = "password";
                 this.props.updateUser(user)
                 .then((user) => {
                     this.props.handleClose(); //Passed as argument from UserList

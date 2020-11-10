@@ -33,6 +33,7 @@ namespace NSCController.Controllers
             }
             catch (Exception ex)
             {
+
                 return BadRequest("Retrieve failed - " + ex.Message);
             }
         }
