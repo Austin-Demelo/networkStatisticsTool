@@ -4,7 +4,7 @@ import { deleteNetwork, getAllNetworks } from '../redux/modules/networkModule'
 import {createProblem} from '../redux/modules/problemModule';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import NetworkForm from './NetworkForm'
+import NetworkForm from './Forms/NetworkForm'
 import React from 'react';
 import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
