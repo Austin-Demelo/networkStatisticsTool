@@ -15,11 +15,13 @@ namespace NSC.Service.Services
     {
         private UserModel _userModel;
         private UserRoleModel _userRoleModel;
+        private EmailService _emailService;
 
         public UserService()
         {
             _userModel = new UserModel();
             _userRoleModel = new UserRoleModel();
+            _emailService = new EmailService();
         }
         public int Update(UserViewModel vm)
         {
@@ -58,6 +60,8 @@ namespace NSC.Service.Services
             }
         }
 
+
+
         public int Delete(int Id)
         {
             try
@@ -93,6 +97,55 @@ namespace NSC.Service.Services
             }
 
             return networkViewModels;
+        }
+
+        public async Task<UserViewModel> Register(UserViewModel vm)
+        {
+
+            try
+            {
+                User user = new User();
+                user.UserName = vm.UserName;
+                user.UserPass = vm.UserPass;
+                user.Email = vm.Email;
+                user.RoleId = _userRoleModel.getDefault().Id;
+
+                string ActivateKey = "";
+
+                while(ActivateKey == "")
+                {
+                    //Build ActivationKey for User
+                    ActivateKey += user.UserName.GetHashCode().ToString("X8");
+                    ActivateKey += user.Email.GetHashCode().ToString("X8");
+                    ActivateKey += new DateTime().ToString().GetHashCode().ToString("X8");
+
+                    //Make sure ActivationKey is unique
+                    if(_userModel.GetByConfirmationKey(ActivateKey) != null)
+                    {
+                        ActivateKey = "";
+                    }
+                }
+
+                string ConfirmationBody = $"<a href=\"{NSCResources.ClientURL}/activateAccount/{ActivateKey}\">Click here to Activate your NSC account</a>";
+
+                await _emailService.SendEmail(
+                    "Activate your NSC Account",
+                    ConfirmationBody,
+                    user.Email,
+                    "chrisaklomp@gmail.com"
+                );
+
+                user.ActivationKey = ActivateKey;
+
+                user = _userModel.Add(user);
+                vm.Id = user.Id;
+                return vm;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
+                throw ex;
+            }
         }
     }
 }

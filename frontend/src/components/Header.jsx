@@ -1,20 +1,40 @@
-import { AppBar, Badge, IconButton, Toolbar, Typography } from "@material-ui/core";
+import { AppBar, Badge, IconButton, Menu, MenuItem, Toolbar, Typography } from "@material-ui/core";
 import React, { useState } from "react";
 
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AppDrawer from "../styles/AppDrawer";
 import MenuIcon from '@material-ui/icons/Menu';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import clsx from 'clsx';
 import headerStyles from '../styles/HeaderStyles';
+import { useHistory } from "react-router-dom";
 
+//The Header component is the only component (so far) to use
+//Functional Programming
+//Please do not use this as template for new components
 const Header = () => {
     const [open, setOpen] = useState(false);
+    const [anchorLoc, setAnchorLoc] = useState(null);
+    const history = useHistory();
     const handleDrawerOpen = () => {
         setOpen(true);
     };
     
     const handleDrawerClose = () => {
         setOpen(false);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorLoc(null);
+    };
+
+    const handleMenuOpen = (event) => {
+        
+        setAnchorLoc(event.currentTarget);
+        
+    };
+
+    const redirectRouter = (redirect) => {
+        history.push(`/${redirect}`);
     };
 
     return (
@@ -33,11 +53,26 @@ const Header = () => {
                 <Typography component="h1" variant="h6" color="inherit" noWrap className={headerStyles.title}>
                     Dashboard
                 </Typography>
-                <IconButton color="inherit">
+                <IconButton 
+                    color="inherit"
+                    style = {{marginLeft: '80%'}}
+                    onClick={handleMenuOpen}
+                >
                     <Badge color="secondary">
-                    <NotificationsIcon />
+                    <AccountCircleIcon />
                     </Badge>
                 </IconButton>
+                <Menu
+                    id="account-menu"
+                    anchorEl={anchorLoc}
+                    keepMounted
+                    open={Boolean(anchorLoc)}
+                    onClose={handleMenuClose}
+                    >
+                    <MenuItem onClick={() => redirectRouter('login')}>Login</MenuItem>
+                    <MenuItem onClick={() => redirectRouter('register')}>Register</MenuItem>
+                    <MenuItem onClick={() => redirectRouter('logout')}>Logout</MenuItem>
+                    </Menu>
                 </Toolbar>
             </AppBar>
             <AppDrawer 

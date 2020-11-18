@@ -23,7 +23,7 @@ const UserActions = {
 export function getAllUsers(): AppThunkAction<Promise<IUser[] | undefined>> {
   return async (dispatch, getState) => {
    try{
-    let users: IUser[] = await http<IUser[]>("http://localhost:52288/api/team");
+    let users: IUser[] = await http<IUser[]>("http://localhost:52288/api/user");
     dispatch({type: UserActions.GET_ALL_USERS, payload: users});
     return users;
   }catch(error){
@@ -35,7 +35,20 @@ export function getAllUsers(): AppThunkAction<Promise<IUser[] | undefined>> {
 export function createUser(addUser:IUser): AppThunkAction<Promise<IUser | undefined>>{
   return async (dispatch, getState) => {
     try {
-       let user: IUser = await http<IUser>("http://localhost:52288/api/team", HttpMethod.POST, JSON.stringify(addUser));
+       let user: IUser = await http<IUser>("http://localhost:52288/api/user", HttpMethod.POST, JSON.stringify(addUser));
+       dispatch({ type: UserActions.POST_USER, payload: user });
+       return user;
+    } catch(error){
+      //TO-DO, Add Error to user State
+      console.log(error);
+    }
+   };
+} 
+
+export function registerUser(addUser:IUser): AppThunkAction<Promise<IUser | undefined>>{
+  return async (dispatch, getState) => {
+    try {
+       let user: IUser = await http<IUser>("http://localhost:52288/api/user/register", HttpMethod.POST, JSON.stringify(addUser));
        dispatch({ type: UserActions.POST_USER, payload: user });
        return user;
     } catch(error){
@@ -49,7 +62,7 @@ export function updateUser(updateUser:IUser): AppThunkAction<Promise<IUser | und
   return async (dispatch, getState) => {
     try {
       // Must send "stringified" JSON to server
-       const updateStatus: UpdateStatus = await http<UpdateStatus>(`http://localhost:52288/api/team`, HttpMethod.PUT, JSON.stringify(updateUser));
+       const updateStatus: UpdateStatus = await http<UpdateStatus>(`http://localhost:52288/api/user`, HttpMethod.PUT, JSON.stringify(updateUser));
        if(updateStatus === UpdateStatus.Ok) {
           // If the update status is good, then push to store
           dispatch({ type: UserActions.PUT_USER, payload: updateUser });
@@ -68,7 +81,7 @@ export function deleteUser(userId: number): AppThunkAction<Promise<number | unde
   return async (dispatch, getState) => {
     try {
       // Must send "stringified" JSON to server
-       const deleteId: number = await http<UpdateStatus>(`http://localhost:52288/api/team/${userId}`, HttpMethod.DELETE);
+       const deleteId: number = await http<UpdateStatus>(`http://localhost:52288/api/user/${userId}`, HttpMethod.DELETE);
        console.log(deleteId);
        if(deleteId === userId) {
           // If the update status is good, then push to store
