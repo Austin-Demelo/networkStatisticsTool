@@ -1,5 +1,6 @@
 namespace NSC.DAL.Database
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -33,5 +34,15 @@ namespace NSC.DAL.Database
         public virtual ICollection<NetworkUser> NetworkUsers1 { get; set; }
 
         public virtual UserRole UserRole { get; set; }
+
+        [StringLength(40)]
+        [System.ComponentModel.DefaultValue("")]
+        public string ActivationKey { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime? ActivationDate { get; set; }
+
+        [StringLength(40)]
+        public string Email { get; set; }
     }
 }

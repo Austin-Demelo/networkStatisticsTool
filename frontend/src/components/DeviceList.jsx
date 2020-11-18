@@ -1,12 +1,12 @@
-import {Button, IconButton, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@material-ui/core'
-import { getAllDevices, deleteDevice } from '../redux/modules/deviceModule'
-import { getAllNetworks } from '../redux/modules/networkModule'
+import {Button, CircularProgress, IconButton, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@material-ui/core'
+import { deleteDevice, getAllDevices } from '../redux/modules/deviceModule'
 
 import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
 import DeviceForm from './Forms/DeviceForm'
+import EditIcon from '@material-ui/icons/Edit';
 import React from 'react'
 import { connect } from 'react-redux'
+import { getAllNetworks } from '../redux/modules/networkModule'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles({
@@ -62,6 +62,10 @@ class DeviceList extends React.Component {
   
     render() {
         return (
+            this.props.networkList.length === 0 || !this.props.deviceList.length === 0 
+            ? 
+            <CircularProgress></CircularProgress>
+            :
             <div>
             <div style={{ maxWidth: '500px', padding:"10px" }}>
                

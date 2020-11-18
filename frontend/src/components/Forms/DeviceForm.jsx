@@ -4,15 +4,15 @@ import {
     getAllDevices,
     updateDevice,
 } from '../../redux/modules/deviceModule'
-import { getAllNetworks } from '../../redux/modules/networkModule'
-import MenuItem from '@material-ui/core/MenuItem'
-import FormHelperText from '@material-ui/core/FormHelperText'
+
 import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
-import { makeStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@material-ui/core/MenuItem'
 import React from 'react'
+import Select from '@material-ui/core/Select'
 import { connect } from 'react-redux'
+import { getAllNetworks } from '../../redux/modules/networkModule'
+import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -101,7 +101,12 @@ class DeviceForm extends React.Component {
     }
 
     render() {
+        console.log(this.props.deviceList.length);
+        console.log(this.props.deviceList.length);
+
         return (
+            
+            
             <div
                 style={{
                     maxWidth: '500px',
@@ -162,6 +167,7 @@ class DeviceForm extends React.Component {
                     </CardContent>
                 </Card>
             </div>
+            
         )
     }
 }

@@ -1,9 +1,7 @@
 import { Button, Card, CardContent, IconButton, Input, InputAdornment, TextField } from "@material-ui/core/";
-import { createUser, getAllUsers, updateUser } from '../redux/modules/userModule'
+import { createUser, getAllUsers, registerUser, updateUser } from '../redux/modules/userModule'
 
 import React from 'react'
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { connect } from 'react-redux'
 
 class UserForm extends React.Component {
@@ -13,7 +11,8 @@ class UserForm extends React.Component {
             formData: {
                 UserName: '',
                 UserPass: '',
-                showPassword: 'password',
+                Email: '',
+                
             },
             //Through validateFields(), will populate field value (Ex UserName) from formData, with error message string
             //EX fromValidation: { UserName: 'This field is required' }
@@ -52,6 +51,11 @@ class UserForm extends React.Component {
                             updatedValidation[field] = "This field is required"
                         }
                         break;
+                    case 'Email':
+                    if (!value) {
+                        updatedValidation[field] = "This field is required"
+                    }
+                    break;
                     default:
                     // code block
                 }
@@ -79,10 +83,23 @@ class UserForm extends React.Component {
             }
             else {
                 //Add the User
-                this.props.createUser(user)
+                if(this.props.register) {
+                    this.props.registerUser(user)
                     .then((user) => {
-                        this.props.handleClose(); //Passed as argument from UserList
+                        if(this.props.handleClose) {
+                            this.props.handleClose(); //Passed as argument from UserList
+                        }
                     });
+                }
+                else {
+                    this.props.createUser(user)
+                    .then((user) => {
+                        if(this.props.handleClose) {
+                            this.props.handleClose(); //Passed as argument from UserList
+                        }
+                    });
+                }
+                
             }
         }
 
@@ -106,11 +123,20 @@ class UserForm extends React.Component {
                     <TextField
                         onChange={(e) => this.setState({ formData: { ...this.state.formData, UserPass: e.target.value } })}
                         placeholder="Password"
-                        type={this.state.showPassword ? 'text' : 'password'}
                         value={this.state.formData.UserPass || ''}
                         error={!!this.state.formValidation.UserPass}
                         helperText={this.state.formValidation.UserPass || ''}
                         label="Password"
+                        type='password'
+                        style={{ display: 'block', width: 300 }}
+                    />
+                    <TextField
+                        onChange={(e) => this.setState({ formData: { ...this.state.formData, Email: e.target.value } })}
+                        placeholder="Email"
+                        value={this.state.formData.Email || ''}
+                        error={!!this.state.formValidation.Email}
+                        helperText={this.state.formValidation.Email || ''}
+                        label="Email"
                         style={{ display: 'block', width: 300 }}
                     />
                     <Button color="primary" onClick={this.onFormSubmit}>
@@ -133,6 +159,8 @@ function mapDispatchToProps(dispatch) {
         getAllUsers: () => dispatch(getAllUsers()),
         createUser: (user) => dispatch(createUser(user)),
         updateUser: (user) => dispatch(updateUser(user)),
+        registerUser: (user) => dispatch(registerUser(user)),
+        
     }
 }
 // Must have {forwardRef: true} if passing args from parent

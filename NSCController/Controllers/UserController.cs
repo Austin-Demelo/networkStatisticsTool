@@ -24,7 +24,7 @@ namespace NSCController.Controllers
             _userService = new UserService();
         }
 
-        [Route("api/team")]
+        [Route("api/user")]
         public IHttpActionResult GetAll()
         {
             try
@@ -38,7 +38,7 @@ namespace NSCController.Controllers
             }
         }
 
-        [Route("api/team")]
+        [Route("api/user")]
         public IHttpActionResult Post([FromBody] UserViewModel user)
         {
             try
@@ -50,8 +50,21 @@ namespace NSCController.Controllers
                 return BadRequest("Creation failed - " + ex.Message);
             }
         }
+        [HttpPost]
+        [Route("api/user/register")]
+        public IHttpActionResult Register([FromBody] UserViewModel user)
+        {
+            try
+            {
+                return Ok(_userService.Register(user));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Creation failed - " + ex.Message);
+            }
+        }
 
-        [Route("api/team")]
+        [Route("api/user")]
         public IHttpActionResult Put([FromBody] UserViewModel user)
         {
             try
@@ -64,7 +77,7 @@ namespace NSCController.Controllers
             }
         }
 
-        [Route("api/team/{id}")]
+        [Route("api/user/{id}")]
         public IHttpActionResult Delete(int id)
         {
             try

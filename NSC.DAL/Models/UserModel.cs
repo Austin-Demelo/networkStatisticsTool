@@ -47,6 +47,21 @@ namespace NSC.DAL.Models
             return selectedUsers.FirstOrDefault();
         }
 
+        public User GetByConfirmationKey(string key)
+        {
+            List<User> selectedUsers = null;
+            try
+            {
+                selectedUsers = _repo.GetByExpression(user => user.ActivationKey == key);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
+                throw ex;
+            }
+            return selectedUsers.FirstOrDefault();
+        }
+
         public User Add(User newUser)
         {
             try

@@ -10,6 +10,7 @@ namespace NSC.DAL.ViewModels
             Id = user.Id;
             UserName = user.UserName;
             UserRole = new UserRoleViewModel(user.UserRole);
+            
         }
 
         public int Id { get; set; }
@@ -17,5 +18,6 @@ namespace NSC.DAL.ViewModels
 
         public string UserPass { get; set; }
         public UserRoleViewModel UserRole { get; set; }
+        public string Email { get; set; }
     }
 }
