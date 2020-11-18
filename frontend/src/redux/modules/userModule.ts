@@ -96,6 +96,18 @@ export function deleteUser(userId: number): AppThunkAction<Promise<number | unde
    };
 }
 
+export function getUserByActivationKey(key: string): AppThunkAction<Promise<IUser | undefined>>{
+  return async (dispatch, getState) => {
+    try {
+      // Must send "stringified" JSON to server
+       return await http<IUser>(`http://localhost:52288/api/user/key/${userId}`);
+    } catch(error){
+      //TO-DO, Add Error to User State
+      console.log(error);
+    }
+   };
+}
+
 export function login(username: string, password: string): AppThunkAction<Promise<ILoginPayload>> { //AppThunkAction<Promise<ILoginPayload>> {
   return async (dispatch, getState) => {
     try { 
