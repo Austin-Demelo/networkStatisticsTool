@@ -74,7 +74,7 @@ namespace NSC.Service
             NetworkStatTestViewModel networkStatTestModel = new NetworkStatTestViewModel();
             foreach(NetworkStatTest networkstattest in _networkStatTestModel.GetAll())
             {
-                if(networkstattest.Id == id)
+                if(networkstattest.DeviceId == id)
                 {
                     networkStatTestModel.DeviceId = networkstattest.DeviceId;
                     networkStatTestModel.TestRunTime = networkstattest.TestRunTime;

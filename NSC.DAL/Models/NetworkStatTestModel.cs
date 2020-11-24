@@ -37,7 +37,7 @@ namespace NSC.DAL.Models
             List<NetworkStatTest> selectedNetworkStatTests = null;
             try
             {
-                selectedNetworkStatTests = _repo.GetByExpression(networkStatTest => networkStatTest.Id == id);
+                selectedNetworkStatTests = _repo.GetByExpression(networkStatTest => networkStatTest.DeviceId == id);
             }
             catch (Exception ex)
             {
