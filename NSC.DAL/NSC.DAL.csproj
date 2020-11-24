@@ -60,6 +60,7 @@
     <Compile Include="Database\Device.cs" />
     <Compile Include="Database\Network.cs" />
     <Compile Include="Database\NetworkInterface.cs" />
+    <Compile Include="Database\NetworkProblem.cs" />
     <Compile Include="Database\NetworkStatTest.cs" />
     <Compile Include="Database\NetworkUser.cs" />
     <Compile Include="Database\NSCContext.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Models\DeviceModel.cs" />
     <Compile Include="Models\NetworkInterfaceModel.cs" />
     <Compile Include="Models\NetworkModel.cs" />
+    <Compile Include="Models\NetworkProblemModel.cs" />
     <Compile Include="Models\NetworkStatTestModel.cs" />
     <Compile Include="Models\NetworkUserModel.cs" />
     <Compile Include="Models\SpeedTestServerModel.cs" />
@@ -82,6 +84,7 @@
     <Compile Include="Repository\UpdateStatus.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\NetworkInterfaceViewModel.cs" />
+    <Compile Include="ViewModels\NetworkProblemViewModel.cs" />
     <Compile Include="ViewModels\NetworkStatTestViewModel.cs" />
     <Compile Include="ViewModels\NetworkViewModel.cs" />
     <Compile Include="ViewModels\SpeedTestServerViewModel.cs" />

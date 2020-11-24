@@ -51,8 +51,10 @@
     <Compile Include="NSCResources.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\DeviceService.cs" />
+    <Compile Include="Services\NetworkProblemService.cs" />
     <Compile Include="Services\NetworkService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\NetworkStatTestService.cs" />
     <Compile Include="Services\SpeedTestService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>

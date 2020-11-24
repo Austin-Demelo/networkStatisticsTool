@@ -5,6 +5,9 @@ namespace NSC.DAL.ViewModels
 {
     public class NetworkStatTestViewModel
     {
+        private const int BYTES_PER_MEGABIT = 125000;
+        private const int MILLISECONDS_PER_SECONDS = 1000;
+
         public NetworkStatTestViewModel() { }
         public NetworkStatTestViewModel(NetworkStatTest networkStatTest)
         {
@@ -21,7 +24,7 @@ namespace NSC.DAL.ViewModels
             UploadElapsed = networkStatTest.UploadElapsed;
             PacketLoss = networkStatTest.PacketLoss;
             ISP = networkStatTest.ISP;
-            ActiveURL = networkStatTest.ActiveVPN;
+            ActiveVPN = networkStatTest.ActiveVPN;
             ResultId = networkStatTest.ResultId;
             ResultURL = networkStatTest.ResultURL;
             Device = new DeviceViewModel(networkStatTest.Device);
@@ -42,11 +45,31 @@ namespace NSC.DAL.ViewModels
         public int? UploadElapsed { get; set; }
         public decimal? PacketLoss { get; set; }
         public string ISP { get; set; }
-        public bool? ActiveURL { get; set; }
+        public bool? ActiveVPN { get; set; }
         public string ResultId { get; set; }
         public string ResultURL { get; set; }
         public DeviceViewModel Device { get; set; }
         public NetworkInterfaceViewModel NetworkInterface { get; set; }
         public SpeedTestServerViewModel SpeedTestServer { get; set; }
+
+        //public decimal DownloadSpeedInMegabitsPerSecond
+        //{
+        //    get
+        //    {
+        //        // convert speed in bytes to megabits
+        //        // divide by time elapsed converted from milliseconds to seconds
+        //        return Math.Round((decimal)((int)DownloadSpeed / BYTES_PER_MEGABIT) / ((int)DownloadElapsed / MILLISECONDS_PER_SECONDS), 2);
+        //    }
+        //}
+
+        //public decimal UploadSpeedInMegabitsPerSecond
+        //{
+        //    get
+        //    {
+        //        // convert speed in bytes to megabits
+        //        // divide by time elapsed converted from milliseconds to seconds
+        //        return Math.Round((decimal)((int)UploadSpeed / BYTES_PER_MEGABIT) / ((int)UploadElapsed / MILLISECONDS_PER_SECONDS), 2);
+        //    }
+        //}
     }
 }
