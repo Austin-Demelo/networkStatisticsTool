@@ -64,6 +64,20 @@ namespace NSCController.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/user/key/{key}")]
+        public IHttpActionResult ValidateUser(string key)
+        {
+            try
+            {
+                return Ok(_userService.ValidateUser(key));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Creation failed - " + ex.Message);
+            }
+        }
+
         [Route("api/user")]
         public IHttpActionResult Put([FromBody] UserViewModel user)
         {

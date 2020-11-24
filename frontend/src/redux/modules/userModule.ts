@@ -99,8 +99,8 @@ export function deleteUser(userId: number): AppThunkAction<Promise<number | unde
 export function getUserByActivationKey(key: string): AppThunkAction<Promise<IUser | undefined>>{
   return async (dispatch, getState) => {
     try {
-      // Must send "stringified" JSON to server
-       return await http<IUser>(`http://localhost:52288/api/user/key/${userId}`);
+        console.log(key);
+       return await http<IUser>(`http://localhost:52288/api/user/key/${key}`);
     } catch(error){
       //TO-DO, Add Error to User State
       console.log(error);

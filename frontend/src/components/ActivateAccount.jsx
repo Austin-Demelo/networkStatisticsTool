@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { getUserByActivationKey } from '../redux/modules/userModule';
 
 class ActivateAccount extends React.Component {
     constructor(props) {
@@ -10,10 +11,19 @@ class ActivateAccount extends React.Component {
             user: undefined
         }
     }
-  
+    componentDidMount() {
+        console.log(this.state.key)
+        this.props.getUserByActivationKey(this.state.key)
+        .then((user) => {
+            this.setState({
+                user: user
+            });
+        })
+    }
     render() {
         return (
-            <div>{this.state.key}
+            <div>{JSON.stringify(this.state.key)}
+                {JSON.stringify(this.state.user)}
             </div>
         )
     }
@@ -27,7 +37,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-
+        getUserByActivationKey: (key) => dispatch(getUserByActivationKey(key)),
     }
 }
 

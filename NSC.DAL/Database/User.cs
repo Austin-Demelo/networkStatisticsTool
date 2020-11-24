@@ -13,6 +13,14 @@ namespace NSC.DAL.Database
             NetworkUsers = new HashSet<NetworkUser>();
             NetworkUsers1 = new HashSet<NetworkUser>();
         }
+        public User(ViewModels.UserViewModel userVM)
+        {
+            Id = userVM.Id;
+            UserName = userVM.UserName;
+            UserPass = userVM.UserPass;
+            Email = userVM.Email;
+            ActivationDate = userVM.ActivationDate;
+        }
 
         [Required]
         [StringLength(255)]
