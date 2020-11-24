@@ -11,25 +11,29 @@ namespace NSC.DAL.ViewModels
         public NetworkStatTestViewModel() { }
         public NetworkStatTestViewModel(NetworkStatTest networkStatTest)
         {
-            DeviceId = networkStatTest.DeviceId;
-            TestRunTime = networkStatTest.TestRunTime;
-            TestStatus = networkStatTest.TestStatus;
-            Jitter = networkStatTest.Jitter;
-            Latency = networkStatTest.Latency;
-            DownloadBandwidth = networkStatTest.DownloadBandwidth;
-            DownloadSpeed = networkStatTest.DownloadSpeed;
-            DownloadElapsed = networkStatTest.DownloadElapsed;
-            UploadBandwidth = networkStatTest.UploadBandwidth;
-            UploadSpeed = networkStatTest.UploadSpeed;
-            UploadElapsed = networkStatTest.UploadElapsed;
-            PacketLoss = networkStatTest.PacketLoss;
-            ISP = networkStatTest.ISP;
-            ActiveVPN = networkStatTest.ActiveVPN;
-            ResultId = networkStatTest.ResultId;
-            ResultURL = networkStatTest.ResultURL;
-            Device = new DeviceViewModel(networkStatTest.Device);
-            NetworkInterface = new NetworkInterfaceViewModel(networkStatTest.NetworkInterface);
-            SpeedTestServer = new SpeedTestServerViewModel(networkStatTest.SpeedTestServer);
+            if(networkStatTest != null)
+            {
+                DeviceId = networkStatTest.DeviceId;
+                TestRunTime = networkStatTest.TestRunTime;
+                TestStatus = networkStatTest.TestStatus;
+                Jitter = networkStatTest.Jitter;
+                Latency = networkStatTest.Latency;
+                DownloadBandwidth = networkStatTest.DownloadBandwidth;
+                DownloadSpeed = networkStatTest.DownloadSpeed;
+                DownloadElapsed = networkStatTest.DownloadElapsed;
+                UploadBandwidth = networkStatTest.UploadBandwidth;
+                UploadSpeed = networkStatTest.UploadSpeed;
+                UploadElapsed = networkStatTest.UploadElapsed;
+                PacketLoss = networkStatTest.PacketLoss;
+                ISP = networkStatTest.ISP;
+                ActiveVPN = networkStatTest.ActiveVPN;
+                ResultId = networkStatTest.ResultId;
+                ResultURL = networkStatTest.ResultURL;
+                //Device = new DeviceViewModel(networkStatTest.Device);
+                //NetworkInterface = new NetworkInterfaceViewModel(networkStatTest.NetworkInterface);
+                //SpeedTestServer = new SpeedTestServerViewModel(networkStatTest.SpeedTestServer);
+            }
+            
         }
 
         public int DeviceId { get; set; }

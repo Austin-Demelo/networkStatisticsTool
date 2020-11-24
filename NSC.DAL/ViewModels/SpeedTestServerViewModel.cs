@@ -7,13 +7,17 @@ namespace NSC.DAL.ViewModels
         public SpeedTestServerViewModel() { }
         public SpeedTestServerViewModel(SpeedTestServer speedTestServer)
         {
-            ServerId = speedTestServer.ServerId;
-            ServerName = speedTestServer.ServerName;
-            ServerLocation = speedTestServer.ServerLocation;
-            ServerCountry = speedTestServer.ServerCountry;
-            ServerHost = speedTestServer.ServerHost;
-            ServerIP = speedTestServer.ServerIP;
-            ServerPort = speedTestServer.ServerPort;
+            if(speedTestServer != null)
+            {
+
+                ServerId = speedTestServer.ServerId;
+                ServerName = speedTestServer.ServerName;
+                ServerLocation = speedTestServer.ServerLocation;
+                ServerCountry = speedTestServer.ServerCountry;
+                ServerHost = speedTestServer.ServerHost;
+                ServerIP = speedTestServer.ServerIP;
+                ServerPort = speedTestServer.ServerPort;
+            }
         }
 
         public int? ServerId { get; set; }

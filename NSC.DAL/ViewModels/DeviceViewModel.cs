@@ -17,18 +17,18 @@ namespace NSC.DAL.ViewModels
                 NetworkId = device.NetworkId;
                 Timer = Convert.ToBase64String(device.Timer);
                 UserId = device.UserId;
-                if(device.User != null)
+                if (device.User != null)
                 {
-                    DeviceUser =   new UserViewModel(device.User);
+                    DeviceUser = new UserViewModel(device.User);
                 }
-                foreach (NetworkInterface networkInterface in device.NetworkInterfaces)
-                {
-                    NetworkInterfaces.Add(new NetworkInterfaceViewModel(networkInterface));
-                }
-                foreach (NetworkStatTest networkStatTest in device.NetworkStatTests)
-                {
-                    NetworkStatTests.Add(new NetworkStatTestViewModel(networkStatTest));
-                }
+                //foreach (NetworkInterface networkInterface in device.NetworkInterfaces)
+                //{
+                //    NetworkInterfaces.Add(new NetworkInterfaceViewModel(networkInterface));
+                //}
+                //foreach (NetworkStatTest networkStatTest in device.NetworkStatTests)
+                //{
+                //    NetworkStatTests.Add(new NetworkStatTestViewModel(networkStatTest));
+                //}
             }
             else
             {
