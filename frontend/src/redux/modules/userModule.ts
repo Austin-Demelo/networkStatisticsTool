@@ -96,7 +96,7 @@ export function deleteUser(userId: number): AppThunkAction<Promise<number | unde
    };
 }
 
-export function getUserByActivationKey(key: string): AppThunkAction<Promise<IUser | undefined>>{
+export function validateUser(key: string): AppThunkAction<Promise<IUser | undefined>>{
   return async (dispatch, getState) => {
     try {
         console.log(key);

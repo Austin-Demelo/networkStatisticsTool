@@ -32,9 +32,11 @@ class ActivateAccount extends React.Component {
                     <div>This is an invalid activation link</div>
                 :
                     
-                }
+                <div> 
                 {JSON.stringify(this.state.key)}
                 {JSON.stringify(this.state.user)}
+                </div>
+                }
             </div>
         )
     }
