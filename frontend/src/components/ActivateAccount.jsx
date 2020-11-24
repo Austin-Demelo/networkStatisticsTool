@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { validateUser } from '../redux/modules/userModule';
 
 class ActivateAccount extends React.Component {
     constructor(props) {
@@ -7,13 +8,33 @@ class ActivateAccount extends React.Component {
         console.log(props);
         this.state = {
             key: props.match.params.key,
-            user: undefined
+            user: undefined,
+            validated: false
         }
     }
-  
+    componentDidMount() {
+        this.props.validateUser(this.state.key)
+        .then((user) => {
+            this.setState({
+                user: user
+            },
+            (state) => {
+
+            }
+            );
+        })
+    }
     render() {
         return (
-            <div>{this.state.key}
+            <div>
+                {!this.state.user 
+                ?
+                    <div>This is an invalid activation link</div>
+                :
+                    
+                }
+                {JSON.stringify(this.state.key)}
+                {JSON.stringify(this.state.user)}
             </div>
         )
     }
@@ -27,7 +48,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-
+        validateUser: (key) => dispatch(validateUser(key)),
     }
 }
 

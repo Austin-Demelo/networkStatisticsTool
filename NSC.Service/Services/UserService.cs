@@ -2,6 +2,7 @@
 using NSC.DAL.Models;
 using NSC.DAL.Repository;
 using NSC.DAL.ViewModels;
+using SendGrid;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,6 +59,39 @@ namespace NSC.Service.Services
                 Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
                 throw ex;
             }
+        }
+
+        public User GetByActivationKey(string ActivateKey)
+        {
+            try
+            {
+                return _userModel.GetByConfirmationKey(ActivateKey);
+                
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
+                throw ex;
+            }
+        }
+
+        public UserViewModel ValidateUser(string ActivateKey)
+        {
+            UserViewModel userVM = null;
+            try
+            {
+                User user = GetByActivationKey(ActivateKey);
+                userVM.ActivationDate = DateTime.Now;
+                user.ActivationDate = userVM.ActivationDate;
+                _userModel.Update(user);
+            }
+            catch (Exception ex)
+            {
+                //Compiler figures out the method name using the System.Reflection library
+                Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
+
+            }
+            return userVM;
         }
 
 
@@ -128,12 +162,18 @@ namespace NSC.Service.Services
 
                 string ConfirmationBody = $"<a href=\"{NSCResources.ClientURL}/activateAccount/{ActivateKey}\">Click here to Activate your NSC account</a>";
 
-                await _emailService.SendEmail(
+
+                Task<Task> task = new Task<Task>(async () =>
+                {
+                    await _emailService.SendEmail(
                     "Activate your NSC Account",
                     ConfirmationBody,
                     user.Email,
                     "chrisaklomp@gmail.com"
                 );
+                });
+                task.Start();
+                task.Result.Wait();
 
                 user.ActivationKey = ActivateKey;
 

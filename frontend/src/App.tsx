@@ -15,6 +15,7 @@ import RegisterPage from "./components/RegisterPage";
 import Store from "./redux/store";
 import TeamMembers from "./components/TeamMembers";
 import Users from "./components/Users";
+import NetworkStats from "./components/NetworkStats";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
               <Route path="/problems" component={NetworkProblems}/>
               <Route path="/login" component={LoginPage}/>
               <Route path="/register" component={RegisterPage}/>
+              <Route path="/networkstats/" component={NetworkStats}/>
               <Route path="/activateAccount/:key" component={ActivateAccount}/>
           </Switch>
         </div>
