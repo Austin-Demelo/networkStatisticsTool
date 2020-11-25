@@ -29,8 +29,8 @@ namespace NSC.Service
             }
             catch (Exception ex)
             {
-                //Compiler figures out the method name using the System.Reflection library
                 Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
+                throw ex;
 
             }
             return Convert.ToInt16(opStatus);
@@ -75,15 +75,6 @@ namespace NSC.Service
             {
                 foreach (Network network in _networkModel.GetAll())
                 {
-
-                    //List<DeviceViewModel> deviceViewModels = new List<DeviceViewModel>();
-                    //foreach (Device device in network.Devices)
-                    //{
-                    //    if(device != null)
-                    //    {
-                    //        deviceViewModels.Add(new DeviceViewModel(device));
-                    //    }
-                    //}
                     networkViewModels.Add(new NetworkViewModel(network));
                 }
             }

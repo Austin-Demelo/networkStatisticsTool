@@ -11,85 +11,35 @@ namespace NSC.Service
     {
         private NSCContext _ctx;
         private NetworkStatTestModel _networkStatTestModel;
-        //private NetworkInterfaceModel _networkInterfaceModel;
-        //private SpeedTestServerModel _speedTestServerModel;
-
         private SpeedTestService _speedTestService;
 
         public NetworkStatTestService()
         {
             _ctx = new NSCContext();
             _networkStatTestModel = new NetworkStatTestModel(_ctx);
-            //_networkInterfaceModel = new NetworkInterfaceModel();
-            //_speedTestServerModel = new SpeedTestServerModel();
-
         }
 
         public NetworkStatTestViewModel RunSpeedTest(int clientDeviceId)
         {
-            _speedTestService = new SpeedTestService(clientDeviceId, _ctx);
-            NetworkStatTest networkStatTest = _speedTestService.RunNetworkStatTest();
+            NetworkStatTest networkStatTest;
+            NetworkStatTestViewModel networkStatTestViewModel;
+            try
+            {
+                _speedTestService = new SpeedTestService(clientDeviceId, _ctx);
+                networkStatTest = _speedTestService.RunNetworkStatTest();
 
-            _networkStatTestModel.Add(networkStatTest);
+                _networkStatTestModel.Add(networkStatTest);
 
+                networkStatTestViewModel = new NetworkStatTestViewModel(networkStatTest);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
+                throw ex;
+            }
 
-
-            NetworkStatTestViewModel networkStatTestViewModel = new NetworkStatTestViewModel(networkStatTest);
             return networkStatTestViewModel;
         }
-
-
-        //public void LoopSpeedTester(int clientDeviceId, int testInterval)
-        //{
-
-        //    try
-        //    {
-        //        TimeSpan startTimeSpan = TimeSpan.Zero;
-        //        TimeSpan periodTimeSpan = TimeSpan.FromMinutes(testInterval);
-
-        //        var timer = new System.Threading.Timer((e) =>
-        //        {
-        //            _networkStatTestModel.Add(_speedTestService.RunNetworkStatTest());
-        //        }, null, startTimeSpan, periodTimeSpan);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
-        //    }
-        //}
-
-        //public int Update(NetworkStatTestViewModel vm)
-        //{
-        //    UpdateStatus opStatus = UpdateStatus.Failed;
-        //    try
-        //    {
-        //        NetworkStatTest netstat = new NetworkStatTest();
-        //        netstat.DeviceId = vm.DeviceId;
-        //        netstat.TestRunTime = vm.TestRunTime;
-        //        netstat.TestStatus = vm.TestStatus;
-        //        netstat.Jitter = vm.Jitter;
-        //        netstat.Latency = vm.Latency;
-        //        netstat.DownloadBandwidth = vm.DownloadBandwidth;
-        //        netstat.DownloadSpeed = vm.DownloadSpeed;
-        //        netstat.DownloadElapsed = vm.DownloadElapsed;
-        //        netstat.UploadBandwidth = vm.UploadBandwidth;
-        //        netstat.UploadSpeed = vm.UploadSpeed;
-        //        netstat.UploadElapsed = vm.UploadElapsed;
-        //        netstat.PacketLoss = vm.PacketLoss;
-        //        netstat.ISP = vm.ISP;
-        //        netstat.NetworkInterface = _networkInterfaceModel.GetByInterfaceId(vm.NetworkInterface.InterfaceId);
-        //        netstat.SpeedTestServer = _speedTestServerModel.GetByServerId(vm.SpeedTestServer.ServerId ?? 0);
-        //        netstat.ActiveVPN = vm.ActiveVPN;
-        //        netstat.ResultId = vm.ResultId;
-        //        netstat.ResultURL = vm.ResultURL;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
-
-        //    }
-        //    return Convert.ToInt16(opStatus);
-        //}
 
         public List<NetworkStatTestViewModel> GetAll()
         {
@@ -108,46 +58,24 @@ namespace NSC.Service
             }
             return networkStatTestModels;
         }
-        public NetworkStatTestViewModel GetById(int id)
-        {
-            NetworkStatTestViewModel networkStatTestModel = new NetworkStatTestViewModel();
-            foreach (NetworkStatTest networkstattest in _networkStatTestModel.GetAll())
-            {
-                if (networkstattest.DeviceId == id)
-                {
-                    networkStatTestModel.DeviceId = networkstattest.DeviceId;
-                    networkStatTestModel.TestRunTime = networkstattest.TestRunTime;
-                    networkStatTestModel.TestStatus = networkstattest.TestStatus;
-                    networkStatTestModel.Jitter = networkstattest.Jitter;
-                    networkStatTestModel.Latency = networkstattest.Latency;
-                    networkStatTestModel.DownloadBandwidth = networkstattest.DownloadBandwidth;
-                    networkStatTestModel.DownloadSpeed = networkstattest.DownloadSpeed;
-                    networkStatTestModel.DownloadElapsed = networkstattest.DownloadElapsed;
-                    networkStatTestModel.UploadBandwidth = networkstattest.UploadBandwidth;
-                    networkStatTestModel.UploadSpeed = networkstattest.UploadSpeed;
-                    networkStatTestModel.UploadElapsed = networkstattest.UploadElapsed;
-                    networkStatTestModel.PacketLoss = networkstattest.PacketLoss;
-                    networkStatTestModel.ISP = networkstattest.ISP;
-                    //networkStatTestModel.NetworkInterface = _speedTestServerModel.GetByServerId(networkstattest.SpeedTestServer.ServerId ?? 0);
-                    //networkStatTestModel.SpeedTestServer = _speedTestServerModel.GetByServerId(networkstattest.SpeedTestServer.ServerId ?? 0);
-                    networkStatTestModel.ActiveVPN = networkstattest.ActiveVPN;
-                    networkStatTestModel.ResultId = networkstattest.ResultId;
-                    networkStatTestModel.ResultURL = networkstattest.ResultURL;
-                }
-            }
-            return networkStatTestModel;
-        }
 
         public List<NetworkGraphViewModel> GetGraphData(int deviceId)
         {
             List<NetworkGraphViewModel> listOfStats = new List<NetworkGraphViewModel>();
-
-            foreach (NetworkStatTest nst in _networkStatTestModel.GetGraphData(deviceId))
+            try
             {
-                listOfStats.Add(new NetworkGraphViewModel(nst));
+                foreach (NetworkStatTest nst in _networkStatTestModel.GetGraphData(deviceId))
+                {
+                    listOfStats.Add(new NetworkGraphViewModel(nst));
+                }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
+                throw ex;
+            }
+
             return listOfStats;
         }
-
     }
 }

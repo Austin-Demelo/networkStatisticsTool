@@ -2,12 +2,10 @@
 using NSC.DAL.Models;
 using NSC.DAL.Repository;
 using NSC.DAL.ViewModels;
-using SendGrid;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NSC.Service.Services
@@ -35,9 +33,8 @@ namespace NSC.Service.Services
             }
             catch (Exception ex)
             {
-                //Compiler figures out the method name using the System.Reflection library
                 Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
-
+                throw ex;
             }
             return Convert.ToInt16(opStatus);
         }
@@ -66,7 +63,7 @@ namespace NSC.Service.Services
             try
             {
                 return _userModel.GetByConfirmationKey(ActivateKey);
-                
+
             }
             catch (Exception ex)
             {
@@ -103,9 +100,8 @@ namespace NSC.Service.Services
             }
             catch (Exception ex)
             {
-                //Compiler figures out the method name using the System.Reflection library
                 Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
-
+                throw ex;
             }
             return userVM;
         }
@@ -162,7 +158,7 @@ namespace NSC.Service.Services
 
                 string ActivateKey = "";
 
-                while(ActivateKey == "")
+                while (ActivateKey == "")
                 {
                     //Build ActivationKey for User
                     ActivateKey += user.UserName.GetHashCode().ToString("X8");
@@ -170,7 +166,7 @@ namespace NSC.Service.Services
                     ActivateKey += new DateTime().ToString().GetHashCode().ToString("X8");
 
                     //Make sure ActivationKey is unique
-                    if(_userModel.GetByConfirmationKey(ActivateKey) != null)
+                    if (_userModel.GetByConfirmationKey(ActivateKey) != null)
                     {
                         ActivateKey = "";
                     }
