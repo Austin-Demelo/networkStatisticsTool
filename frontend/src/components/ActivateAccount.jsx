@@ -29,12 +29,11 @@ class ActivateAccount extends React.Component {
             <div>
                 {!this.state.user 
                 ?
-                    <div>This is an invalid activation link</div>
+                    <div>This is an invalid activation link or the account has already been activated</div>
                 :
                     
                 <div> 
-                {JSON.stringify(this.state.key)}
-                {JSON.stringify(this.state.user)}
+                    <div>{this.state.user.username}! Your account has been activated. You can now login.</div>
                 </div>
                 }
             </div>

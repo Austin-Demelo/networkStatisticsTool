@@ -1,8 +1,8 @@
+import { removeObjectFromLocalStorage, saveObjectFromLocalStorage } from "../../utilities/localStorage";
+
 import { AppThunkAction } from "../../types/thunk";
 import {HttpMethod} from "../../types/httpMethods";
-import { ILoginPayload } from "../../interfaces/payloads/ILoginPayload";
 import {IUser} from "../../interfaces/user";
-import {IUserState} from "../states/userState";
 import { UpdateStatus } from "../../types/updateStatus";
 import { http } from "../../utilities/http";
 
@@ -108,29 +108,28 @@ export function validateUser(key: string): AppThunkAction<Promise<IUser | undefi
    };
 }
 
-export function login(username: string, password: string): AppThunkAction<Promise<ILoginPayload>> { //AppThunkAction<Promise<ILoginPayload>> {
+export function loginUser(user: IUser): AppThunkAction<Promise<IUser | undefined>> { //AppThunkAction<Promise<ILoginPayload>> {
+  console.log(user);
   return async (dispatch, getState) => {
     try { 
-       let networks: ILoginPayload = await http<ILoginPayload>(URL + "/login");
-       dispatch({ type: UserActions.LOGIN, payload: [networks] });
-       return networks;
+       let trustredUser: IUser = await http<IUser>("http://localhost:52288/api/login", HttpMethod.POST, JSON.stringify(user));
+       console.log(`THIS ${JSON.stringify(trustredUser)}`);
+       if(trustredUser) {
+          dispatch({ type: UserActions.LOGIN, payload: trustredUser });
+          saveObjectFromLocalStorage('nsc-logged-in', trustredUser);
+       }
+       return trustredUser;
     } catch(error){
-      const payload: ILoginPayload = {
-        error: true,
-        response: {
-          message: error.message,
-        },
-      };
-      dispatch({ type: UserActions.LOGIN_ERROR, payload });
+      console.log(error);
       logout();
-      return payload;
     }
    };
 }
 
-function logout() : AppThunkAction<void> {
+export function logout() : AppThunkAction<void> {
 	return ((dispatch) => {
-		dispatch({ type: UserActions.LOGOUT });
+    dispatch({ type: UserActions.LOGOUT });
+    removeObjectFromLocalStorage('nsc-logged-in');
 	});
 }
 
@@ -170,9 +169,7 @@ export function userReducer(state = initialState, action) {
         };
       case UserActions.DELETE_USER:
         updatedUsers = [...state.users];
-        console.log(updatedUsers);
         updatedUsers = updatedUsers.filter(user =>  user.Id !== action.payload); //Find the deleted network by ID, and filter it out
-        console.log(updatedUsers);
         return {
           ...state,
           users: updatedUsers,
@@ -182,7 +179,7 @@ export function userReducer(state = initialState, action) {
     case UserActions.LOGIN:
       return {
         ...state,
-        currentUserId: action.payload.user.Id,
+        currentUser: action.payload,
         hasError: false,
         message: "",
       };

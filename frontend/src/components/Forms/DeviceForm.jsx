@@ -12,14 +12,6 @@ import React from 'react'
 import Select from '@material-ui/core/Select'
 import { connect } from 'react-redux'
 import { getAllNetworks } from '../../redux/modules/networkModule'
-import { makeStyles } from '@material-ui/core/styles'
-
-const useStyles = makeStyles((theme) => ({
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-    },
-}))
 
 class DeviceForm extends React.Component {
     constructor(props) {
@@ -27,7 +19,7 @@ class DeviceForm extends React.Component {
         this.state = {
             formData: {
                 DeviceName: '',
-                NetworkId: undefined,
+                NetworkId: undefined
             },
             //Through validateFields(), will populate field value (Ex NetworkName) from formData, with error message string
             //EX fromValidation: { NetworkName: 'This field is required' }
@@ -50,6 +42,13 @@ class DeviceForm extends React.Component {
                 },
             })
         }
+        if(this.props.networkList[0]) {
+            this.setState({
+                formData: {
+                    NetworkId: this.props.networkList[0].Id
+                },
+            });
+        }
         this.props.getAllNetworks()
     }
     validateFields() {
@@ -61,6 +60,7 @@ class DeviceForm extends React.Component {
                     if (!value) {
                         updatedValidation[field] = 'This field is required'
                     }
+                    break
                 case 'NetworkId':
                     if (!value) {
                         updatedValidation[field] = 'This field is required'
@@ -101,8 +101,7 @@ class DeviceForm extends React.Component {
     }
 
     render() {
-        console.log(this.props.deviceList.length);
-        console.log(this.props.deviceList.length);
+        
 
         return (
             
@@ -141,15 +140,24 @@ class DeviceForm extends React.Component {
                             />
                             <FormControl>
                                 <InputLabel>Network</InputLabel>
-                                <Select onChange={(e) =>
+                                <Select 
+                                    defaultValue={{label: 'Choose a Network', value: undefined}}
+                                    onChange={(e) =>
                                     this.setState({
                                         formData: {
                                             ...this.state.formData,
                                             NetworkId: e.target.value
                                         },
                                     })}>
+                                        <MenuItem 
+                                            key = {-1} 
+                                            value={undefined}>
+                                                Choose a Network
+                                        </MenuItem>
                                     {this.props.networkList.map((network) => (
-                                        <MenuItem value={network.Id}>
+                                        <MenuItem 
+                                            key = {`${network.Id}`} 
+                                            value={network.Id}>
                                             {network.NetworkName}
                                         </MenuItem>
                                     ))}

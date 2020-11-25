@@ -1,7 +1,7 @@
+import LineGraph from './LineGraph'
 import React from 'react'
 import { connect } from 'react-redux'
 import { getAllNetworkStats } from '../redux/modules/networkStatsModule'
-import LineGraph from './LineGraph'
 
 export class NetworkStats extends React.Component {
     constructor(props) {
@@ -50,4 +50,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(null, mapDispatchToProps)(NetworkStats)
+export default connect(mapStateToProps, mapDispatchToProps)(NetworkStats)

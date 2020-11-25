@@ -103,6 +103,19 @@ namespace NSCController.Controllers
                 return BadRequest("Delete failed - " + ex.Message);
             }
         }
+        [HttpPost]
+        [Route("api/login")]
+        public IHttpActionResult Delete([FromBody] UserViewModel user)
+        {
+            try
+            {
+                return Ok(_userService.Login(user.UserName, user.UserPass));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Delete failed - " + ex.Message);
+            }
+        }
 
 
     }

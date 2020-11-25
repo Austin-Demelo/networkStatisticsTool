@@ -16,12 +16,12 @@ import { deleteDevice, getAllDevices } from '../redux/modules/deviceModule'
 import DeleteIcon from '@material-ui/icons/Delete'
 import DeviceForm from './Forms/DeviceForm'
 import EditIcon from '@material-ui/icons/Edit'
-import ViewIcon from '@material-ui/icons/ViewList'
 import React from 'react'
+import { Redirect } from 'react-router'
+import ViewIcon from '@material-ui/icons/ViewList'
 import { connect } from 'react-redux'
 import { getAllNetworks } from '../redux/modules/networkModule'
 import { makeStyles } from '@material-ui/core/styles'
-import { Redirect } from 'react-router'
 
 const useStyles = makeStyles({
     table: {
@@ -151,15 +151,17 @@ class DeviceList extends React.Component {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    <div style={{ float: 'right', paddingTop: '20px' }}>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={this.onCreateDevice}
-                        >
-                            Add Device
-                        </Button>
-                    </div>
+                    {this.props.networkList.length > 0 &&
+                        <div style={{ float: 'right', paddingTop: '20px' }}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={this.onCreateDevice}
+                            >
+                                Add Device
+                            </Button>
+                        </div>
+                    }
                 </div>
                 <Modal open={this.state.open} onClose={this.handleClose}>
                     <DeviceForm

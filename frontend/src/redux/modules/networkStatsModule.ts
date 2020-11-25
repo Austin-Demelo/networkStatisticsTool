@@ -1,8 +1,6 @@
 import { AppThunkAction } from '../../types/thunk'
-import { HttpMethod } from '../../types/httpMethods'
 import { INetworkStats } from '../../interfaces/networkStats'
 import { INetworkStatsState } from '../states/networkStatsState'
-import { UpdateStatus } from '../../types/updateStatus'
 import { http } from '../../utilities/http'
 
 const NetworkStatsActions = {

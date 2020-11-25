@@ -1,14 +1,30 @@
-import {Button, IconButton, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Card, CardContent, TextField, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core'
-
+import {
+    Button,
+    Card,
+    CardContent,
+    FormControl,
+    IconButton,
+    MenuItem,
+    Modal,
+    Paper,
+    Select,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    TextField
+} from '@material-ui/core'
 import { deleteNetwork, getAllNetworks } from '../redux/modules/networkModule'
-import {createProblem} from '../redux/modules/problemModule';
+
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import NetworkForm from './Forms/NetworkForm'
 import React from 'react';
 import { connect } from 'react-redux'
+import {createProblem} from '../redux/modules/problemModule';
 import { makeStyles } from '@material-ui/core/styles'
-import {IProblem} from '../interfaces/problem';
 
 const useStyles = makeStyles({
     table: {
