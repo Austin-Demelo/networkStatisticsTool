@@ -18,11 +18,11 @@ namespace NSC.Service
         private DeviceModel _deviceModel;
         private NetworkInterfaceModel _networkInterfaceModel;
 
-        public SpeedTestService(int clientDeviceId)
+        public SpeedTestService(int clientDeviceId, NSCContext ctx)
         {
-            _deviceModel = new DeviceModel();
+            _deviceModel = new DeviceModel(ctx);
             _clientDevice = _deviceModel.GetById(clientDeviceId);
-            _networkInterfaceModel = new NetworkInterfaceModel();
+            _networkInterfaceModel = new NetworkInterfaceModel(ctx);
         }
 
 
