@@ -83,6 +83,7 @@
     <Compile Include="Repository\NSCRepository.cs" />
     <Compile Include="Repository\UpdateStatus.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
+    <Compile Include="ViewModels\NetworkGraphViewModel.cs" />
     <Compile Include="ViewModels\NetworkInterfaceViewModel.cs" />
     <Compile Include="ViewModels\NetworkProblemViewModel.cs" />
     <Compile Include="ViewModels\NetworkStatTestViewModel.cs" />

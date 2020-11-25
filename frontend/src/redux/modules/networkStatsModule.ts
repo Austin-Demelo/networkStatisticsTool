@@ -21,6 +21,7 @@ export function getAllNetworkStats(
             let networks: INetworkStats[] = await http<INetworkStats[]>(
                 `http://localhost:52288/api/networkstats/${deviceId}`
             )
+            console.log(networks)
             dispatch({
                 type: NetworkStatsActions.GET_ALL_NETWORKSTATS,
                 payload: networks,
@@ -34,17 +35,17 @@ export function getAllNetworkStats(
 }
 
 const initialState: INetworkStatsState = {
-    networksstats: [],
+    networkStats: [],
     hasError: false,
     message: '',
 }
 
-export function networkReducer(state = initialState, action) {
+export function networkStatsReducer(state = initialState, action) {
     switch (action.type) {
         case NetworkStatsActions.GET_ALL_NETWORKSTATS:
             return {
                 ...state,
-                networksstats: action.payload,
+                networkStats: action.payload,
                 hasError: false,
                 message: "",
             };
@@ -68,3 +69,4 @@ export function networkReducer(state = initialState, action) {
             return state
     }
 }
+export { initialState as InitialNetworkStatsState };

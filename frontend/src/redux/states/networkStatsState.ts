@@ -1,7 +1,7 @@
 import { INetworkStats } from "../../interfaces/networkStats";
 
 export interface INetworkStatsState {
-    networksstats: INetworkStats[];
+    networkStats: INetworkStats[];
     hasError: boolean;
     message: string;
 }
