@@ -13,6 +13,8 @@ export class NetworkStats extends React.Component {
         this.props.getAllNetworkStats(this.props.location.state.device.Id)
     }
 
+
+
     render() {
         return (
             <div

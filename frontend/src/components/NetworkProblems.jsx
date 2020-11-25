@@ -59,7 +59,11 @@ class NetworkProblems extends React.Component {
         this.props.getAllDevices();
         this.props.getAllProblems();
     }
+    async componentDidUpdate(){
+        this.props.getAllProblems();
 
+        
+    }
     handleClose() {
         this.setState({
             open: false,
@@ -100,7 +104,7 @@ class NetworkProblems extends React.Component {
             <div>
                 <div
                     style={{
-                        maxWidth: '600px',
+                        maxWidth: '700px',
                         margin: 'auto',
                         padding: '10px',
                     }}
@@ -209,8 +213,9 @@ class NetworkProblems extends React.Component {
                             <TableBody>
                                 {this.props.problemList.map((network) => (
                                     <TableRow key={`${network.Id}tableRow`}>
+                                        {console.log(network)}
                                         <TableCell>
-                                            coming soon to a table near
+                                            {network.UserName}
                                         </TableCell>
                                         <TableCell>
 

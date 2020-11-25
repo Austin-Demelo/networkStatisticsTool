@@ -42,7 +42,7 @@ class NetworkList extends React.Component {
     async componentWillMount() {
         this.props.getAllNetworks()
     }
-
+    
     handleClose() {
         this.setState({
             open: false,

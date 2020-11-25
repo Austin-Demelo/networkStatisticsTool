@@ -43,7 +43,7 @@ namespace NSC.Service
                 netprob.DeviceId = vm.DeviceId;
                 netprob.ProblemType = vm.ProblemType;
                 netprob.ProblemDescription = vm.ProblemDescription;
-                netprob.TimeProblemOccurred = vm.TimeProblemOccurred;
+                //netprob.TimeProblemOccurred = vm.TimeProblemOccurred;
                 netprob = _networkProblemModel.Add(netprob);
                 //prepare vm to be sent back to the client?
                 //idk if this is necessary for my part

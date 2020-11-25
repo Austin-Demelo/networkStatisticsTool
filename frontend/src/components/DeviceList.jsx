@@ -50,6 +50,8 @@ class DeviceList extends React.Component {
         this.props.getAllDevices()
     }
 
+    
+
     handleClose() {
         this.setState({
             open: false,
@@ -73,8 +75,8 @@ class DeviceList extends React.Component {
         let statsTest = await this.props.runStatsTest(deviceId)
         if(statsTest.TestStatus == "Success"){
             alert(`Speed Test completed successfully\n
-             Download Speed: ${statsTest.DownloadSpeed} MiB/s
-             Upload Speed: ${statsTest.UploadSpeed} MiB/s
+             Download Speed: ${statsTest.DownloadSpeedInMegabitsPerSecond} MiB/s
+             Upload Speed: ${statsTest.UploadSpeedInMegabitsPerSecond} MiB/s
              Packet Loss: ${statsTest.PacketLoss}%
              Latency: ${statsTest.Latency}% `)
         }
