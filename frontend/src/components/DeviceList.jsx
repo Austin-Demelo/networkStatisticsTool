@@ -16,7 +16,6 @@ import { deleteDevice, getAllDevices } from '../redux/modules/deviceModule'
 import DeleteIcon from '@material-ui/icons/Delete'
 import DeviceForm from './Forms/DeviceForm'
 import EditIcon from '@material-ui/icons/Edit'
-import ViewIcon from '@material-ui/icons/ViewList'
 import PlayIcon from '@material-ui/icons/PlayArrow'
 import React from 'react'
 import { Redirect } from 'react-router'
@@ -146,6 +145,16 @@ class DeviceList extends React.Component {
                                                 }
                                             >
                                                 <ViewIcon />
+                                            </IconButton>
+                                            <IconButton
+                                                onClick={() =>
+                                                    this.setState({
+                                                        redirect: true,
+                                                        editDevice: device,
+                                                    })
+                                                }
+                                            >
+                                                <PlayIcon />
                                             </IconButton>
                                         </TableCell>
                                     </TableRow>

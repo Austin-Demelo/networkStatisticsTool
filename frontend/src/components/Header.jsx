@@ -86,7 +86,7 @@ export class Header extends React.Component {
         console.log(this.props.currentUser)
     return (
         <div>
-            <AppBar color="secondary" className={clsx(headerStyles.appBar, open && headerStyles.appBarShift)}>
+            <AppBar color="secondary" className={clsx(headerStyles.appBar, this.state.open && headerStyles.appBarShift)}>
             {this.renderRedirect()}
                 <Toolbar className={headerStyles.toolbar}>
                 <IconButton
