@@ -113,8 +113,11 @@ class DeviceList extends React.Component {
                 <div
                     style={{
                         maxWidth: '500px',
+                        margin: 'auto',
+                        padding: '10px'
                     }}
                 >
+   
                     <TableContainer component={Paper}>
                         <Table
                             className={useStyles.table}
@@ -178,7 +181,7 @@ class DeviceList extends React.Component {
                         <div style={{ float: 'right', paddingTop: '20px' }}>
                             <Button
                                 variant="contained"
-                                color="primary"
+                                color="secondary"
                                 onClick={this.onCreateDevice}
                             >
                                 Add Device

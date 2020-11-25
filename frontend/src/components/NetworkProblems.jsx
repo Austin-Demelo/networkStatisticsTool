@@ -14,7 +14,7 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    TextField
+    TextField,
 } from '@material-ui/core'
 import { deleteNetwork, getAllNetworks } from '../redux/modules/networkModule'
 import {getAllProblems, deleteProblem} from '../redux/modules/problemModule'
@@ -22,10 +22,10 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
 import NetworkForm from './Forms/NetworkForm'
-import React from 'react';
+import React from 'react'
 import { connect } from 'react-redux'
-import {createProblem} from '../redux/modules/problemModule';
-import {getAllDevices} from '../redux/modules/deviceModule';
+import { createProblem } from '../redux/modules/problemModule'
+import { getAllDevices } from '../redux/modules/deviceModule'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles({
@@ -39,19 +39,19 @@ class NetworkProblems extends React.Component {
         super(props)
         this.state = {
             networks: [],
-            listOfProblems: ["Lag", "Latency", "More Problems go here"],
+            listOfProblems: ['Lag', 'Latency', 'More Problems go here'],
             problem: {}, //should be of type IProblem,
             problemDescription: '',
             problemType: '',
             deviceId: 0,
             open: false,
-            editNetwork: undefined
+            editNetwork: undefined,
         }
 
-        this.selectNetwork = this.selectNetwork.bind(this);
-        this.handleClose = this.handleClose.bind(this);
-        this.onCreateNetwork = this.onCreateNetwork.bind(this);
-        this.onCreateProblem = this.onCreateProblem.bind(this);
+        this.selectNetwork = this.selectNetwork.bind(this)
+        this.handleClose = this.handleClose.bind(this)
+        this.onCreateNetwork = this.onCreateNetwork.bind(this)
+        this.onCreateProblem = this.onCreateProblem.bind(this)
     }
 
     async componentDidMount() {
@@ -60,103 +60,138 @@ class NetworkProblems extends React.Component {
         this.props.getAllProblems();
     }
 
-
     handleClose() {
-      this.setState({
-          open:false,
-          editNetwork: undefined
-        });
-    };
+        this.setState({
+            open: false,
+            editNetwork: undefined,
+        })
+    }
 
     selectNetwork(network) {
         this.setState({
-            open:true,
-            editNetwork: network
-        });
-    }
-
-    deleteProblem(problemId) {
-        this.props.deleteProblem(problemId);
-    }
-
-    onCreateNetwork() {
-        this.setState({
-            open:true,
-            editNetwork: undefined
-        });
-    }
-
-    onCreateProblem(problem){
-        console.log(problem);
-        this.setState({
-            //nullify the problem object
-            problem: undefined
+            open: true,
+            editNetwork: network,
         })
     }
 
 
+    deleteProblem(problemId) {
+        this.props.deleteProblem(problemId);
+    }
+   
+
+    onCreateNetwork() {
+        this.setState({
+            open: true,
+            editNetwork: undefined,
+        })
+    }
+
+    onCreateProblem(problem) {
+        console.log(problem)
+        this.setState({
+            //nullify the problem object
+            problem: undefined,
+        })
+    }
+
     render() {
         return (
             <div>
-                <div style={{ maxWidth: '500px' }}>
-                     <Card>
-                     <CardContent>
-                            Device: 
-                            <FormControl  style = {{display: 'block', width: 300}}>
-                                <Select style= {{width: 200}} onChange={(e) => this.setState({deviceId: e.target.value.Id})}>
-                                    
-                                    {this.props.deviceList.map((device) => (
-                                        <MenuItem value={device}>
-                                        {device.DeviceName}
-                                       
-                                        </MenuItem>
-                                    ))} 
-                                </Select>
-                             </FormControl>
-                        </CardContent>
-                        
-
-                        <CardContent>
-                            Problem Type: 
-                            <FormControl  style = {{display: 'block', width: 300}}>
-                                <Select style= {{width: 200}} onChange={(e) => this.setState({problemType: e.target.value})}>
-                                    <MenuItem value="">
-                                        <em>Other</em>
-                                    </MenuItem>
-                                    {this.state.listOfProblems.map((problemType) => (
-                                        <MenuItem value={problemType}>
-                                        {problemType}
-                                       
-                                        </MenuItem>
-                                    ))} 
-                                </Select>
-                             </FormControl>
-                        </CardContent>
-
-                        
-                        <CardContent>
-                            Description of Problem: 
-                            <TextField
-                                 onChange={(e) => this.setState({problemDescription: e.target.value})}
-                                // placeholder="Network Name"
-                                // autoFocus={true} //Needed on the first field of each form
-                                // value={this.state.formData.NetworkName  || ''}
-                                // error={!!this.state.formValidation.NetworkName}
-                                // helperText={this.state.formValidation.NetworkName || ''}
-                                // label="Network Name"
-                                 style = {{display: 'block', width: 300}}
-                            />
-                            
+                <div
+                    style={{
+                        maxWidth: '500px',
+                        margin: 'auto',
+                        padding: '10px',
+                    }}
+                >
+                    <div style={{ paddingBottom: '30px' }}>
+                        <Card>
+                            <CardContent>
+                                Device:
+                                <FormControl
+                                    style={{ display: 'block', width: 300 }}
+                                >
+                                    <Select
+                                        style={{ width: 200 }}
+                                        onChange={(e) =>
+                                            this.setState({
+                                                deviceId: e.target.value.Id,
+                                            })
+                                        }
+                                    >
+                                        {this.props.deviceList.map((device) => (
+                                            <MenuItem value={device}>
+                                                {device.DeviceName}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
                             </CardContent>
-                            <Button color="primary" onClick={()=>this.props.createProblem({problemType: this.state.problemType, problemDescription: this.state.problemDescription, deviceId: this.state.deviceId})} >
-                                Report Issue
-                             </Button>
-                    </Card>
-                    <br/>
-                    <br/>
-                    <br/>
+
+                            <CardContent>
+                                Problem Type:
+                                <FormControl
+                                    style={{ display: 'block', width: 300 }}
+                                >
+                                    <Select
+                                        style={{ width: 200 }}
+                                        onChange={(e) =>
+                                            this.setState({
+                                                problemType: e.target.value,
+                                            })
+                                        }
+                                    >
+                                        <MenuItem value="">
+                                            <em>Other</em>
+                                        </MenuItem>
+                                        {this.state.listOfProblems.map(
+                                            (problemType) => (
+                                                <MenuItem value={problemType}>
+                                                    {problemType}
+                                                </MenuItem>
+                                            )
+                                        )}
+                                    </Select>
+                                </FormControl>
+                            </CardContent>
+
+                            <CardContent>
+                                Description of Problem:
+                                <TextField
+                                    onChange={(e) =>
+                                        this.setState({
+                                            problemDescription: e.target.value,
+                                        })
+                                    }
+                                    // placeholder="Network Name"
+                                    // autoFocus={true} //Needed on the first field of each form
+                                    // value={this.state.formData.NetworkName  || ''}
+                                    // error={!!this.state.formValidation.NetworkName}
+                                    // helperText={this.state.formValidation.NetworkName || ''}
+                                    // label="Network Name"
+                                    style={{ display: 'block', width: 300 }}
+                                />
+                            </CardContent>
+                            <div style={{ padding: '10px', float: 'right' }}>
+                                <Button
+                                    color="secondary"
+                                    variant="contained"
+                                    onClick={() =>
+                                        this.props.createProblem({
+                                            problemType: this.state.problemType,
+                                            problemDescription: this.state
+                                                .problemDescription,
+                                            deviceId: this.state.deviceId,
+                                        })
+                                    }
+                                >
+                                    Report Issue
+                                </Button>
+                            </div>
+                        </Card>
+                    </div>
                     <TableContainer component={Paper}>
-                        
                         <Table
                             className={useStyles.table}
                             aria-label="simple table"
@@ -178,9 +213,13 @@ class NetworkProblems extends React.Component {
                                             coming soon to a table near
                                         </TableCell>
                                         <TableCell>
+
                                             {network.DeviceId}
                                             {/* {network.DeviceId?.map((d) => `${d.DeviceName} `)} */}
+
                                         </TableCell>
+                                        <TableCell></TableCell>
+                                        <TableCell></TableCell>
                                         <TableCell>
                                             {network.ProblemType}
                                         </TableCell>
@@ -207,11 +246,8 @@ class NetworkProblems extends React.Component {
                         </Table>
                     </TableContainer>
                 </div>
-                <Modal
-                    open={this.state.open}
-                    onClose={this.handleClose}
-                >
-                    <NetworkForm 
+                <Modal open={this.state.open} onClose={this.handleClose}>
+                    <NetworkForm
                         editNetwork={this.state.editNetwork}
                         handleClose={this.handleClose}
                     />
@@ -237,6 +273,7 @@ function mapDispatchToProps(dispatch) {
         getAllProblems: () => dispatch(getAllProblems()),
         createProblem: (problem) => dispatch(createProblem(problem)),
 
+        createProblem: (problem) => dispatch(createProblem(problem)),
     }
 }
 
