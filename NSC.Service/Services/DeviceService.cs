@@ -16,12 +16,12 @@ namespace NSC.Service
         {
             _deviceModel = new DeviceModel();
         }
+
         public int Update(DeviceViewModel vm)
         {
             UpdateStatus opStatus = UpdateStatus.Failed;
             try
             {
-
                 Device dev = new Device();
                 dev.Id = vm.Id;
                 dev.DeviceName = vm.DeviceName;
@@ -32,12 +32,13 @@ namespace NSC.Service
             }
             catch (Exception ex)
             {
-                //Compiler figures out the method name using the System.Reflection library
                 Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
+                throw ex;
 
             }
             return Convert.ToInt16(opStatus);
         }
+
         public DeviceViewModel Add(DeviceViewModel vm)
         {
 

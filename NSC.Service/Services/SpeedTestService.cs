@@ -3,17 +3,17 @@ using NSC.DAL.Database;
 using NSC.DAL.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Web.Hosting;
 using SNNI = System.Net.NetworkInformation;
 
 namespace NSC.Service
 {
     public class SpeedTestService
     {
-        private const string OOKLA_SPEEDTEST_DEFAULT_PATH = @"speedtest.exe";
-        private const string OOKLA_SPEEDTEST_DEFAULT_ARGS = "-f json-pretty";
         private Device _clientDevice;
         private DeviceModel _deviceModel;
         private NetworkInterfaceModel _networkInterfaceModel;
@@ -24,8 +24,6 @@ namespace NSC.Service
             _clientDevice = _deviceModel.GetById(clientDeviceId);
             _networkInterfaceModel = new NetworkInterfaceModel(ctx);
         }
-
-
 
         public NetworkStatTest RunNetworkStatTest()
         {
@@ -40,36 +38,48 @@ namespace NSC.Service
             catch (Exception ex)
             {
                 Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
+                throw ex;
             }
             return networkStatTest;
         }
 
-        private string executeSpeedTestCLI(string path = OOKLA_SPEEDTEST_DEFAULT_PATH, string args = OOKLA_SPEEDTEST_DEFAULT_ARGS)
+        private string executeSpeedTestCLI()
         {
-            path = @"C:\$SemesterSix\1. INFO 5103 Turford\scchaumo\NSC.Service\Services\speedtest.exe";
+            string speedTestCLIPath = HostingEnvironment.ApplicationPhysicalPath + "bin\\speedtest.exe";
+            string speedTestCLIArgs = "-f json-pretty";
             string speedTestJsonData = "";
             try
             {
-                using (System.Diagnostics.Process pProcess = new System.Diagnostics.Process())
+                using (Process process = new Process())
                 {
-                    pProcess.StartInfo.FileName = path;
-                    pProcess.StartInfo.Arguments = args; // argument
+                    // set path
+                    process.StartInfo.FileName = speedTestCLIPath;
+                    // set arguments
+                    process.StartInfo.Arguments = speedTestCLIArgs;
 
-                    pProcess.StartInfo.UseShellExecute = false;
-                    pProcess.StartInfo.RedirectStandardOutput = true;
-                    pProcess.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-                    pProcess.StartInfo.CreateNoWindow = true; // do not display a window
+                    // additional start settings
+                    process.StartInfo.UseShellExecute = false;
+                    process.StartInfo.RedirectStandardOutput = true;
 
-                    pProcess.Start();
-                    speedTestJsonData = pProcess.StandardOutput.ReadToEnd(); // output json result
+                    // do not display a window
+                    process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                    process.StartInfo.CreateNoWindow = true;
 
-                    pProcess.WaitForExit();
-                    pProcess.Dispose();
+                    // start process
+                    process.Start();
+
+                    // output json result
+                    speedTestJsonData = process.StandardOutput.ReadToEnd();
+
+                    // safely close process
+                    process.WaitForExit();
+                    process.Dispose();
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
+                throw ex;
             }
             return speedTestJsonData;
         }
@@ -86,6 +96,7 @@ namespace NSC.Service
             catch (Exception ex)
             {
                 Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
+                throw ex;
             }
             return speedTest;
         }
@@ -127,6 +138,7 @@ namespace NSC.Service
             catch (Exception ex)
             {
                 Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
+                throw ex;
             }
             return networkInterfaces;
         }
@@ -136,7 +148,6 @@ namespace NSC.Service
             NetworkStatTest networkStatTest = new NetworkStatTest();
             try
             {
-                // SPECIFY UNIT SIZES          
                 networkStatTest = new NetworkStatTest()
                 {
                     DeviceId = _clientDevice.Id,
@@ -179,22 +190,9 @@ namespace NSC.Service
             catch (Exception ex)
             {
                 Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
+                throw ex;
             }
             return networkStatTest;
-        }
-
-        private double CovertBytesToMegabits(int bytes)
-        {
-            double bytesPerMegabit = 1048576;
-            double megabits = Math.Round(bytes / bytesPerMegabit, 2);
-            return megabits;
-        }
-
-        private double ConvertBytesToMegabytes(int bytes)
-        {
-            double bytesPerMegabyte = 131072;
-            double megabytes = Math.Round(bytes / bytesPerMegabyte, 2);
-            return megabytes;
         }
     }
 }
