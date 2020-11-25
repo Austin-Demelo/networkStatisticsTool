@@ -215,7 +215,7 @@ class NetworkProblems extends React.Component {
                                         <TableCell>
 
                                             {/* {network.DeviceId} */}
-                                            {this.props.deviceList.map(device => {if(device.DeviceId === network.DeviceId){device.DeviceName}})}
+                                            {this.props.deviceList.map(device => {if(device.NetworkId === network.DeviceId){return device.DeviceName}else{return network.DeviceId}})}
                                             {/* {network.DeviceId?.map((d) => `${d.DeviceName} `)} */}
 
                                         </TableCell>
