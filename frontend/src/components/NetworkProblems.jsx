@@ -100,7 +100,7 @@ class NetworkProblems extends React.Component {
             <div>
                 <div
                     style={{
-                        maxWidth: '500px',
+                        maxWidth: '600px',
                         margin: 'auto',
                         padding: '10px',
                     }}
@@ -214,12 +214,12 @@ class NetworkProblems extends React.Component {
                                         </TableCell>
                                         <TableCell>
 
-                                            {network.DeviceId}
+                                            {/* {network.DeviceId} */}
+                                            {this.props.deviceList.map(device => {if(device.DeviceId === network.DeviceId){device.DeviceName}})}
                                             {/* {network.DeviceId?.map((d) => `${d.DeviceName} `)} */}
 
                                         </TableCell>
-                                        <TableCell></TableCell>
-                                        <TableCell></TableCell>
+                                       
                                         <TableCell>
                                             {network.ProblemType}
                                         </TableCell>
