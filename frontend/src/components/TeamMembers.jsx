@@ -3,8 +3,8 @@ import { deleteUser, getAllUsers } from '../redux/modules/userModule'
 
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import UserForm from './UserForm'
 import React from 'react'
+import UserForm from './UserForm'
 import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -14,7 +14,7 @@ const useStyles = makeStyles({
     },
 })
 
-class TeamMembers extends React.Component {
+class Users extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -75,7 +75,7 @@ class TeamMembers extends React.Component {
                         >
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Team Members</TableCell>
+                                    <TableCell>User</TableCell>
                                     <TableCell>Actions</TableCell>
                                 </TableRow>
                             </TableHead>
@@ -133,4 +133,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TeamMembers)
+export default connect(mapStateToProps, mapDispatchToProps)(Users)

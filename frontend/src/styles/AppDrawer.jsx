@@ -1,14 +1,13 @@
 import { Divider, Drawer, IconButton, List, ListItem, MenuItem } from "@material-ui/core";
 
 import AssignmentIcon from '@material-ui/icons/Assignment';
-import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import HomeIcon from '@material-ui/icons/Home';
 import {Link} from 'react-router-dom';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import PeopleIcon from '@material-ui/icons/People';
 import React from "react";
-import HomeIcon from '@material-ui/icons/Home';
 import clsx from 'clsx';
 import headerStyles from './HeaderStyles';
 
@@ -66,12 +65,12 @@ const AppDrawer = props => {
             <Divider />
             <List>
                 <div>
-                    <MenuItem component={Link} to="/team" onClick={props.closeDrawer}>
+                    <MenuItem component={Link} to="/users" onClick={props.closeDrawer}>
                         <ListItem button>
                             <ListItemIcon>
                                 <PeopleIcon />
                             </ListItemIcon>
-                            <ListItemText primary="Team Members" />
+                            <ListItemText primary="Users" />
                         </ListItem>
                     </MenuItem>
                 </div>

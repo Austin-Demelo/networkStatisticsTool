@@ -1,4 +1,5 @@
 import React from "react";
+import UserForm from './UserForm'
 import {connect} from "react-redux";
 import {getAllNetworks} from "../redux/modules/networkModule";
 
@@ -17,7 +18,7 @@ export class LoginPage extends React.Component {
  
 
   render(){
-    return( <div></div> );
+    return( <UserForm register={false}></UserForm> );
   }
 }
 
@@ -25,7 +26,7 @@ export class LoginPage extends React.Component {
 
   function mapStateToProps(state) {
     return {
-      networkList: state.network.network,
+      networkList: state.networks.networks,
     };
   }
   
