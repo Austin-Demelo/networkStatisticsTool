@@ -11,7 +11,7 @@ namespace NSC.DAL.ViewModels
         public NetworkStatTestViewModel() { }
         public NetworkStatTestViewModel(NetworkStatTest networkStatTest)
         {
-            if(networkStatTest != null)
+            if (networkStatTest != null)
             {
                 DeviceId = networkStatTest.DeviceId;
                 TestRunTime = networkStatTest.TestRunTime;
@@ -29,11 +29,10 @@ namespace NSC.DAL.ViewModels
                 ActiveVPN = networkStatTest.ActiveVPN;
                 ResultId = networkStatTest.ResultId;
                 ResultURL = networkStatTest.ResultURL;
-                //Device = new DeviceViewModel(networkStatTest.Device);
-                //NetworkInterface = new NetworkInterfaceViewModel(networkStatTest.NetworkInterface);
-                //SpeedTestServer = new SpeedTestServerViewModel(networkStatTest.SpeedTestServer);
+                NetworkInterface = new NetworkInterfaceViewModel(networkStatTest.NetworkInterface);
+                SpeedTestServer = new SpeedTestServerViewModel(networkStatTest.SpeedTestServer);
             }
-            
+
         }
 
         public int DeviceId { get; set; }
@@ -52,28 +51,44 @@ namespace NSC.DAL.ViewModels
         public bool? ActiveVPN { get; set; }
         public string ResultId { get; set; }
         public string ResultURL { get; set; }
-        public DeviceViewModel Device { get; set; }
         public NetworkInterfaceViewModel NetworkInterface { get; set; }
         public SpeedTestServerViewModel SpeedTestServer { get; set; }
 
-        //public decimal DownloadSpeedInMegabitsPerSecond
-        //{
-        //    get
-        //    {
-        //        // convert speed in bytes to megabits
-        //        // divide by time elapsed converted from milliseconds to seconds
-        //        return Math.Round((decimal)((int)DownloadSpeed / BYTES_PER_MEGABIT) / ((int)DownloadElapsed / MILLISECONDS_PER_SECONDS), 2);
-        //    }
-        //}
+        public decimal DownloadSpeedInMegabitsPerSecond
+        {
+            get
+            {
+                if (DownloadSpeed != null && DownloadElapsed != null)
+                {
+                    // convert speed in bytes to megabits
+                    // divide by time elapsed converted from milliseconds to seconds
+                    return Math.Round((decimal)((int)DownloadSpeed / BYTES_PER_MEGABIT) / ((int)DownloadElapsed / MILLISECONDS_PER_SECONDS), 2);
+                }
+                else
+                {
+                    return 0;
+                }
+            }
 
-        //public decimal UploadSpeedInMegabitsPerSecond
-        //{
-        //    get
-        //    {
-        //        // convert speed in bytes to megabits
-        //        // divide by time elapsed converted from milliseconds to seconds
-        //        return Math.Round((decimal)((int)UploadSpeed / BYTES_PER_MEGABIT) / ((int)UploadElapsed / MILLISECONDS_PER_SECONDS), 2);
-        //    }
-        //}
+        }
+
+
+        public decimal UploadSpeedInMegabitsPerSecond
+        {
+            get
+            {
+                if (UploadSpeed != null && UploadElapsed != null)
+                {
+                    // convert speed in bytes to megabits
+                    // divide by time elapsed converted from milliseconds to seconds
+                    return Math.Round((decimal)((int)UploadSpeed / BYTES_PER_MEGABIT) / ((int)UploadElapsed / MILLISECONDS_PER_SECONDS), 2);
+                }
+                else
+                {
+                    return 0;
+                }
+
+            }
+        }
     }
 }

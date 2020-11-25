@@ -51,6 +51,7 @@ namespace NSC.DAL.Models
         {
             try
             {
+
                 newNetworkProblem = _repo.Add(newNetworkProblem);
             }
             catch (Exception ex)

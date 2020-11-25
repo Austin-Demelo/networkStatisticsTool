@@ -4,12 +4,10 @@ namespace NSC.DAL.ViewModels
 {
     public class SpeedTestServerViewModel
     {
-        public SpeedTestServerViewModel() { }
         public SpeedTestServerViewModel(SpeedTestServer speedTestServer)
         {
-            if(speedTestServer != null)
+            if (speedTestServer != null)
             {
-
                 ServerId = speedTestServer.ServerId;
                 ServerName = speedTestServer.ServerName;
                 ServerLocation = speedTestServer.ServerLocation;

@@ -1,5 +1,4 @@
 ﻿using NSC.DAL.Database;
-using System.Collections.Generic;
 
 namespace NSC.DAL.ViewModels
 {
@@ -9,7 +8,7 @@ namespace NSC.DAL.ViewModels
 
         public NetworkInterfaceViewModel(NetworkInterface networkInterface)
         {
-            if(networkInterface != null)
+            if (networkInterface != null)
             {
                 DeviceId = networkInterface.DeviceId;
                 InternalIP = networkInterface.InternalIP;
@@ -32,7 +31,5 @@ namespace NSC.DAL.ViewModels
         public string InterfaceType { get; set; }
         public int? InterfaceSpeed { get; set; }
         public string InterfaceStatus { get; set; }
-        public DeviceViewModel Device { get; set; }
-        public ICollection<NetworkStatTestViewModel> NetworkStatTests { get; set; }
     }
 }

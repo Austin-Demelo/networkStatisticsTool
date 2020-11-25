@@ -17,9 +17,23 @@ namespace NSCController.Controllers
     {
         private NetworkStatTestService _networkStatTestService;
 
+
         public NetworkStatTestController()
         {
             _networkStatTestService = new NetworkStatTestService();
+        }
+
+        [Route("api/networkstats")]
+        public IHttpActionResult GetAll()
+        {
+            try
+            {
+                return Ok(_networkStatTestService.GetAll());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Retrieve failed - " + ex.Message);
+            }
         }
 
         [Route("api/networkstats/{id}")]
@@ -27,7 +41,21 @@ namespace NSCController.Controllers
         {
             try
             {
-                return Ok(_networkStatTestService.GetById(id));
+                return Ok(_networkStatTestService.GetGraphData(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Retrieve failed - " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("api/networkstats/run/{id}")]
+        public IHttpActionResult RunStatTest(int id)
+        {
+            try
+            {
+                return Ok(_networkStatTestService.RunSpeedTest(id));
             }
             catch (Exception ex)
             {

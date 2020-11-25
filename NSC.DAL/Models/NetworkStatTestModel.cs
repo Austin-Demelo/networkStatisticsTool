@@ -37,7 +37,7 @@ namespace NSC.DAL.Models
             List<NetworkStatTest> selectedNetworkStatTests = null;
             try
             {
-                selectedNetworkStatTests = _repo.GetByExpression(networkStatTest => networkStatTest.Id == id);
+                selectedNetworkStatTests = _repo.GetByExpression(networkStatTest => networkStatTest.DeviceId == id);
             }
             catch (Exception ex)
             {
@@ -94,6 +94,21 @@ namespace NSC.DAL.Models
                 throw ex;
             }
             return deletedNetworkStatTests;
+        }
+
+        public List<NetworkStatTest> GetGraphData(int deviceId)
+        {
+            List<NetworkStatTest> listOfStatTest = new List<NetworkStatTest>();
+            try
+            {
+                listOfStatTest = _repo.GetByExpression(st => st.DeviceId == deviceId);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
+                throw ex;
+            }
+            return listOfStatTest;
         }
     }
 }

@@ -14,12 +14,49 @@ namespace NSC.Service
         private NetworkInterfaceModel _networkInterfaceModel;
         private SpeedTestServerModel _speedTestServerModel;
 
+        private SpeedTestService _speedTestService;
+
         public NetworkStatTestService()
         {
             _networkStatTestModel = new NetworkStatTestModel();
             _networkInterfaceModel = new NetworkInterfaceModel();
             _speedTestServerModel = new SpeedTestServerModel();
+
         }
+
+        public NetworkStatTestViewModel RunSpeedTest(int clientDeviceId)
+        {
+            _speedTestService = new SpeedTestService(clientDeviceId);
+            NetworkStatTest networkStatTest = _speedTestService.RunNetworkStatTest();
+
+            _networkStatTestModel.Add(networkStatTest);
+
+
+
+            NetworkStatTestViewModel networkStatTestViewModel = new NetworkStatTestViewModel(networkStatTest);
+            return networkStatTestViewModel;
+        }
+
+
+        public void LoopSpeedTester(int clientDeviceId, int testInterval)
+        {
+
+            try
+            {
+                TimeSpan startTimeSpan = TimeSpan.Zero;
+                TimeSpan periodTimeSpan = TimeSpan.FromMinutes(testInterval);
+
+                var timer = new System.Threading.Timer((e) =>
+                {
+                    _networkStatTestModel.Add(_speedTestService.RunNetworkStatTest());
+                }, null, startTimeSpan, periodTimeSpan);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
+            }
+        }
+
         public int Update(NetworkStatTestViewModel vm)
         {
             UpdateStatus opStatus = UpdateStatus.Failed;
@@ -58,11 +95,12 @@ namespace NSC.Service
             List<NetworkStatTestViewModel> networkStatTestModels = new List<NetworkStatTestViewModel>();
             try
             {
-                foreach(NetworkStatTest networkstattest in _networkStatTestModel.GetAll())
+                foreach (NetworkStatTest networkstattest in _networkStatTestModel.GetAll())
                 {
                     networkStatTestModels.Add(new NetworkStatTestViewModel(networkstattest));
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
                 throw ex;
@@ -72,9 +110,9 @@ namespace NSC.Service
         public NetworkStatTestViewModel GetById(int id)
         {
             NetworkStatTestViewModel networkStatTestModel = new NetworkStatTestViewModel();
-            foreach(NetworkStatTest networkstattest in _networkStatTestModel.GetAll())
+            foreach (NetworkStatTest networkstattest in _networkStatTestModel.GetAll())
             {
-                if(networkstattest.Id == id)
+                if(networkstattest.DeviceId == id)
                 {
                     networkStatTestModel.DeviceId = networkstattest.DeviceId;
                     networkStatTestModel.TestRunTime = networkstattest.TestRunTime;
@@ -97,6 +135,17 @@ namespace NSC.Service
                 }
             }
             return networkStatTestModel;
+        }
+
+        public List<NetworkGraphViewModel> GetGraphData(int deviceId)
+        {
+            List<NetworkGraphViewModel> listOfStats = new List<NetworkGraphViewModel>();
+
+            foreach(NetworkStatTest nst in _networkStatTestModel.GetGraphData(deviceId))
+            {
+                listOfStats.Add(new NetworkGraphViewModel(nst));
+            }
+            return listOfStats;
         }
 
     }
