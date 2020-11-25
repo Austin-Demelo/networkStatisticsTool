@@ -49,7 +49,8 @@ namespace NSCController.Controllers
             }
         }
 
-        [Route("api/networkstats/{id}")]
+        [HttpGet]
+        [Route("api/networkstats/run/{id}")]
         public IHttpActionResult RunStatTest(int id)
         {
             try

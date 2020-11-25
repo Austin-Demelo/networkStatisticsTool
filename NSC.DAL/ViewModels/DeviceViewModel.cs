@@ -21,14 +21,18 @@ namespace NSC.DAL.ViewModels
                 {
                     DeviceUser = new UserViewModel(device.User);
                 }
+                NetworkInterfaces = new List<NetworkInterfaceViewModel>();
                 foreach (NetworkInterface networkInterface in device.NetworkInterfaces)
                 {
-                    NetworkInterfaces.Add(new NetworkInterfaceViewModel(networkInterface));
+                    NetworkInterfaceViewModel networkInterfaceViewModel = new NetworkInterfaceViewModel(networkInterface);
+                    NetworkInterfaces.Add(networkInterfaceViewModel);
                 }
-                //foreach (NetworkStatTest networkStatTest in device.NetworkStatTests)
-                //{
-                //    NetworkStatTests.Add(new NetworkStatTestViewModel(networkStatTest));
-                //}
+
+                NetworkStatTests = new List<NetworkStatTestViewModel>();
+                foreach (NetworkStatTest networkStatTest in device.NetworkStatTests)
+                {
+                    NetworkStatTests.Add(new NetworkStatTestViewModel(networkStatTest));
+                }
             }
             else
             {

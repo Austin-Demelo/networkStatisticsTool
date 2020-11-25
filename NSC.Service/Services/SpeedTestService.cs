@@ -16,11 +16,13 @@ namespace NSC.Service
         private const string OOKLA_SPEEDTEST_DEFAULT_ARGS = "-f json-pretty";
         private Device _clientDevice;
         private DeviceModel _deviceModel;
+        private NetworkInterfaceModel _networkInterfaceModel;
 
         public SpeedTestService(int clientDeviceId)
         {
             _deviceModel = new DeviceModel();
             _clientDevice = _deviceModel.GetById(clientDeviceId);
+            _networkInterfaceModel = new NetworkInterfaceModel();
         }
 
 
@@ -98,18 +100,27 @@ namespace NSC.Service
                 {
                     if (ni.NetworkInterfaceType == SNNI.NetworkInterfaceType.Wireless80211 || ni.NetworkInterfaceType == SNNI.NetworkInterfaceType.Ethernet)
                     {
-                        networkInterfaces.Add(new NetworkInterface()
+                        NetworkInterface existingNetworkInterface = _networkInterfaceModel.GetByInterfaceId(ni.Id);
+                        if (existingNetworkInterface == null)
                         {
-                            DeviceId = _clientDevice.Id,
-                            InternalIP = ni.GetIPProperties().UnicastAddresses.Where(ua => ua.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork).FirstOrDefault().Address.ToString(),
-                            MACAddress = ni.GetPhysicalAddress().ToString(),
-                            InterfaceId = ni.Id,
-                            InterfaceName = ni.Name,
-                            InterfaceDescription = ni.Description,
-                            InterfaceType = ni.NetworkInterfaceType.ToString(),
-                            InterfaceSpeed = (int)ni.Speed,
-                            InterfaceStatus = ni.OperationalStatus.ToString()
-                        });
+                            networkInterfaces.Add(new NetworkInterface()
+                            {
+                                DeviceId = _clientDevice.Id,
+                                InternalIP = ni.GetIPProperties().UnicastAddresses.Where(ua => ua.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork).FirstOrDefault().Address.ToString(),
+                                MACAddress = ni.GetPhysicalAddress().ToString(),
+                                InterfaceId = ni.Id,
+                                InterfaceName = ni.Name,
+                                InterfaceDescription = ni.Description,
+                                InterfaceType = ni.NetworkInterfaceType.ToString(),
+                                InterfaceSpeed = (int)ni.Speed,
+                                InterfaceStatus = ni.OperationalStatus.ToString()
+                            });
+                        }
+                        else
+                        {
+                            networkInterfaces.Add(existingNetworkInterface);
+                        }
+
                     }
                 }
             }
