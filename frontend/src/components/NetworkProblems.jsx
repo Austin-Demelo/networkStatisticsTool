@@ -17,9 +17,10 @@ import {
     TextField
 } from '@material-ui/core'
 import { deleteNetwork, getAllNetworks } from '../redux/modules/networkModule'
-
+import {getAllProblems, deleteProblem} from '../redux/modules/problemModule'
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import DoneIcon from '@material-ui/icons/Done';
 import NetworkForm from './Forms/NetworkForm'
 import React from 'react';
 import { connect } from 'react-redux'
@@ -56,6 +57,7 @@ class NetworkProblems extends React.Component {
     async componentDidMount() {
         this.props.getAllNetworks();
         this.props.getAllDevices();
+        this.props.getAllProblems();
     }
 
 
@@ -73,8 +75,8 @@ class NetworkProblems extends React.Component {
         });
     }
 
-    deleteNetwork(networkId) {
-        this.props.deleteNetwork(networkId);
+    deleteProblem(problemId) {
+        this.props.deleteProblem(problemId);
     }
 
     onCreateNetwork() {
@@ -163,32 +165,40 @@ class NetworkProblems extends React.Component {
                                 <TableRow>
                                     <TableCell>User</TableCell>
                                     <TableCell>Device</TableCell>
+                                    <TableCell>Problem Type</TableCell>
                                     <TableCell>Problem Description</TableCell>
                                     <TableCell>Time Reported</TableCell>
                                     <TableCell>Actions</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {this.props.networkList.map((network) => (
+                                {this.props.problemList.map((network) => (
                                     <TableRow key={`${network.Id}tableRow`}>
                                         <TableCell>
-                                            {network.NetworkName}
+                                            coming soon to a table near
                                         </TableCell>
                                         <TableCell>
-                                            {network.Devices?.map((d) => `${d} `)}
+                                            {network.DeviceId}
+                                            {/* {network.DeviceId?.map((d) => `${d.DeviceName} `)} */}
                                         </TableCell>
                                         <TableCell>
+                                            {network.ProblemType}
+                                        </TableCell>
+                                        <TableCell>
+                                            {network.ProblemDescription}
+                                        </TableCell>
+                                        <TableCell>
+                                            {/* {new Intl.DateTimeFormat("en-GB", {year: "numeric", month: "long", day: "2-digit"}).format(network.TimeProblemOccurred)}*/}
+                                            {network.TimeProblemOccurred}
+
+                                        </TableCell> 
+                                        <TableCell>
+                                            
                                             <IconButton
-                                                onClick={() => this.selectNetwork(network)}
-                                            >
-                                                <EditIcon />
-                                            </IconButton>
-                                            <IconButton
-                                                onClick={() => this.deleteNetwork(network.Id)}
+                                                onClick={() => this.deleteProblem(network.Id)}
                                                 //Foreign Key restraint. Devices point to Network parent.
-                                                disabled={!!!network.Devices || network.Devices.length !== 0}
-                                            >
-                                                <DeleteIcon />
+                                             >
+                                                <DoneIcon />
                                             </IconButton>
                                         </TableCell>
                                     </TableRow>
@@ -215,6 +225,7 @@ function mapStateToProps(state) {
     return {
         networkList: state.networks.networks,
         deviceList: state.devices.devices,
+        problemList: state.problems.problems,
     }
 }
 
@@ -222,8 +233,8 @@ function mapDispatchToProps(dispatch) {
     return {
         getAllNetworks: () => dispatch(getAllNetworks()),
         getAllDevices: () => dispatch(getAllDevices()),
-        deleteNetwork: (networkId) => dispatch(deleteNetwork(networkId)),
-        
+        deleteProblem: (problemId) => dispatch(deleteProblem(problemId)),
+        getAllProblems: () => dispatch(getAllProblems()),
         createProblem: (problem) => dispatch(createProblem(problem)),
 
     }

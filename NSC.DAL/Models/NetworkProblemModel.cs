@@ -51,7 +51,7 @@ namespace NSC.DAL.Models
         {
             try
             {
-
+                newNetworkProblem.TimeProblemOccurred = DateTime.Now;
                 newNetworkProblem = _repo.Add(newNetworkProblem);
             }
             catch (Exception ex)

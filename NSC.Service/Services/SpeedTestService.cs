@@ -46,7 +46,7 @@ namespace NSC.Service
 
         private string executeSpeedTestCLI(string path = OOKLA_SPEEDTEST_DEFAULT_PATH, string args = OOKLA_SPEEDTEST_DEFAULT_ARGS)
         {
-            path = @"C:\Users\Moe\Documents\FANSHAWE-SEMESTER6\Managing Software\scchaumo\NSC.Service\Services\speedtest.exe";
+            path = @"C:\$SemesterSix\1. INFO 5103 Turford\scchaumo\NSC.Service\Services\speedtest.exe";
             string speedTestJsonData = "";
             try
             {
