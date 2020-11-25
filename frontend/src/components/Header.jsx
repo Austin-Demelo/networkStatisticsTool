@@ -25,14 +25,14 @@ export class Header extends React.Component {
       console.log(props);
     }
 
-    componentDidMount() {
-        console.log(this.props.currentUser)
-        if (!this.props.currentUser) {
-            this.setState({
-                redirect: "login"
-            });
-        }
-    }
+    // componentDidMount() {
+    //     console.log(this.props.currentUser)
+    //     if (!this.props.currentUser) {
+    //         this.setState({
+    //             redirect: "login"
+    //         });
+    //     }
+    // }
    
     handleDrawerOpen = () => {
         this.setState({

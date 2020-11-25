@@ -1,8 +1,8 @@
-import { INetworkState } from "./networkState";
-import { IUserState } from "./userState";
 import { IDeviceState } from "./deviceState";
-import {IProblemState} from "./problemState";
+import { INetworkState } from "./networkState";
 import { INetworkStatsState } from "./networkStatsState";
+import {IProblemState} from "./problemState";
+import { IUserState } from "./userState";
 
 export interface IRootState {
 	users: IUserState;

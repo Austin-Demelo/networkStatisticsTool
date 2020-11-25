@@ -79,18 +79,6 @@ export function networkStatsReducer(state = initialState, action) {
                 hasError: false,
                 message: "",
             };
-        case NetworkStatsActions.DOWNLOAD_STATS:
-            return {
-
-            };
-        case NetworkStatsActions.LATENCY_STATS:
-            return {
-
-            };
-        case NetworkStatsActions.PACKETLOSS_STATS:
-            return {
-
-            };
         default:
             return state
     }

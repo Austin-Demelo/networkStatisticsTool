@@ -183,6 +183,13 @@ export function userReducer(state = initialState, action) {
         hasError: false,
         message: "",
       };
+      case UserActions.LOGOUT:
+      return {
+        ...state,
+        currentUser: undefined,
+        hasError: false,
+        message: "",
+      };
     default:
       return state;
   }

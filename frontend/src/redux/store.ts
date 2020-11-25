@@ -6,7 +6,7 @@ import { IUserState } from "./states/userState";
 import { InitialDeviceState } from "./modules/deviceModule";
 import { InitialNetworkState } from "./modules/networkModule";
 import { InitialNetworkStatsState } from "./modules/networkStatsModule";
-import {InitialProblemState} from "./modules/problemModule";
+import { InitialProblemState } from "./modules/problemModule";
 import { InitialUserState } from "./modules/userModule";
 import { getObjectFromLocalStorage } from "../utilities/localStorage";
 import rootReducer from "./reducers";
@@ -25,11 +25,11 @@ function configureStore() {
     devices: InitialDeviceState,
     users: userInitialState,
     problems: InitialProblemState,
-    networkStats: InitialNetworkStatsState,
+    networkStats: InitialNetworkStatsState
   };
   return createStore(
     rootReducer,
-    // initialState,
+    initialState,
     compose(applyMiddleware(...middlewares))
   );
 }
