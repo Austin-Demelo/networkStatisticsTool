@@ -22,6 +22,7 @@ import { Redirect } from 'react-router'
 import ViewIcon from '@material-ui/icons/ViewList'
 import { connect } from 'react-redux'
 import { getAllNetworks } from '../redux/modules/networkModule'
+import { runStatsTest } from '../redux/modules/networkStatsModule'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles({
@@ -33,7 +34,6 @@ const useStyles = makeStyles({
 class DeviceList extends React.Component {
     constructor(props) {
         super(props)
-        console.log(props)
         this.state = {
             open: false,
             editDevice: undefined,
@@ -66,6 +66,21 @@ class DeviceList extends React.Component {
 
     deleteDevice(deviceId) {
         this.props.deleteDevice(deviceId)
+    }
+
+    async runStatsTest(deviceId){
+        alert("Speed Test Running...")
+        let statsTest = await this.props.runStatsTest(deviceId)
+        if(statsTest.TestStatus == "Success"){
+            alert(`Speed Test completed successfully\n
+             Download Speed: ${statsTest.DownloadSpeed} MiB/s
+             Upload Speed: ${statsTest.UploadSpeed} MiB/s
+             Packet Loss: ${statsTest.PacketLoss}%
+             Latency: ${statsTest.Latency}% `)
+        }
+        else{
+            alert("Speed Test failed")
+        }
     }
 
     onCreateDevice() {
@@ -147,11 +162,8 @@ class DeviceList extends React.Component {
                                                 <ViewIcon />
                                             </IconButton>
                                             <IconButton
-                                                onClick={() =>
-                                                    this.setState({
-                                                        redirect: true,
-                                                        editDevice: device,
-                                                    })
+                                                onClick={() => 
+                                                    this.runStatsTest(device.Id)
                                                 }
                                             >
                                                 <PlayIcon />
@@ -197,6 +209,7 @@ function mapDispatchToProps(dispatch) {
         getAllNetworks: () => dispatch(getAllNetworks()),
         getAllDevices: () => dispatch(getAllDevices()),
         deleteDevice: (deviceId) => dispatch(deleteDevice(deviceId)),
+        runStatsTest: (deviceId) => dispatch(runStatsTest(deviceId))
     }
 }
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Chart from 'chart.js'
 import '../App.css'
+import moment from 'moment'
 
 export default class LineGraph extends Component {
     constructor(props) {
@@ -36,15 +37,11 @@ export default class LineGraph extends Component {
         let labelArr = dateArr.map((date) => this.formatAMPM(date))
         labelArr.reverse()
 
-        let downloadSpeedArr = this.props.data.map(
-            (data) => data.DownloadSpeedInMegaBitsPerSecond
-        )
-        let uploadSpeedArr = this.props.data.map(
-            (data) => data.UploadSpeedInMegaBitsPerSecond
-        )
+        let downloadSpeedArr = this.props.data.map(d => ({x: moment(d.TestRunTime), y: d.DownloadSpeedInMegaBitsPerSecond}))
+        let uploadSpeedArr = this.props.data.map(d => ({x: moment(d.TestRunTime), y: d.UploadSpeedInMegaBitsPerSecond}))
 
         new Chart(myChartRef, {
-            type: 'line',
+            type: 'scatter',
             data: {
                 //Bring in data
                 labels: labelArr,
@@ -77,8 +74,14 @@ export default class LineGraph extends Component {
                         {
                             scaleLabel: {
                                 display: true,
-                                labelString: 'Timestamp (hour)',
+                                labelString: 'Timestamp',
                             },
+                            ticks: {
+                                userCallback: function(label, index, labels) {
+                                    return moment(label).format("DD/MM/YY HH:mm:ss");
+                                },
+                              
+                             }
                         },
                     ],
                 },
