@@ -27,7 +27,7 @@ namespace NSCController.Controllers
         {
             try
             {
-                return Ok(_networkStatTestService.GetById(id));
+                return Ok(_networkStatTestService.GetGraphData(id));
             }
             catch (Exception ex)
             {

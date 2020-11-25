@@ -55,25 +55,41 @@ namespace NSC.DAL.ViewModels
         public DeviceViewModel Device { get; set; }
         public NetworkInterfaceViewModel NetworkInterface { get; set; }
         public SpeedTestServerViewModel SpeedTestServer { get; set; }
+        public decimal DownloadSpeedInMegabitsPerSecond
+        {
+            get
+            {
+                if (DownloadSpeed != null && DownloadElapsed != null)
+                {
+                    // convert speed in bytes to megabits
+                    // divide by time elapsed converted from milliseconds to seconds
+                    return Math.Round((decimal)((int)DownloadSpeed / BYTES_PER_MEGABIT) / ((int)DownloadElapsed / MILLISECONDS_PER_SECONDS), 2);
+                }
+                else
+                {
+                    return 0;
+                }
+            }
 
-        //public decimal DownloadSpeedInMegabitsPerSecond
-        //{
-        //    get
-        //    {
-        //        // convert speed in bytes to megabits
-        //        // divide by time elapsed converted from milliseconds to seconds
-        //        return Math.Round((decimal)((int)DownloadSpeed / BYTES_PER_MEGABIT) / ((int)DownloadElapsed / MILLISECONDS_PER_SECONDS), 2);
-        //    }
-        //}
+        }
 
-        //public decimal UploadSpeedInMegabitsPerSecond
-        //{
-        //    get
-        //    {
-        //        // convert speed in bytes to megabits
-        //        // divide by time elapsed converted from milliseconds to seconds
-        //        return Math.Round((decimal)((int)UploadSpeed / BYTES_PER_MEGABIT) / ((int)UploadElapsed / MILLISECONDS_PER_SECONDS), 2);
-        //    }
-        //}
+
+        public decimal UploadSpeedInMegabitsPerSecond
+        {
+            get
+            {
+                if (UploadSpeed != null && UploadElapsed != null)
+                {
+                    // convert speed in bytes to megabits
+                    // divide by time elapsed converted from milliseconds to seconds
+                    return Math.Round((decimal)((int)UploadSpeed / BYTES_PER_MEGABIT) / ((int)UploadElapsed / MILLISECONDS_PER_SECONDS), 2);
+                }
+                else
+                {
+                    return 0;
+                }
+
+            }
+        }
     }
 }

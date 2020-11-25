@@ -100,5 +100,16 @@ namespace NSC.Service
             return networkStatTestModel;
         }
 
+        public List<NetworkGraphViewModel> GetGraphData(int deviceId)
+        {
+            List<NetworkGraphViewModel> listOfStats = new List<NetworkGraphViewModel>();
+
+            foreach(NetworkStatTest nst in _networkStatTestModel.GetGraphData(deviceId))
+            {
+                listOfStats.Add(new NetworkGraphViewModel(nst));
+            }
+            return listOfStats;
+        }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using NSC.DAL.Database;
 using NSC.DAL.Repository;
+using NSC.DAL.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
@@ -35,9 +36,11 @@ namespace NSC.DAL.Models
         public Network GetById(int id)
         {
             List<Network> selectedNetworks = null;
+            NetworkStatTestViewModel vm = null;
             try
             {
                 selectedNetworks = _repo.GetByExpression(network => network.Id == id);
+
             }
             catch (Exception ex)
             {
