@@ -98,7 +98,7 @@ namespace NSC.DAL.Models
 
         public UserRole getDefault()
         {
-            List<UserRole> userRoles = this.GetAll().Where((userRole) => userRole.IsDefault).ToList();
+            List<UserRole> userRoles = this.GetAll().Where((userRole) => userRole.IsDefault?? false).ToList();
             if(userRoles.Count == 0)
             {
                 //Set up default user

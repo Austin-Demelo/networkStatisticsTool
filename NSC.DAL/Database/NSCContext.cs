@@ -14,6 +14,7 @@ namespace NSC.DAL.Database
 
         public virtual DbSet<Device> Devices { get; set; }
         public virtual DbSet<NetworkInterface> NetworkInterfaces { get; set; }
+        public virtual DbSet<NetworkProblem> NetworkProblems { get; set; }
         public virtual DbSet<Network> Networks { get; set; }
         public virtual DbSet<NetworkStatTest> NetworkStatTests { get; set; }
         public virtual DbSet<NetworkUser> NetworkUsers { get; set; }
@@ -33,6 +34,11 @@ namespace NSC.DAL.Database
 
             modelBuilder.Entity<Device>()
                 .HasMany(e => e.NetworkInterfaces)
+                .WithRequired(e => e.Device)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Device>()
+                .HasMany(e => e.NetworkProblems)
                 .WithRequired(e => e.Device)
                 .WillCascadeOnDelete(false);
 
@@ -75,6 +81,18 @@ namespace NSC.DAL.Database
 
             modelBuilder.Entity<NetworkInterface>()
                 .Property(e => e.InterfaceStatus)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<NetworkProblem>()
+                .Property(e => e.Timer)
+                .IsFixedLength();
+
+            modelBuilder.Entity<NetworkProblem>()
+                .Property(e => e.ProblemType)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<NetworkProblem>()
+                .Property(e => e.ProblemDescription)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Network>()
@@ -181,9 +199,16 @@ namespace NSC.DAL.Database
                 .IsUnicode(false);
 
             modelBuilder.Entity<User>()
-                .HasMany(e => e.Devices)
-                .WithRequired(e => e.User)
-                .WillCascadeOnDelete(false);
+                .Property(e => e.UserEmail)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<User>()
+                .Property(e => e.ActivationKey)
+                .IsFixedLength();
+
+            modelBuilder.Entity<User>()
+                .Property(e => e.Email)
+                .IsUnicode(false);
 
             modelBuilder.Entity<User>()
                 .HasMany(e => e.NetworkUsers)
