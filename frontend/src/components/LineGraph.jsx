@@ -32,6 +32,9 @@ export default class LineGraph extends Component {
         let labelArr = dateArr.map(date => this.formatAMPM(date))
         labelArr.reverse()
 
+        let downloadSpeedArr = this.props.data.map(data => data.DownloadSpeedInMegaBitsPerSecond)
+        let uploadSpeedArr = this.props.data.map(data => data.UploadSpeedInMegaBitsPerSecond)
+
         new Chart(myChartRef, {
             type: 'line',
             data: {
@@ -40,26 +43,13 @@ export default class LineGraph extends Component {
                 datasets: [
                     {
                         label: 'Download',
-                        data: [
-                            200,
-                            190,
-                            170,
-                            150,
-                            160,
-                            130,
-                            120,
-                            100,
-                            90,
-                            80,
-                            60,
-                            50,
-                        ],
+                        data: downloadSpeedArr,
                         backgroundColor: 'rgb(0, 0, 255)',
                         fill: false,
                     },
                     {
                         label: 'Upload',
-                        data: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+                        data: uploadSpeedArr,
                         backgroundColor: 'rgb(60, 179, 113)',
                         fill: false,
                     },

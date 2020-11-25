@@ -36,27 +36,12 @@ namespace NSCController.Controllers
             }
         }
 
-        //[Route("api/stattests/{id}")]
-        //public IHttpActionResult GetById(int id)
-        //{
-        //    try
-        //    {
-        //        return Ok(_networkStatTestService.GetById(id));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest("Retrieve failed - " + ex.Message);
-        //    }
-        //}
-
-        [Route("api/stattests/{id}")]
-        [HttpGet]
-        public IHttpActionResult LoopTest(int id)
+        [Route("api/networkstats/{id}")]
+        public IHttpActionResult GetById(int id)
         {
             try
             {
-
-                return Ok(_networkStatTestService.RunSpeedTest(id));
+                return Ok(_networkStatTestService.GetGraphData(id));
             }
             catch (Exception ex)
             {

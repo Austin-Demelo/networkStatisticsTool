@@ -17,7 +17,7 @@ export function getAllProblems(): AppThunkAction<Promise<IProblem[] | undefined>
   return async (dispatch, getState) => {
    try {
 
-      let problems: IProblem[] = await http<IProblem[]>("http://localhost:52288/api/problems");
+      let problems: IProblem[] = await http<IProblem[]>("http://localhost:52288/api/networkproblems");
       dispatch({ type: ProblemActions.GET_ALL_PROBLEMS, payload: problems });
       return problems;
    } catch(error){
@@ -30,7 +30,7 @@ export function getAllProblems(): AppThunkAction<Promise<IProblem[] | undefined>
 export function createProblem(addProblem:IProblem): AppThunkAction<Promise<IProblem | undefined>>{
   return async (dispatch, getState) => {
     try {
-       let problem:  IProblem  = await http<IProblem>("http://localhost:52288/api/problems", HttpMethod.POST, JSON.stringify(addProblem));
+       let problem:  IProblem  = await http<IProblem>("http://localhost:52288/api/networkproblems", HttpMethod.POST, JSON.stringify(addProblem));
        dispatch({ type: ProblemActions.POST_PROBLEM, payload: problem });
        return problem;
     } catch(error){
@@ -44,7 +44,7 @@ export function updateProblem(updateProblem:IProblem): AppThunkAction<Promise<IP
   return async (dispatch, getState) => {
     try {
       // Must send "stringified" JSON to server
-       const updateStatus: UpdateStatus = await http<UpdateStatus>(`http://localhost:52288/api/problems`, HttpMethod.PUT, JSON.stringify(updateProblem));
+       const updateStatus: UpdateStatus = await http<UpdateStatus>(`http://localhost:52288/api/networkproblems`, HttpMethod.PUT, JSON.stringify(updateProblem));
        if(updateStatus === UpdateStatus.Ok) {
           // If the update status is good, then push to store
           dispatch({ type: ProblemActions.PUT_PROBLEM, payload: updateProblem });
@@ -62,7 +62,7 @@ export function deleteProblem(problemId: number): AppThunkAction<Promise<number 
   return async (dispatch, getState) => {
     try {
       // Must send "stringified" JSON to server
-       const deleteId: number = await http<UpdateStatus>(`http://localhost:52288/api/problems/${problemId}`, HttpMethod.DELETE);
+       const deleteId: number = await http<UpdateStatus>(`http://localhost:52288/api/networkproblems/${problemId}`, HttpMethod.DELETE);
        console.log(deleteId);
        if(deleteId === problemId) {
           // If the update status is good, then push to store

@@ -112,7 +112,7 @@ namespace NSC.Service
             NetworkStatTestViewModel networkStatTestModel = new NetworkStatTestViewModel();
             foreach (NetworkStatTest networkstattest in _networkStatTestModel.GetAll())
             {
-                if (networkstattest.Id == id)
+                if(networkstattest.DeviceId == id)
                 {
                     networkStatTestModel.DeviceId = networkstattest.DeviceId;
                     networkStatTestModel.TestRunTime = networkstattest.TestRunTime;
@@ -135,6 +135,17 @@ namespace NSC.Service
                 }
             }
             return networkStatTestModel;
+        }
+
+        public List<NetworkGraphViewModel> GetGraphData(int deviceId)
+        {
+            List<NetworkGraphViewModel> listOfStats = new List<NetworkGraphViewModel>();
+
+            foreach(NetworkStatTest nst in _networkStatTestModel.GetGraphData(deviceId))
+            {
+                listOfStats.Add(new NetworkGraphViewModel(nst));
+            }
+            return listOfStats;
         }
 
     }

@@ -3,6 +3,8 @@ namespace NSC.DAL.Database
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
 
     public partial class User : NSCEntity
     {
@@ -13,14 +15,7 @@ namespace NSC.DAL.Database
             NetworkUsers = new HashSet<NetworkUser>();
             NetworkUsers1 = new HashSet<NetworkUser>();
         }
-        public User(ViewModels.UserViewModel userVM)
-        {
-            Id = userVM.Id;
-            UserName = userVM.UserName;
-            UserPass = userVM.UserPass;
-            Email = userVM.Email;
-            ActivationDate = userVM.ActivationDate;
-        }
+
 
         [Required]
         [StringLength(255)]
@@ -32,6 +27,19 @@ namespace NSC.DAL.Database
 
         public int RoleId { get; set; }
 
+        [StringLength(320)]
+        public string UserEmail { get; set; }
+
+        [StringLength(40)]
+        public string ActivationKey { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime? ActivationDate { get; set; }
+
+        [Required]
+        [StringLength(40)]
+        public string Email { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Device> Devices { get; set; }
 
@@ -42,15 +50,5 @@ namespace NSC.DAL.Database
         public virtual ICollection<NetworkUser> NetworkUsers1 { get; set; }
 
         public virtual UserRole UserRole { get; set; }
-
-        [StringLength(40)]
-        [System.ComponentModel.DefaultValue("")]
-        public string ActivationKey { get; set; }
-
-        [DataType(DataType.Date)]
-        public DateTime? ActivationDate { get; set; }
-
-        [StringLength(40)]
-        public string Email { get; set; }
     }
 }

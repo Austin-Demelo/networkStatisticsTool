@@ -1,6 +1,7 @@
 import {Button, IconButton, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Card, CardContent, TextField, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core'
 
-import { deleteNetwork, getAllNetworks } from '../redux/modules/networkModule'
+import { deleteNetwork, getAllNetworks } from '../redux/modules/networkModule';
+import {getAllDevices} from '../redux/modules/deviceModule';
 import {createProblem} from '../redux/modules/problemModule';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
@@ -22,7 +23,10 @@ class NetworkProblems extends React.Component {
         this.state = {
             networks: [],
             listOfProblems: ["Lag", "Latency", "More Problems go here"],
-            problem: [], //should be of type IProblem
+            problem: {}, //should be of type IProblem,
+            problemDescription: '',
+            problemType: '',
+            deviceId: 0,
             open: false,
             editNetwork: undefined
         }
@@ -33,8 +37,9 @@ class NetworkProblems extends React.Component {
         this.onCreateProblem = this.onCreateProblem.bind(this);
     }
 
-    async componentWillMount() {
-        this.props.getAllNetworks()
+    async componentDidMount() {
+        this.props.getAllNetworks();
+        this.props.getAllDevices();
     }
 
 
@@ -77,10 +82,26 @@ class NetworkProblems extends React.Component {
             <div>
                 <div style={{ maxWidth: '500px' }}>
                      <Card>
+                     <CardContent>
+                            Device: 
+                            <FormControl  style = {{display: 'block', width: 300}}>
+                                <Select style= {{width: 200}} onChange={(e) => this.setState({deviceId: e.target.value.Id})}>
+                                    
+                                    {this.props.deviceList.map((device) => (
+                                        <MenuItem value={device}>
+                                        {device.DeviceName}
+                                       
+                                        </MenuItem>
+                                    ))} 
+                                </Select>
+                             </FormControl>
+                        </CardContent>
+                        
+
                         <CardContent>
                             Problem Type: 
                             <FormControl  style = {{display: 'block', width: 300}}>
-                                <Select style= {{width: 200}}>
+                                <Select style= {{width: 200}} onChange={(e) => this.setState({problemType: e.target.value})}>
                                     <MenuItem value="">
                                         <em>Other</em>
                                     </MenuItem>
@@ -93,11 +114,12 @@ class NetworkProblems extends React.Component {
                                 </Select>
                              </FormControl>
                         </CardContent>
+
+                        
                         <CardContent>
-                            
                             Description of Problem: 
                             <TextField
-                                 //onChange={(e) => this.setState({formData: {...this.state.formData, NetworkName: e.target.value}})}
+                                 onChange={(e) => this.setState({problemDescription: e.target.value})}
                                 // placeholder="Network Name"
                                 // autoFocus={true} //Needed on the first field of each form
                                 // value={this.state.formData.NetworkName  || ''}
@@ -108,7 +130,7 @@ class NetworkProblems extends React.Component {
                             />
                             
                             </CardContent>
-                            <Button color="primary" >
+                            <Button color="primary" onClick={()=>this.props.createProblem({problemType: this.state.problemType, problemDescription: this.state.problemDescription, deviceId: this.state.deviceId})} >
                                 Report Issue
                              </Button>
                     </Card>
@@ -176,12 +198,14 @@ class NetworkProblems extends React.Component {
 function mapStateToProps(state) {
     return {
         networkList: state.networks.networks,
+        deviceList: state.devices.devices,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         getAllNetworks: () => dispatch(getAllNetworks()),
+        getAllDevices: () => dispatch(getAllDevices()),
         deleteNetwork: (networkId) => dispatch(deleteNetwork(networkId)),
         
         createProblem: (problem) => dispatch(createProblem(problem)),

@@ -6,33 +6,31 @@ import LineGraph from './LineGraph'
 export class NetworkStats extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {
-        }
+        this.state = {}
     }
 
     async componentDidMount() {
-        // this.props.getAllNetworkStats(this.props.location.state.device.Id)
+        console.log(this.props.location.state.device.Id)
+        this.props.getAllNetworkStats(this.props.location.state.device.Id)
     }
 
     render() {
         const { data, labels } = this.state
-
         return (
             <div
                 style={{
                     textAlign: 'center',
                     maxWidth: '500px',
                     margin: 'auto',
-                    padding:'10px'
+                    padding: '10px',
                 }}
             >
                 <h1>
                     Network Stats for device:{' '}
                     {this.props.location.state.device.DeviceName}
                 </h1>
-                <div >
-                    
-                    <LineGraph data={data} labels={labels} />
+                <div>
+                    <LineGraph data={this.props.networkStatsList} />
                 </div>
             </div>
         )
@@ -40,7 +38,9 @@ export class NetworkStats extends React.Component {
 }
 
 function mapStateToProps(state) {
-    return {}
+    return {
+        networkStatsList: state.networkStats.networkStats,
+    }
 }
 
 function mapDispatchToProps(dispatch) {
@@ -50,4 +50,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(null, mapDispatchToProps)(NetworkStats)
+export default connect(mapStateToProps, mapDispatchToProps)(NetworkStats)

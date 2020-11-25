@@ -13,12 +13,20 @@ namespace NSC.DAL.ViewModels
         public NetworkProblemViewModel() { }
         public NetworkProblemViewModel(NetworkProblem networkproblem)
         {
-            Id = networkproblem.Id;
-            ProblemType = networkproblem.ProblemType;
-            ProblemDescription = networkproblem.ProblemDescription;
-            DeviceId = networkproblem.DeviceId;
-            Timer = Convert.ToBase64String(networkproblem.Timer);
-            TimeProblemOccurred = networkproblem.TimeProblemOccurred;
+            if(networkproblem != null)
+            {
+                Id = networkproblem.Id;
+                ProblemType = networkproblem.ProblemType;
+                ProblemDescription = networkproblem.ProblemDescription;
+                DeviceId = networkproblem.DeviceId;
+                Timer = Convert.ToBase64String(networkproblem.Timer);
+                TimeProblemOccurred = networkproblem.TimeProblemOccurred;
+            }
+            else
+            {
+                throw new Exception();
+            }
+            
 
         }
 

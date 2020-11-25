@@ -39,6 +39,7 @@ namespace NSC.Service
             try
             {
                 NetworkProblem netprob = new NetworkProblem();
+                netprob.DeviceId = vm.DeviceId;
                 netprob.ProblemType = vm.ProblemType;
                 netprob.ProblemDescription = vm.ProblemDescription;
                 netprob.TimeProblemOccurred = vm.TimeProblemOccurred;
