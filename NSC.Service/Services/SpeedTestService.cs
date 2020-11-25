@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using NSC.DAL.Database;
+using NSC.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,11 +15,15 @@ namespace NSC.Service
         private const string OOKLA_SPEEDTEST_DEFAULT_PATH = @"speedtest.exe";
         private const string OOKLA_SPEEDTEST_DEFAULT_ARGS = "-f json-pretty";
         private Device _clientDevice;
+        private DeviceModel _deviceModel;
 
-        public SpeedTestService(Device clientDevice)
+        public SpeedTestService(int clientDeviceId)
         {
-            _clientDevice = clientDevice;
+            _deviceModel = new DeviceModel();
+            _clientDevice = _deviceModel.GetById(clientDeviceId);
         }
+
+
 
         public NetworkStatTest RunNetworkStatTest()
         {
@@ -39,6 +44,7 @@ namespace NSC.Service
 
         private string executeSpeedTestCLI(string path = OOKLA_SPEEDTEST_DEFAULT_PATH, string args = OOKLA_SPEEDTEST_DEFAULT_ARGS)
         {
+            path = @"C:\Users\Scott\Desktop\CPA-6\INFO-5103-SoftwareProjects\NSCRepository\NSC.Service\Services\speedtest.exe";
             string speedTestJsonData = "";
             try
             {

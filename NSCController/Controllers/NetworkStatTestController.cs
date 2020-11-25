@@ -17,17 +17,46 @@ namespace NSCController.Controllers
     {
         private NetworkStatTestService _networkStatTestService;
 
+
         public NetworkStatTestController()
         {
             _networkStatTestService = new NetworkStatTestService();
         }
 
-        [Route("api/networkstats/{id}")]
-        public IHttpActionResult GetById(int id)
+        [Route("api/stattests")]
+        public IHttpActionResult GetAll()
         {
             try
             {
-                return Ok(_networkStatTestService.GetById(id));
+                return Ok(_networkStatTestService.GetAll());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Retrieve failed - " + ex.Message);
+            }
+        }
+
+        //[Route("api/stattests/{id}")]
+        //public IHttpActionResult GetById(int id)
+        //{
+        //    try
+        //    {
+        //        return Ok(_networkStatTestService.GetById(id));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest("Retrieve failed - " + ex.Message);
+        //    }
+        //}
+
+        [Route("api/stattests/{id}")]
+        [HttpGet]
+        public IHttpActionResult LoopTest(int id)
+        {
+            try
+            {
+
+                return Ok(_networkStatTestService.RunSpeedTest(id));
             }
             catch (Exception ex)
             {
