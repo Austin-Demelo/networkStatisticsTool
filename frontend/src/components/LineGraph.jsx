@@ -23,20 +23,9 @@ export default class LineGraph extends Component {
         var strTime = hours + ' ' + ampm
         return strTime
     }
- 
-    componentDidMount() {
+
+    componentDidUpdate(){
         const myChartRef = this.chartRef.current.getContext('2d')
-        this.setState({data: this.props.data})
-        let currentDate = new Date()
-        let dateArr = [currentDate]
-        for (let i = 0; i < 14; i++) {
-            let newHour = new Date(dateArr[i] - 1000 * 60 * 60)
-            dateArr.push(newHour)
-        }
-
-        let labelArr = dateArr.map((date) => this.formatAMPM(date))
-        labelArr.reverse()
-
         let downloadSpeedArr = this.props.data.map(d => ({x: moment(d.TestRunTime), y: d.DownloadSpeedInMegaBitsPerSecond}))
         let uploadSpeedArr = this.props.data.map(d => ({x: moment(d.TestRunTime), y: d.UploadSpeedInMegaBitsPerSecond}))
 
@@ -44,7 +33,6 @@ export default class LineGraph extends Component {
             type: 'scatter',
             data: {
                 //Bring in data
-                labels: labelArr,
                 datasets: [
                     {
                         label: 'Download',
@@ -88,6 +76,7 @@ export default class LineGraph extends Component {
             },
         })
     }
+ 
     render() {
         return (
             <div>
