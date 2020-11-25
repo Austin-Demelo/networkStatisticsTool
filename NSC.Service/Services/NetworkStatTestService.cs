@@ -58,11 +58,12 @@ namespace NSC.Service
             List<NetworkStatTestViewModel> networkStatTestModels = new List<NetworkStatTestViewModel>();
             try
             {
-                foreach(NetworkStatTest networkstattest in _networkStatTestModel.GetAll())
+                foreach (NetworkStatTest networkstattest in _networkStatTestModel.GetAll())
                 {
                     networkStatTestModels.Add(new NetworkStatTestViewModel(networkstattest));
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
                 throw ex;
