@@ -5,35 +5,43 @@ import '../App.css'
 export default class LineGraph extends Component {
     constructor(props) {
         super(props)
-        this.state = {}
+        this.state = {
+            data: undefined
+        }
         this.formatAMPM = this.formatAMPM.bind(this)
     }
     chartRef = React.createRef()
 
     formatAMPM(date) {
         var hours = date.getHours()
+        var minutes = date.getMinutes();
         var ampm = hours >= 12 ? 'pm' : 'am'
         hours = hours % 12
         hours = hours ? hours : 12 // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0'+minutes : minutes;
         var strTime = hours + ' ' + ampm
         return strTime
     }
-
+ 
     componentDidMount() {
         const myChartRef = this.chartRef.current.getContext('2d')
+        this.setState({data: this.props.data})
         let currentDate = new Date()
         let dateArr = [currentDate]
-
-        for (let i = 0; i < 11; i++) {
-            let newHour = new Date(dateArr[i]  - 1000 * 60 * 60)
+        for (let i = 0; i < 14; i++) {
+            let newHour = new Date(dateArr[i] - 1000 * 60 * 60)
             dateArr.push(newHour)
         }
-        
-        let labelArr = dateArr.map(date => this.formatAMPM(date))
+
+        let labelArr = dateArr.map((date) => this.formatAMPM(date))
         labelArr.reverse()
 
-        let downloadSpeedArr = this.props.data.map(data => data.DownloadSpeedInMegaBitsPerSecond)
-        let uploadSpeedArr = this.props.data.map(data => data.UploadSpeedInMegaBitsPerSecond)
+        let downloadSpeedArr = this.props.data.map(
+            (data) => data.DownloadSpeedInMegaBitsPerSecond
+        )
+        let uploadSpeedArr = this.props.data.map(
+            (data) => data.UploadSpeedInMegaBitsPerSecond
+        )
 
         new Chart(myChartRef, {
             type: 'line',
@@ -53,18 +61,6 @@ export default class LineGraph extends Component {
                         backgroundColor: 'rgb(60, 179, 113)',
                         fill: false,
                     },
-                    // {
-                    //     label: 'Latency',
-                    //     data: [0, 1, 3, 4, 5, 6, 7, 8, 9],
-                    //     backgroundColor: 'rgb(60, 179, 113)',
-                    //     fill:false,
-                    // },
-                    // {
-                    //     label: 'Packet Loss',
-                    //     data: [0, 1, 3, 4, 5, 6, 7, 8, 9],
-                    //     backgroundColor: 'rgb(60, 179, 113)',
-                    //     fill:false,
-                    // },
                 ],
             },
             options: {
@@ -92,7 +88,8 @@ export default class LineGraph extends Component {
     render() {
         return (
             <div>
-                <canvas className="myChart" ref={this.chartRef} />
+              
+             <canvas className="myChart" ref={this.chartRef} />
             </div>
         )
     }

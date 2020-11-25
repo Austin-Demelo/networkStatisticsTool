@@ -10,12 +10,10 @@ export class NetworkStats extends React.Component {
     }
 
     async componentDidMount() {
-        console.log(this.props.location.state.device.Id)
         this.props.getAllNetworkStats(this.props.location.state.device.Id)
     }
 
     render() {
-        const { data, labels } = this.state
         return (
             <div
                 style={{
@@ -30,7 +28,7 @@ export class NetworkStats extends React.Component {
                     {this.props.location.state.device.DeviceName}
                 </h1>
                 <div>
-                    <LineGraph data={this.props.networkStatsList} />
+                    <LineGraph data={this.props.networkStatsList} deviceId={this.props.location.state.device.Id} />
                 </div>
             </div>
         )

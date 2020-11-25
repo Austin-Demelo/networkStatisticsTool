@@ -23,7 +23,7 @@ function App() {
     <Provider store={Store}>
       <div>
         {/* {loggedIn ? <Redirect to="/login" /> : <PublicHomePage />} */}
-        <Header/>
+          <Header />
         <div style = {{margin: 'auto', width: '80%', marginTop: 100}}>
           <Switch>
               <Route path="/" component={Home} exact />

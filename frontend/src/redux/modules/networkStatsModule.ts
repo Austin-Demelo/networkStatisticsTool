@@ -18,14 +18,15 @@ export function getAllNetworkStats(
 ): AppThunkAction<Promise<INetworkStats[] | undefined>> {
     return async (dispatch, getState) => {
         try {
+            console.log("in reducer", deviceId)
             let networks: INetworkStats[] = await http<INetworkStats[]>(
                 `http://localhost:52288/api/networkstats/${deviceId}`
             )
-            console.log(networks)
             dispatch({
                 type: NetworkStatsActions.GET_ALL_NETWORKSTATS,
                 payload: networks,
             })
+            console.log(networks)
             return networks
         } catch (error) {
             //TO-DO, Add Error to Network State

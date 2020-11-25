@@ -39,7 +39,7 @@ const Header = () => {
 
     return (
         <div>
-            <AppBar className={clsx(headerStyles.appBar, open && headerStyles.appBarShift)}>
+            <AppBar color="secondary" className={clsx(headerStyles.appBar, open && headerStyles.appBarShift)}>
                 <Toolbar className={headerStyles.toolbar}>
                 <IconButton
                     edge="start"
