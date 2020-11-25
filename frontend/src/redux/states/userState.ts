@@ -2,7 +2,7 @@ import { IUser } from "../../interfaces/user";
 
 export interface IUserState {
     users: IUser[];
-    currentUserId?: number; 
+    currentUser?: IUser; 
     hasError: boolean;
     message: string;
 }

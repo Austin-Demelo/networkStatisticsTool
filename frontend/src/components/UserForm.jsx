@@ -1,5 +1,5 @@
-import { Button, Card, CardContent, IconButton, Input, InputAdornment, TextField } from "@material-ui/core/";
-import { createUser, getAllUsers, registerUser, updateUser } from '../redux/modules/userModule'
+import { Button, Card, CardContent, TextField } from "@material-ui/core/";
+import { createUser, getAllUsers, loginUser, registerUser, updateUser } from '../redux/modules/userModule'
 
 import React from 'react'
 import { connect } from 'react-redux'
@@ -52,7 +52,7 @@ class UserForm extends React.Component {
                         }
                         break;
                     case 'Email':
-                    if (!value) {
+                    if (!value && this.props.register === true) {
                         updatedValidation[field] = "This field is required"
                     }
                     break;
@@ -67,14 +67,15 @@ class UserForm extends React.Component {
     }
 
     async onFormSubmit(e) {
+        
         let user = { ...this.state.formData };
         await this.validateFields();
+        console.log(this.props.register)
         if (!Object.keys(this.state.formValidation).length) {
             if (this.props.editUser) {
                 //Update the User
                 user.Id = this.props.editUser.Id;
                 user.UserName = this.props.editUser.UserName;
-                user.RoleId = "admin";
                 user.Password = this.props.editUser.UserPass;
                 this.props.updateUser(user)
                     .then((user) => {
@@ -83,8 +84,16 @@ class UserForm extends React.Component {
             }
             else {
                 //Add the User
-                if(this.props.register) {
+                if(this.props.register === true) {
                     this.props.registerUser(user)
+                    .then((user) => {
+                        if(this.props.handleClose) {
+                            this.props.handleClose(); //Passed as argument from UserList
+                        }
+                    });
+                }
+                else if(this.props.register === false) { //Login
+                    this.props.loginUser(user)
                     .then((user) => {
                         if(this.props.handleClose) {
                             this.props.handleClose(); //Passed as argument from UserList
@@ -130,6 +139,7 @@ class UserForm extends React.Component {
                         type='password'
                         style={{ display: 'block', width: 300 }}
                     />
+                    {this.props.register && 
                     <TextField
                         onChange={(e) => this.setState({ formData: { ...this.state.formData, Email: e.target.value } })}
                         placeholder="Email"
@@ -138,9 +148,9 @@ class UserForm extends React.Component {
                         helperText={this.state.formValidation.Email || ''}
                         label="Email"
                         style={{ display: 'block', width: 300 }}
-                    />
+                    />}
                     <Button color="primary" onClick={this.onFormSubmit}>
-                        {(this.props.editUser === undefined ? 'Register' : 'Save')}
+                        {(this.props.register === true ? 'Register' : 'Login')}
                     </Button>
                 </CardContent>
             </Card>
@@ -160,7 +170,7 @@ function mapDispatchToProps(dispatch) {
         createUser: (user) => dispatch(createUser(user)),
         updateUser: (user) => dispatch(updateUser(user)),
         registerUser: (user) => dispatch(registerUser(user)),
-        
+        loginUser: (user) => dispatch(loginUser(user)),
     }
 }
 // Must have {forwardRef: true} if passing args from parent

@@ -75,15 +75,31 @@ namespace NSC.Service.Services
             }
         }
 
+        public User Login(string Username, string Password)
+        {
+            try
+            {
+                List<User> users = _userModel.GetAll();
+                users = users.Where<User>(user => user.UserPass == Password && user.UserName == Username && user.ActivationDate != null).ToList();
+                return users.FirstOrDefault();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Problem in " + GetType().Name + " " + MethodBase.GetCurrentMethod().Name + " " + ex.Message);
+                throw ex;
+            }
+        }
+
         public UserViewModel ValidateUser(string ActivateKey)
         {
             UserViewModel userVM = null;
             try
             {
                 User user = GetByActivationKey(ActivateKey);
-                userVM.ActivationDate = DateTime.Now;
-                user.ActivationDate = userVM.ActivationDate;
+                user.ActivationDate = DateTime.Now;
                 _userModel.Update(user);
+                userVM = new UserViewModel(user);
             }
             catch (Exception ex)
             {
