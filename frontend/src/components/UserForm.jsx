@@ -2,6 +2,7 @@ import { Button, Card, CardContent, TextField } from "@material-ui/core/";
 import { createUser, getAllUsers, loginUser, registerUser, updateUser } from '../redux/modules/userModule'
 
 import React from 'react'
+import {Redirect} from "react-router-dom";
 import { connect } from 'react-redux'
 
 class UserForm extends React.Component {
@@ -14,6 +15,7 @@ class UserForm extends React.Component {
                 Email: '',
                 
             },
+            redirect: undefined,
             //Through validateFields(), will populate field value (Ex UserName) from formData, with error message string
             //EX fromValidation: { UserName: 'This field is required' }
             //Used in Field Component's properties *error* and *helperText*
@@ -66,6 +68,28 @@ class UserForm extends React.Component {
         });
     }
 
+    redirectRouter = (redirect) => {
+        this.setState({
+            redirect: redirect,
+          });
+    };
+
+    renderRedirect = () => {
+        if (this.state.redirect) {
+            const redirect = this.state.redirect;
+            this.setState({
+                redirect: undefined,
+            });
+            return (
+                <Redirect
+                    to={{
+                        pathname: `/${redirect}/`,
+                    }}
+                />
+            )
+        }
+    }
+
     async onFormSubmit(e) {
         
         let user = { ...this.state.formData };
@@ -89,6 +113,7 @@ class UserForm extends React.Component {
                     .then((user) => {
                         if(this.props.handleClose) {
                             this.props.handleClose(); //Passed as argument from UserList
+                            this.redirectRouter('home');
                         }
                     });
                 }
@@ -97,6 +122,8 @@ class UserForm extends React.Component {
                     .then((user) => {
                         if(this.props.handleClose) {
                             this.props.handleClose(); //Passed as argument from UserList
+                            this.redirectRouter('home');
+
                         }
                     });
                 }
@@ -118,6 +145,7 @@ class UserForm extends React.Component {
     render() {
         return (
             <Card>
+                {this.renderRedirect()}
                 <CardContent>
                     <TextField
                         onChange={(e) => this.setState({ formData: { ...this.state.formData, UserName: e.target.value } })}

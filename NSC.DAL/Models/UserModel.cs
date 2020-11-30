@@ -53,7 +53,7 @@ namespace NSC.DAL.Models
             try
             {
                 selectedUsers = _repo.GetAll();
-                selectedUsers = selectedUsers.Where<User>(user => user.ActivationKey.TrimEnd() == key && user.ActivationDate == null).ToList();
+                selectedUsers = selectedUsers.Where<User>(user => user.ActivationKey?.TrimEnd() == key && user.ActivationDate == null).ToList();
             }
             catch (Exception ex)
             {
