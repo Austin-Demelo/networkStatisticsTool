@@ -5,10 +5,6 @@ import { http } from '../../utilities/http'
 
 const NetworkStatsActions = {
     GET_ALL_NETWORKSTATS: 'networkstats/GET_ALL_NETWORKSTATS',
-    UPLOAD_STATS: 'networkstats/UPLOAD_STATS',
-    DOWNLOAD_STATS: 'networkstats/DOWNLOAD_STATS',
-    LATENCY_STATS: 'networkstats/LATENCY_STATS',
-    PACKETLOSS_STATS: 'networkstats/PACKETLOSS_STATS',
     RUN_STATS: 'networkstats/PACKETLOSS_STATS'
 }
 
@@ -78,18 +74,6 @@ export function networkStatsReducer(state = initialState, action) {
                 networkStats: action.payload,
                 hasError: false,
                 message: "",
-            };
-        case NetworkStatsActions.DOWNLOAD_STATS:
-            return {
-
-            };
-        case NetworkStatsActions.LATENCY_STATS:
-            return {
-
-            };
-        case NetworkStatsActions.PACKETLOSS_STATS:
-            return {
-
             };
         default:
             return state

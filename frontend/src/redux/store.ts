@@ -29,7 +29,7 @@ function configureStore() {
   };
   return createStore(
     rootReducer,
-    // initialState,
+    initialState,
     compose(applyMiddleware(...middlewares))
   );
 }
