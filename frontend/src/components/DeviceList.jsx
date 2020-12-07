@@ -1,6 +1,7 @@
 import {
     Button,
     CircularProgress,
+    LinearProgress,
     IconButton,
     Modal,
     Paper,
@@ -10,7 +11,9 @@ import {
     TableContainer,
     TableHead,
     TableRow,
+    Snackbar,
 } from '@material-ui/core'
+import MuiAlert from '@material-ui/lab/Alert'
 import { deleteDevice, getAllDevices } from '../redux/modules/deviceModule'
 
 import DeleteIcon from '@material-ui/icons/Delete'
@@ -31,6 +34,10 @@ const useStyles = makeStyles({
     },
 })
 
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />
+}
+
 class DeviceList extends React.Component {
     constructor(props) {
         super(props)
@@ -39,6 +46,9 @@ class DeviceList extends React.Component {
             editDevice: undefined,
             redirect: false,
             runningStatTest: false,
+            testStatus: false,
+            testMsg: '',
+            testSeverity: undefined,
         }
         this.selectDevice = this.selectDevice.bind(this)
         this.handleClose = this.handleClose.bind(this)
@@ -51,7 +61,7 @@ class DeviceList extends React.Component {
         this.props.getAllDevices()
     }
 
-    
+
 
     handleClose() {
         this.setState({
@@ -71,13 +81,22 @@ class DeviceList extends React.Component {
         this.props.deleteDevice(deviceId)
     }
 
-    async runStatsTest(deviceId){
-        this.setState({runningStatTest: true})
+    async runStatsTest(deviceId) {
+        this.setState({ runningStatTest: true })
         let statsTest = await this.props.runStatsTest(deviceId)
-        if(statsTest.TestStatus == "Success"){
-            this.setState({runningStatTest: false})
+        if (statsTest.TestStatus == 'Success') {
+            this.setState({
+                runningStatTest: false,
+                testStatus: true,
+                testMsg: 'Test ran successfully!',
+                testSeverity: 'success',
+            })
+        } else {
+            this.setState({   runningStatTest: false,
+                testStatus: true,
+                testMsg: 'Test failed!',
+                testSeverity: 'error', })
         }
-        
     }
 
     onCreateDevice() {
@@ -107,15 +126,43 @@ class DeviceList extends React.Component {
         ) : (
             <div>
                 {this.renderRedirect()}
-                {this.state.runningStatTest && <CircularProgress></CircularProgress>}
+                {this.state.runningStatTest && (
+                    <div
+                        style={{
+                            margin: 'auto',
+                            width: '20%',
+                            padding: '10px',
+                        }}
+                    >
+                        <Alert severity="info">Test is running...</Alert>
+                        <div style={{ padding: '5px' }}>
+                            <LinearProgress color="secondary"></LinearProgress>
+                        </div>
+                    </div>
+                )}
+                {this.state.testStatus && (
+                    <div
+                        style={{
+                            margin: 'auto',
+                            width: '20%',
+                            padding: '10px',
+                        }}
+                    >
+                            <Alert
+                                onClose={this.handleAlertClose}
+                                severity={this.state.testSeverity}
+                            >
+                                {this.state.testMsg}
+                            </Alert>
+                    </div>
+                )}
                 <div
                     style={{
                         maxWidth: '500px',
                         margin: 'auto',
-                        padding: '10px'
+                        padding: '10px',
                     }}
                 >
-   
                     <TableContainer component={Paper}>
                         <Table
                             className={useStyles.table}
@@ -163,7 +210,7 @@ class DeviceList extends React.Component {
                                                 <ViewIcon />
                                             </IconButton>
                                             <IconButton
-                                                onClick={() => 
+                                                onClick={() =>
                                                     this.runStatsTest(device.Id)
                                                 }
                                             >
@@ -175,7 +222,7 @@ class DeviceList extends React.Component {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    {this.props.networkList.length > 0 &&
+                    {this.props.networkList.length > 0 && (
                         <div style={{ float: 'right', paddingTop: '20px' }}>
                             <Button
                                 variant="contained"
@@ -185,7 +232,7 @@ class DeviceList extends React.Component {
                                 Add Device
                             </Button>
                         </div>
-                    }
+                    )}
                 </div>
                 <Modal open={this.state.open} onClose={this.handleClose}>
                     <DeviceForm
@@ -210,7 +257,7 @@ function mapDispatchToProps(dispatch) {
         getAllNetworks: () => dispatch(getAllNetworks()),
         getAllDevices: () => dispatch(getAllDevices()),
         deleteDevice: (deviceId) => dispatch(deleteDevice(deviceId)),
-        runStatsTest: (deviceId) => dispatch(runStatsTest(deviceId))
+        runStatsTest: (deviceId) => dispatch(runStatsTest(deviceId)),
     }
 }
 
