@@ -177,7 +177,7 @@ namespace NSC.Service
                         ServerPort = speedTest.SpeedTestServer.Port
                     }
                 };
-                networkStatTest.NetworkInterface.ExternalIP = speedTest.SpeedTestInterface.ExternIpAddress;
+                //networkStatTest.NetworkInterface.ExternalIP = speedTest.SpeedTestInterface.ExternIpAddress;
                 if (networkStatTest.DownloadSpeed != null && networkStatTest.DownloadSpeed > 0 && networkStatTest.UploadSpeed != null && networkStatTest.UploadSpeed > 0)
                 {
                     networkStatTest.TestStatus = "Success";

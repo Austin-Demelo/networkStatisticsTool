@@ -38,6 +38,7 @@ class DeviceList extends React.Component {
             open: false,
             editDevice: undefined,
             redirect: false,
+            runningStatTest: false,
         }
         this.selectDevice = this.selectDevice.bind(this)
         this.handleClose = this.handleClose.bind(this)
@@ -71,18 +72,12 @@ class DeviceList extends React.Component {
     }
 
     async runStatsTest(deviceId){
-        alert("Speed Test Running...")
+        this.setState({runningStatTest: true})
         let statsTest = await this.props.runStatsTest(deviceId)
         if(statsTest.TestStatus == "Success"){
-            alert(`Speed Test completed successfully\n
-             Download Speed: ${statsTest.DownloadSpeedInMegabitsPerSecond} MiB/s
-             Upload Speed: ${statsTest.UploadSpeedInMegabitsPerSecond} MiB/s
-             Packet Loss: ${statsTest.PacketLoss}%
-             Latency: ${statsTest.Latency}% `)
+            this.setState({runningStatTest: false})
         }
-        else{
-            alert("Speed Test failed")
-        }
+        
     }
 
     onCreateDevice() {
@@ -112,6 +107,7 @@ class DeviceList extends React.Component {
         ) : (
             <div>
                 {this.renderRedirect()}
+                {this.state.runningStatTest && <CircularProgress></CircularProgress>}
                 <div
                     style={{
                         maxWidth: '500px',
@@ -171,7 +167,7 @@ class DeviceList extends React.Component {
                                                     this.runStatsTest(device.Id)
                                                 }
                                             >
-                                                <PlayIcon />
+                                                <PlayIcon color="action" />
                                             </IconButton>
                                         </TableCell>
                                     </TableRow>
