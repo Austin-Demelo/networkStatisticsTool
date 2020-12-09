@@ -49,6 +49,7 @@ class DeviceList extends React.Component {
             testStatus: false,
             testMsg: '',
             testSeverity: undefined,
+            snackBarOpen:false
         }
         this.selectDevice = this.selectDevice.bind(this)
         this.handleClose = this.handleClose.bind(this)
@@ -60,8 +61,6 @@ class DeviceList extends React.Component {
         this.props.getAllNetworks()
         this.props.getAllDevices()
     }
-
-
 
     handleClose() {
         this.setState({
@@ -90,12 +89,16 @@ class DeviceList extends React.Component {
                 testStatus: true,
                 testMsg: 'Test ran successfully!',
                 testSeverity: 'success',
+                snackBarOpen: true
             })
         } else {
-            this.setState({   runningStatTest: false,
+            this.setState({
+                runningStatTest: false,
                 testStatus: true,
                 testMsg: 'Test failed!',
-                testSeverity: 'error', })
+                testSeverity: 'error',
+                snackBarOpen: true
+            })
         }
     }
 
@@ -134,7 +137,11 @@ class DeviceList extends React.Component {
                             padding: '10px',
                         }}
                     >
-                        <Alert severity="info">Test is running...</Alert>
+                          <Snackbar
+                            open={true}
+                        >
+                            <Alert severity="info">Test is running...</Alert>
+                        </Snackbar>
                         <div style={{ padding: '5px' }}>
                             <LinearProgress color="secondary"></LinearProgress>
                         </div>
@@ -148,12 +155,17 @@ class DeviceList extends React.Component {
                             padding: '10px',
                         }}
                     >
+                        <Snackbar
+                            open={this.state.snackBarOpen}
+                            onClose={() => this.setState({snackBarOpen: false})}
+                            autoHideDuration={3000}
+                        >
                             <Alert
-                                onClose={this.handleAlertClose}
                                 severity={this.state.testSeverity}
                             >
                                 {this.state.testMsg}
                             </Alert>
+                        </Snackbar>
                     </div>
                 )}
                 <div
