@@ -90,13 +90,20 @@ class NetworkProblems extends React.Component {
             editNetwork: undefined,
         })
     }
+    
+    async onCreateProblem() {
 
-    onCreateProblem(problem) {
-        console.log(problem)
-        this.setState({
-            //nullify the problem object
-            problem: undefined,
+
+        await this.props.createProblem({
+            problemType: this.state.problemType,
+            problemDescription: this.state
+                .problemDescription,
+            deviceId: this.state.deviceId,
         })
+
+        this.setState({problemType: ""})
+        this.setState({problemDescription: ""})
+        
     }
 
     render() {
@@ -124,6 +131,7 @@ class NetworkProblems extends React.Component {
                                             })
                                         }
                                     >
+                                       
                                         {this.props.deviceList.map((device) => (
                                             <MenuItem value={device}>
                                                 {device.DeviceName}
@@ -163,6 +171,7 @@ class NetworkProblems extends React.Component {
                             <CardContent>
                                 Description of Problem:
                                 <TextField
+                                    value = {this.state.problemDescription}
                                     onChange={(e) =>
                                         this.setState({
                                             problemDescription: e.target.value,
@@ -182,12 +191,7 @@ class NetworkProblems extends React.Component {
                                     color="secondary"
                                     variant="contained"
                                     onClick={() =>
-                                        this.props.createProblem({
-                                            problemType: this.state.problemType,
-                                            problemDescription: this.state
-                                                .problemDescription,
-                                            deviceId: this.state.deviceId,
-                                        })
+                                        this.onCreateProblem()
                                     }
                                 >
                                     Report Issue
